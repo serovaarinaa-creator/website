@@ -533,10 +533,17 @@ a {
   position: relative;
 }
 
+/* фото уходит в край панели, как в макете;
+   max-width сбрасывается — иначе глобальное правило для img обрежет вылет за поля */
 .about__photo {
-  width: 100%;
-  border-radius: var(--radius-24);
-  margin: 20px 0;
+  width: calc(100% + 48px);
+  max-width: none;
+  margin: 20px -24px;
+}
+
+/* правая панель в макете с большими полями */
+.about__panel + .about__panel {
+  padding: 54px;
 }
 
 .about__text--end {
@@ -546,6 +553,9 @@ a {
 
 .about__video {
   width: 100%;
+  /* пропорция из макета — блок держит высоту до загрузки видео */
+  aspect-ratio: 416 / 312;
+  object-fit: cover;
   border-radius: var(--radius-24);
 }
 
