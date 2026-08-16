@@ -29,6 +29,26 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("resize", syncArrow);
   });
 
+  /* --- Видео играют только пока видны на экране --- */
+  const videos = [...document.querySelectorAll("video")];
+  if (videos.length) {
+    const player = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target;
+          if (entry.isIntersecting) {
+            const play = video.play();
+            if (play) play.catch(() => {});
+          } else if (!video.paused) {
+            video.pause();
+          }
+        });
+      },
+      { rootMargin: "100px" }
+    );
+    videos.forEach((video) => player.observe(video));
+  }
+
   /* --- Подсветка активного пункта меню при скролле --- */
   const links = [...document.querySelectorAll(".menu__btn")];
   const targets = links
