@@ -200,7 +200,7 @@ a {
 
 .sidebar__name {
   width: 129px;
-  margin-top: -51px;
+  margin-top: -40px;
   position: relative;
   z-index: 1;
 }
@@ -300,6 +300,10 @@ a {
   background: var(--pink-100);
   border: none;
   border-radius: var(--radius-absolute);
+  /* кнопка не наследует цвет: без этого система красит текст своим акцентом */
+  appearance: none;
+  -webkit-appearance: none;
+  color: var(--black);
   cursor: pointer;
   pointer-events: auto;
 }
@@ -930,7 +934,7 @@ a {
   .sidebar__name {
     /* по ширине фото, чтобы имя не залезало в текстовую колонку справа */
     width: 128px;
-    margin-top: -32px;
+    margin-top: -26px;
   }
 
   /* слайд держит пропорцию макета 400x666, карточка — те же 77.5% его ширины,
