@@ -47,7 +47,7 @@ assets/
 | Кнопка | Адрес |
 |---|---|
 | CV | https://hirehi.ru/resume/XbLth3skez |
-| LinkedIn | https://www.linkedin.com/feed/ |
+| LinkedIn | https://www.linkedin.com/in/arina-serova-61530b253/ |
 | Behance | https://www.behance.net/greisolar |
 | Telegram | https://t.me/greisolar |
 
