@@ -259,13 +259,81 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* --- Переключатель языка: заглушка до появления английской версии --- */
-  const lang = document.querySelector(".lang");
-  if (lang) {
-    lang.addEventListener("click", () => {
-      lang.textContent = lang.textContent.trim().startsWith("RU")
-        ? "EN 🇬🇧"
-        : "RU 🇷🇺";
-    });
+  /* --- Переключение языка --- */
+  const langBtn = document.querySelector(".lang");
+  if (langBtn) {
+    const META = {
+      ru: {
+        title: "Арина Серова — графический дизайнер",
+        description:
+          "Портфолио Арины Серовой: брендинг, айдентика и креативные коммуникации. 5+ лет в дизайне.",
+        ogDescription: "Брендинг, айдентика и креативные коммуникации.",
+        label: "RU\u00a0🇷🇺",
+      },
+      en: {
+        title: "Arina Serova — graphic designer",
+        description:
+          "Arina Serova's portfolio: branding, identity and creative communications. 5+ years in design.",
+        ogDescription: "Branding, identity and creative communications.",
+        label: "EN\u00a0🇬🇧",
+      },
+    };
+
+    /* Русский текст лежит в разметке, английский — в data-атрибутах.
+       При первом переключении русский вариант запоминаем рядом, чтобы
+       возвращаться к нему без перезагрузки страницы. */
+    const swap = (selector, dataKey, read, write) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        const ruKey = dataKey + "Ru";
+        if (el.dataset[ruKey] === undefined) el.dataset[ruKey] = read(el);
+        write(el, lang === "en" ? el.dataset[dataKey] : el.dataset[ruKey]);
+      });
+    };
+
+    let lang = "ru";
+
+    const applyLang = (next) => {
+      lang = next;
+      document.documentElement.lang = next;
+
+      // видимый текст
+      swap("[data-en]", "en", (el) => el.innerHTML, (el, v) => (el.innerHTML = v));
+      // подложка обводки рисуется из data-text
+      swap("[data-text-en]", "textEn", (el) => el.dataset.text,
+           (el, v) => (el.dataset.text = v));
+      // подписи для скринридеров
+      swap("[data-label-en]", "labelEn", (el) => el.getAttribute("aria-label"),
+           (el, v) => el.setAttribute("aria-label", v));
+      // альтернативный текст картинок
+      swap("[data-alt-en]", "altEn", (el) => el.getAttribute("alt"),
+           (el, v) => el.setAttribute("alt", v));
+
+      const meta = META[next];
+      document.title = meta.title;
+      const desc = document.querySelector('meta[name="description"]');
+      if (desc) desc.setAttribute("content", meta.description);
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute("content", meta.title);
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute("content", meta.ogDescription);
+
+      langBtn.textContent = meta.label;
+      try {
+        localStorage.setItem("lang", next);
+      } catch (e) {
+        /* приватный режим — просто не запоминаем выбор */
+      }
+    };
+
+    // по умолчанию русский; запоминаем только явный выбор посетителя
+    let saved = null;
+    try {
+      saved = localStorage.getItem("lang");
+    } catch (e) {
+      saved = null;
+    }
+    if (saved === "en") applyLang("en");
+
+    langBtn.addEventListener("click", () => applyLang(lang === "en" ? "ru" : "en"));
   }
 });
