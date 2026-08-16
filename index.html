@@ -1,95 +1,300 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Арина Серова — дизайнер и художница</title>
-  <meta name="description" content="Портфолио Арины Серовой: графический дизайн, иллюстрация и визуальные проекты." />
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Арина Серова — графический дизайнер</title>
+  <meta name="description" content="Портфолио Арины Серовой: брендинг, айдентика и креативные коммуникации. 5+ лет в дизайне.">
+  <meta property="og:title" content="Арина Серова — графический дизайнер">
+  <meta property="og:description" content="Брендинг, айдентика и креативные коммуникации.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap">
-      <a href="index.html" class="logo">Арина <span>Серова</span></a>
-      <nav class="nav">
-        <a href="index.html" class="active">Главная</a>
-        <a href="about.html">Обо мне</a>
-        <a href="portfolio.html">Портфолио</a>
-        <a href="contact.html">Контакты</a>
-      </nav>
-      <button class="nav-toggle" aria-label="Открыть меню" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
+  <div class="topbar">
+    <nav class="menu" aria-label="Основная навигация">
+      <a class="menu__btn is-active" href="#top" aria-label="В начало">
+        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2.5 2.5 8.4V17a1 1 0 0 0 1 1h4v-5h5v5h4a1 1 0 0 0 1-1V8.4L10 2.5Z"/></svg>
+      </a>
+      <a class="menu__btn t-body-2" href="#about">Обо мне</a>
+      <a class="menu__btn t-body-2" href="#feed">Дизайн-лента</a>
+    </nav>
+    <button class="lang t-body-2" type="button">RU&nbsp;🇷🇺</button>
+  </div>
 
-  <main>
-    <section class="hero">
-      <div class="wrap">
-        <p class="hero-eyebrow">Графический дизайнер</p>
-        <h1>Арина Серова — создаю дизайн, который запоминается</h1>
-        <p class="lead">
-          Занимаюсь графическим дизайном и иллюстрацией: от айдентики и
-          упаковки до цифровых иллюстраций и арт-проектов. Помогаю брендам
-          и авторам находить свой визуальный язык.
-        </p>
-        <div class="btn-row">
-          <a href="portfolio.html" class="btn btn-primary">Смотреть портфолио</a>
-          <a href="contact.html" class="btn btn-secondary">Связаться со мной</a>
+  <div class="layout" id="top">
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar__avatar checker">
+          <img src="assets/avatar.jpg" alt="Арина Серова" width="188" height="188">
+        </div>
+        <h1 class="t-h1 sidebar__name">Арина Серова</h1>
+      </div>
+
+      <div class="sidebar__about">
+        <div class="sidebar__lines">
+          <p class="t-body-1">Граф дизайнер, 5+ лет в брендинге и креативных коммуникациях</p>
+          <p class="t-body-1">Разрабатываю масштабируемый визуал — от айдентики до физических продуктов</p>
+        </div>
+        <div class="pill-row">
+          <a class="pill t-body-2" href="assets/cv.pdf" target="_blank" rel="noopener">CV</a>
+          <a class="pill t-body-2" href="#" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="pill t-body-2" href="#" target="_blank" rel="noopener">Behance</a>
         </div>
       </div>
-    </section>
+    </aside>
 
-    <section class="alt">
-      <div class="wrap">
-        <h2 class="section-title">Избранные работы</h2>
-        <p class="section-lead">Несколько проектов последнего времени — полный список в разделе «Портфолио».</p>
-        <div class="grid">
-          <a href="portfolio.html" class="card">
-            <div class="card-media m1"></div>
-            <div class="card-body">
-              <span class="tag">Айдентика</span>
-              <h3>Фирменный стиль кофейни</h3>
-              <p>Логотип, упаковка и навигация для локальной кофейни.</p>
+    <main class="content">
+      <article class="case case--slider" id="case-cvetnoe">
+        <div class="case__track">
+          <div class="case__slide case__intro">
+            <img class="case__intro-bg checker" src="assets/cases/cchb-fon.jpg" alt="" loading="lazy">
+            <div class="case__card">
+              <img class="case__logo" src="assets/logos/restore.png" alt="restore:" width="64" height="64">
+              <h2 class="t-h1">Цветное vs. Чёрно-белое</h2>
+              <p class="t-body-1">Брендинг для конкурса<br>с 28 млн медийным охватом</p>
+              <div class="chips">
+            <span class="chip t-body-2" style="--chip-bg:#ffddf2">Брендинг</span>
+            <span class="chip t-body-2" style="--chip-bg:#ffddf2">Веб-дизайн</span>
+            <span class="chip t-body-2" style="--chip-bg:#ffddf2">Ивент</span>
+              </div>
             </div>
-          </a>
-          <a href="portfolio.html" class="card">
-            <div class="card-media m2"></div>
-            <div class="card-body">
-              <span class="tag">Иллюстрация</span>
-              <h3>Серия цифровых иллюстраций</h3>
-              <p>Авторский цикл иллюстраций о городе и памяти.</p>
-            </div>
-          </a>
-          <a href="portfolio.html" class="card">
-            <div class="card-media m3"></div>
-            <div class="card-body">
-              <span class="tag">Веб-дизайн</span>
-              <h3>Сайт для творческой студии</h3>
-              <p>UI/UX и визуальная концепция для сайта-портфолио.</p>
-            </div>
-          </a>
+          </div>
+          <div class="case__slide"><video src="assets/cases/cchb-video.mp4" poster="assets/cases/cchb-video.jpg" autoplay muted loop playsinline aria-label="Видео проекта «Цветное vs. Чёрно-белое»"></video></div>
+          <div class="case__slide"><img src="assets/cases/cchb-1.jpg" alt="Цветное vs. Чёрно-белое — макет 1" loading="lazy"></div>
+          <div class="case__slide"><img src="assets/cases/cchb-2.jpg" alt="Цветное vs. Чёрно-белое — макет 2" loading="lazy"></div>
+          <div class="case__slide"><img src="assets/cases/cchb-3.jpg" alt="Цветное vs. Чёрно-белое — макет 3" loading="lazy"></div>
         </div>
-      </div>
-    </section>
+        <div class="case__fade"></div>
+        <button class="case__arrow" type="button" aria-label="Следующий слайд">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </article>
 
-    <section>
-      <div class="wrap">
-        <h2 class="section-title">Хочется обсудить проект?</h2>
-        <p class="section-lead">Буду рада поработать над дизайном, иллюстрацией или совместным арт-проектом.</p>
-        <a href="contact.html" class="btn btn-primary">Написать мне</a>
-      </div>
-    </section>
-  </main>
+      <article class="case case--plate" id="case-neurocamp">
+        <video class="case__media" src="assets/cases/neurocamp-video.mp4" poster="assets/cases/neurocamp-video.jpg" autoplay muted loop playsinline></video>
+        <div class="case__overlay">
+          <div class="case__logos">
+            <img class="case__logo" src="assets/logos/restore-black.png" alt="restore:" width="64" height="64">
+            <span class="t-body-1">х</span>
+            <img class="case__logo" src="assets/logos/scholotch.png" alt="scholotch" width="64" height="64">
+          </div>
+          <h2 class="t-h1">NEURO CAMP — интенсив по нейросетям</h2>
+          <p class="t-body-1">Создание леттеринга и motion-коммуникаций</p>
+          <div class="chips">
+            <span class="chip chip--glass t-body-2">Брендинг</span>
+            <span class="chip chip--glass t-body-2">Леттеринг</span>
+            <span class="chip chip--glass t-body-2">Веб-дизайн</span>
+          </div>
+        </div>
+      </article>
 
-  <footer class="site-footer">
-    <div class="wrap">
-      <p>&copy; 2026 Арина Серова. Все права защищены.</p>
-      <div class="footer-social">
-        <a href="mailto:serova.arinaa@gmail.com">Email</a>
-        <a href="#">Instagram</a>
-        <a href="#">Behance</a>
-      </div>
+      <article class="case case--slider" id="case-digitalart">
+        <div class="case__track">
+          <div class="case__slide case__intro">
+            <img class="case__intro-bg checker" src="assets/cases/digitalart-fon.jpg" alt="" loading="lazy">
+            <div class="case__card">
+              <img class="case__logo" src="assets/logos/restore.png" alt="restore:" width="64" height="64">
+              <h2 class="t-h1">Digital art</h2>
+              <p class="t-body-1">Редизайн проекта цифрового искусства,<br>увеличивший прирост аудитории на 30%</p>
+              <div class="chips">
+            <span class="chip t-body-2" style="--chip-bg:#dde8ff">Брендинг</span>
+            <span class="chip t-body-2" style="--chip-bg:#dde8ff">Веб-дизайн</span>
+            <span class="chip t-body-2" style="--chip-bg:#dde8ff">Соц. сети</span>
+              </div>
+            </div>
+          </div>
+          <div class="case__slide"><video src="assets/cases/digitalart-video.mp4" poster="assets/cases/digitalart-video.jpg" autoplay muted loop playsinline aria-label="Видео проекта Digital art"></video></div>
+          <div class="case__slide"><img src="assets/cases/digitalart-1.jpg" alt="Digital art — макет 1" loading="lazy"></div>
+          <div class="case__slide"><img src="assets/cases/digitalart-2.jpg" alt="Digital art — макет 2" loading="lazy"></div>
+          <div class="case__slide"><img src="assets/cases/digitalart-3.jpg" alt="Digital art — макет 3" loading="lazy"></div>
+        </div>
+        <div class="case__fade"></div>
+        <button class="case__arrow" type="button" aria-label="Следующий слайд">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </article>
+
+      <article class="case case--plate" id="case-oped">
+        <img class="case__media" src="assets/cases/oped-bg.jpg" alt="" loading="lazy">
+        <div class="case__overlay">
+          <div class="case__logos">
+            <img class="case__logo" src="assets/logos/oped.png" alt="OP:ED" width="64" height="64">
+          </div>
+          <h2 class="t-h1">Центр объединения для дизайнеров</h2>
+          <p class="t-body-1">Разработка визуальной стратегии и дизайна носителей</p>
+          <div class="chips">
+            <span class="chip chip--glass t-body-2">Брендинг</span>
+            <span class="chip chip--glass t-body-2">Навигация</span>
+            <span class="chip chip--glass t-body-2">Соц. сети</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="case case--slider" id="case-rumikom">
+        <div class="case__track">
+          <div class="case__slide case__intro">
+            <img class="case__intro-bg checker" src="assets/cases/rumikom-fon.jpg" alt="" loading="lazy">
+            <div class="case__card">
+              <img class="case__logo" src="assets/logos/xiaomi.png" alt="Xiaomi" width="64" height="64">
+              <h2 class="t-h1">Румиком</h2>
+              <p class="t-body-1">Арт-дирекшн и полный ребрендинг<br>крупного реселлера техники Xiaomi</p>
+              <div class="chips">
+            <span class="chip t-body-2" style="--chip-bg:#fae4cc">Брендинг</span>
+            <span class="chip t-body-2" style="--chip-bg:#fae4cc">Веб-дизайн</span>
+            <span class="chip t-body-2" style="--chip-bg:#fae4cc">Соц. сети</span>
+              </div>
+            </div>
+          </div>
+          <div class="case__slide"><img src="assets/cases/rumikom-1.jpg" alt="Румиком — макет 1" loading="lazy"></div>
+          <div class="case__slide"><img src="assets/cases/rumikom-2.jpg" alt="Румиком — макет 2" loading="lazy"></div>
+          <div class="case__slide"><img src="assets/cases/rumikom-3.jpg" alt="Румиком — макет 3" loading="lazy"></div>
+          <div class="case__slide"><img src="assets/cases/rumikom-4.jpg" alt="Румиком — макет 4" loading="lazy"></div>
+        </div>
+        <div class="case__fade"></div>
+        <button class="case__arrow" type="button" aria-label="Следующий слайд">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </article>
+
+      <article class="case case--plate" id="case-masterskaya">
+        <img class="case__media" src="assets/cases/masterskaya-bg.jpg" alt="" loading="lazy">
+        <div class="case__overlay">
+          <div class="case__logos">
+            <img class="case__logo" src="assets/logos/masterskaya.png" alt="Мастерская дизайн-практик" width="64" height="64">
+          </div>
+          <h2 class="t-h1">Мастерская дизайн-практик</h2>
+          <p class="t-body-1">Создавала программу и вела воркшопы в Мастерской дизайн-практик, отвечая за отбор участников, сборку команды и организационные процессы</p>
+          <div class="chips">
+            <span class="chip chip--glass t-body-2">Обучение</span>
+            <span class="chip chip--glass t-body-2">Организация</span>
+            <span class="chip chip--glass t-body-2">Работа с людьми</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="case case--plate" id="case-doggymoggy">
+        <img class="case__media" src="assets/cases/doggymoggy-bg.jpg" alt="" loading="lazy">
+        <div class="case__overlay">
+          <div class="case__logos">
+            <img class="case__logo" src="assets/logos/doggymoggy.png" alt="DoggyMoggy" width="64" height="64">
+          </div>
+          <h2 class="t-h1">Проект о культуре взаимодействия человека и собаки</h2>
+          <p class="t-body-1">Комплексная упаковка проекта от исследования и бренд-платформы до физических носителей, мерча и соц. сетей</p>
+          <div class="chips">
+            <span class="chip chip--glass t-body-2">Брендинг</span>
+            <span class="chip chip--glass t-body-2">Соц. сети</span>
+            <span class="chip chip--glass t-body-2">Мерч</span>
+          </div>
+        </div>
+      </article>
+
+      <section class="about" id="about">
+        <div class="about__panel">
+          <img class="about__bg" src="assets/about/about-bg-1.jpg" alt="" loading="lazy">
+          <h2 class="t-h2 t-stroke">Всю жизнь исследую искусство от академической живописи до современных воплощений, фотографии и танца</h2>
+          <img class="about__photo" src="assets/about/about-photo.jpg" alt="Арина Серова — работы и выставки" loading="lazy">
+          <p class="t-h2 t-stroke about__text--end">Переношу этот опыт в дизайн, соединяя визуальную культуру с бизнес-задачами</p>
+        </div>
+        <div class="about__panel">
+          <img class="about__bg" src="assets/about/about-bg-2.jpg" alt="" loading="lazy">
+          <video class="about__video" src="assets/about/about-video.mp4" poster="assets/about/about-video.jpg" autoplay muted loop playsinline></video>
+          <img class="about__dog" src="assets/about/medor.jpg" alt="Французский бульдог Медор" width="116" height="116">
+          <p class="t-h2 t-stroke about__caption">Главный источник вдохновения вне дизайна — мой талисман и верный спутник, французский бульдог Медор</p>
+        </div>
+      </section>
+
+      <section class="feed" id="feed">
+        <div class="feed__head">
+          <h2 class="t-h2">Дизайн лента</h2>
+          <p class="t-body-1">Подборка моих свободных экспериментов с формой, образом и идеей</p>
+        </div>
+        <div class="feed__grid">
+        <div class="feed__col">
+          <figure class="feed__item" style="aspect-ratio:0.7997"><img src="assets/feed/dl-1.jpg" alt="Работа 1 из дизайн-ленты" loading="lazy" width="336" height="420"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7067"><img src="assets/feed/dl-4.jpg" alt="Работа 4 из дизайн-ленты" loading="lazy" width="336" height="476"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7067"><img src="assets/feed/dl-7.jpg" alt="Работа 7 из дизайн-ленты" loading="lazy" width="336" height="476"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.0"><img src="assets/feed/dl-10.jpg" alt="Работа 10 из дизайн-ленты" loading="lazy" width="336" height="336"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.4929"><img src="assets/feed/dl-12.jpg" alt="Работа 12 из дизайн-ленты" loading="lazy" width="336" height="682"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7054"><img src="assets/feed/dl-15.jpg" alt="Работа 15 из дизайн-ленты" loading="lazy" width="336" height="477"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7067"><img src="assets/feed/dl-18.jpg" alt="Работа 18 из дизайн-ленты" loading="lazy" width="336" height="476"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.8936"><img src="assets/feed/dl-23.jpg" alt="Работа 23 из дизайн-ленты" loading="lazy" width="336" height="376"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.5642"><img src="assets/feed/dl-26.jpg" alt="Работа 26 из дизайн-ленты" loading="lazy" width="336" height="596"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.0518"><img src="assets/feed/dl-29.jpg" alt="Работа 29 из дизайн-ленты" loading="lazy" width="336" height="320"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.3241"><img src="assets/feed/dl-33.jpg" alt="Работа 33 из дизайн-ленты" loading="lazy" width="336" height="254"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7494"><img src="assets/feed/dl-36.jpg" alt="Работа 36 из дизайн-ленты" loading="lazy" width="336" height="449"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7068"><img src="assets/feed/dl-39.jpg" alt="Работа 39 из дизайн-ленты" loading="lazy" width="336" height="476"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.8"><img src="assets/feed/dl-42.jpg" alt="Работа 42 из дизайн-ленты" loading="lazy" width="336" height="420"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.0"><img src="assets/feed/dl-45.jpg" alt="Работа 45 из дизайн-ленты" loading="lazy" width="336" height="336"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7024"><img src="assets/feed/dl-48.jpg" alt="Работа 48 из дизайн-ленты" loading="lazy" width="336" height="479"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7524"><img src="assets/feed/dl-51.jpg" alt="Работа 51 из дизайн-ленты" loading="lazy" width="336" height="447"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.8"><img src="assets/feed/dl-54.jpg" alt="Работа 54 из дизайн-ленты" loading="lazy" width="336" height="420"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7067"><img src="assets/feed/dl-57.jpg" alt="Работа 57 из дизайн-ленты" loading="lazy" width="336" height="476"></figure>
+        </div>
+        <div class="feed__col">
+          <figure class="feed__item" style="aspect-ratio:0.7097"><img src="assets/feed/dl-2.jpg" alt="Работа 2 из дизайн-ленты" loading="lazy" width="340" height="479"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7066"><img src="assets/feed/dl-5.jpg" alt="Работа 5 из дизайн-ленты" loading="lazy" width="340" height="481"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7623"><img src="assets/feed/dl-8.jpg" alt="Работа 8 из дизайн-ленты" loading="lazy" width="340" height="446"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7066"><img src="assets/feed/dl-11.jpg" alt="Работа 11 из дизайн-ленты" loading="lazy" width="340" height="481"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.0"><img src="assets/feed/dl-13.jpg" alt="Работа 13 из дизайн-ленты" loading="lazy" width="340" height="340"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.0"><img src="assets/feed/dl-16.jpg" alt="Работа 16 из дизайн-ленты" loading="lazy" width="340" height="340"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7066"><img src="assets/feed/dl-19.jpg" alt="Работа 19 из дизайн-ленты" loading="lazy" width="340" height="481"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.4133"><img src="assets/feed/dl-21.jpg" alt="Работа 21 из дизайн-ленты" loading="lazy" width="340" height="240"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7565"><img src="assets/feed/dl-24.jpg" alt="Работа 24 из дизайн-ленты" loading="lazy" width="340" height="449"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.19"><img src="assets/feed/dl-27.jpg" alt="Работа 27 из дизайн-ленты" loading="lazy" width="340" height="286"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7046"><img src="assets/feed/dl-30.jpg" alt="Работа 30 из дизайн-ленты" loading="lazy" width="340" height="482"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7072"><img src="assets/feed/dl-34.jpg" alt="Работа 34 из дизайн-ленты" loading="lazy" width="340" height="481"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7917"><img src="assets/feed/dl-37.jpg" alt="Работа 37 из дизайн-ленты" loading="lazy" width="340" height="429"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.1485"><img src="assets/feed/dl-40.jpg" alt="Работа 40 из дизайн-ленты" loading="lazy" width="340" height="296"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7059"><img src="assets/feed/dl-43.jpg" alt="Работа 43 из дизайн-ленты" loading="lazy" width="340" height="481"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.9872"><img src="assets/feed/dl-46.jpg" alt="Работа 46 из дизайн-ленты" loading="lazy" width="340" height="344"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7532"><img src="assets/feed/dl-49.jpg" alt="Работа 49 из дизайн-ленты" loading="lazy" width="340" height="451"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.808"><img src="assets/feed/dl-52.jpg" alt="Работа 52 из дизайн-ленты" loading="lazy" width="340" height="421"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7092"><img src="assets/feed/dl-55.jpg" alt="Работа 55 из дизайн-ленты" loading="lazy" width="340" height="479"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.0"><img src="assets/feed/dl-58.jpg" alt="Работа 58 из дизайн-ленты" loading="lazy" width="340" height="340"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7066"><img src="assets/feed/dl-60.jpg" alt="Работа 60 из дизайн-ленты" loading="lazy" width="340" height="481"></figure>
+        </div>
+        <div class="feed__col">
+          <figure class="feed__item" style="aspect-ratio:0.707"><img src="assets/feed/dl-3.jpg" alt="Работа 3 из дизайн-ленты" loading="lazy" width="339" height="479"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.3797"><img src="assets/feed/dl-6.jpg" alt="Работа 6 из дизайн-ленты" loading="lazy" width="339" height="892"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.71"><img src="assets/feed/dl-9.jpg" alt="Работа 9 из дизайн-ленты" loading="lazy" width="339" height="477"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.4922"><img src="assets/feed/dl-14.jpg" alt="Работа 14 из дизайн-ленты" loading="lazy" width="339" height="227"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.6142"><img src="assets/feed/dl-17.jpg" alt="Работа 17 из дизайн-ленты" loading="lazy" width="339" height="552"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.4151"><img src="assets/feed/dl-20.jpg" alt="Работа 20 из дизайн-ленты" loading="lazy" width="339" height="239"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.0729"><img src="assets/feed/dl-22.jpg" alt="Работа 22 из дизайн-ленты" loading="lazy" width="339" height="316"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7067"><img src="assets/feed/dl-25.jpg" alt="Работа 25 из дизайн-ленты" loading="lazy" width="339" height="479"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.0"><img src="assets/feed/dl-31.jpg" alt="Работа 31 из дизайн-ленты" loading="lazy" width="339" height="339"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.5531"><img src="assets/feed/dl-28.jpg" alt="Работа 28 из дизайн-ленты" loading="lazy" width="339" height="218"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.0"><img src="assets/feed/dl-32.jpg" alt="Работа 32 из дизайн-ленты" loading="lazy" width="339" height="339"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.0"><img src="assets/feed/dl-35.jpg" alt="Работа 35 из дизайн-ленты" loading="lazy" width="339" height="339"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.2433"><img src="assets/feed/dl-38.jpg" alt="Работа 38 из дизайн-ленты" loading="lazy" width="339" height="273"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.856"><img src="assets/feed/dl-41.jpg" alt="Работа 41 из дизайн-ленты" loading="lazy" width="339" height="396"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.8"><img src="assets/feed/dl-44.jpg" alt="Работа 44 из дизайн-ленты" loading="lazy" width="339" height="423"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.0"><img src="assets/feed/dl-47.jpg" alt="Работа 47 из дизайн-ленты" loading="lazy" width="339" height="339"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7"><img src="assets/feed/dl-50.jpg" alt="Работа 50 из дизайн-ленты" loading="lazy" width="339" height="484"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.8"><img src="assets/feed/dl-53.jpg" alt="Работа 53 из дизайн-ленты" loading="lazy" width="339" height="424"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.7086"><img src="assets/feed/dl-56.jpg" alt="Работа 56 из дизайн-ленты" loading="lazy" width="339" height="478"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.9304"><img src="assets/feed/dl-59.jpg" alt="Работа 59 из дизайн-ленты" loading="lazy" width="339" height="364"></figure>
+          <figure class="feed__item" style="aspect-ratio:0.8"><img src="assets/feed/dl-61.jpg" alt="Работа 61 из дизайн-ленты" loading="lazy" width="339" height="424"></figure>
+          <figure class="feed__item" style="aspect-ratio:1.3686"><img src="assets/feed/dl-62.jpg" alt="Работа 62 из дизайн-ленты" loading="lazy" width="339" height="248"></figure>
+        </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <img class="footer__bg" src="assets/footer-bg.jpg" alt="" loading="lazy">
+    <img class="footer__photo" src="assets/footer-photo.jpg" alt="Арина Серова" width="382" height="382">
+    <p class="t-promo-1">Let’s go!</p>
+    <div class="footer__pills">
+      <a class="pill t-body-2" href="assets/cv.pdf" target="_blank" rel="noopener">CV</a>
+      <a class="pill t-body-2" href="#" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="pill t-body-2" href="#" target="_blank" rel="noopener">Behance</a>
+      <a class="pill t-body-2" href="#" target="_blank" rel="noopener">Telegram</a>
     </div>
   </footer>
 
