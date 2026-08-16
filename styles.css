@@ -95,49 +95,69 @@ a {
 }
 
 /* Чёрный текст в белой обводке 10px наружу.
-   -webkit-text-stroke здесь не годится: он рисует join углом и на острых
-   стыках букв даёт шипы, а в макете join скруглённый. Кольцо из копий
-   текста по окружности радиусом 10px — это ровно наращивание контура
-   диском, то есть обводка наружу со скруглёнными стыками. */
+
+   Две тонкости, из-за которых обводка не делается «в лоб»:
+
+   1) -webkit-text-stroke соединяет углы под миттер, а в макете join
+      скруглённый — на тонких стыках букв миттер выстреливает шипами.
+      Кольцо из копий текста по окружности радиусом 10px — это наращивание
+      контура диском, то есть обводка наружу со скруглённым join.
+
+   2) Chrome рисует строку за строкой, поэтому обводка следующей строки
+      ложилась поверх букв предыдущей (при line-height 0.9 строки заходят
+      друг на друга). Обводку рисуем отдельным слоем в ::before под текстом:
+      сначала целиком белая подложка, поверх — все глифы. */
 .t-stroke {
+  position: relative;
+  /* свой контекст наложения: иначе ::before с z-index -1 уходит за фон блока */
+  isolation: isolate;
   color: var(--black);
+}
+
+.t-stroke::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  color: transparent;
+  pointer-events: none;
   text-shadow:
-    10px 0px 0 var(--stroke-c, #fff),
-    9.85px 1.74px 0 var(--stroke-c, #fff),
-    9.4px 3.42px 0 var(--stroke-c, #fff),
-    8.66px 5px 0 var(--stroke-c, #fff),
-    7.66px 6.43px 0 var(--stroke-c, #fff),
-    6.43px 7.66px 0 var(--stroke-c, #fff),
-    5px 8.66px 0 var(--stroke-c, #fff),
-    3.42px 9.4px 0 var(--stroke-c, #fff),
-    1.74px 9.85px 0 var(--stroke-c, #fff),
-    0px 10px 0 var(--stroke-c, #fff),
-    -1.74px 9.85px 0 var(--stroke-c, #fff),
-    -3.42px 9.4px 0 var(--stroke-c, #fff),
-    -5px 8.66px 0 var(--stroke-c, #fff),
-    -6.43px 7.66px 0 var(--stroke-c, #fff),
-    -7.66px 6.43px 0 var(--stroke-c, #fff),
-    -8.66px 5px 0 var(--stroke-c, #fff),
-    -9.4px 3.42px 0 var(--stroke-c, #fff),
-    -9.85px 1.74px 0 var(--stroke-c, #fff),
-    -10px 0px 0 var(--stroke-c, #fff),
-    -9.85px -1.74px 0 var(--stroke-c, #fff),
-    -9.4px -3.42px 0 var(--stroke-c, #fff),
-    -8.66px -5px 0 var(--stroke-c, #fff),
-    -7.66px -6.43px 0 var(--stroke-c, #fff),
-    -6.43px -7.66px 0 var(--stroke-c, #fff),
-    -5px -8.66px 0 var(--stroke-c, #fff),
-    -3.42px -9.4px 0 var(--stroke-c, #fff),
-    -1.74px -9.85px 0 var(--stroke-c, #fff),
-    -0px -10px 0 var(--stroke-c, #fff),
-    1.74px -9.85px 0 var(--stroke-c, #fff),
-    3.42px -9.4px 0 var(--stroke-c, #fff),
-    5px -8.66px 0 var(--stroke-c, #fff),
-    6.43px -7.66px 0 var(--stroke-c, #fff),
-    7.66px -6.43px 0 var(--stroke-c, #fff),
-    8.66px -5px 0 var(--stroke-c, #fff),
-    9.4px -3.42px 0 var(--stroke-c, #fff),
-    9.85px -1.74px 0 var(--stroke-c, #fff);
+    10px 0px 0 var(--white),
+    9.85px 1.74px 0 var(--white),
+    9.4px 3.42px 0 var(--white),
+    8.66px 5px 0 var(--white),
+    7.66px 6.43px 0 var(--white),
+    6.43px 7.66px 0 var(--white),
+    5px 8.66px 0 var(--white),
+    3.42px 9.4px 0 var(--white),
+    1.74px 9.85px 0 var(--white),
+    0px 10px 0 var(--white),
+    -1.74px 9.85px 0 var(--white),
+    -3.42px 9.4px 0 var(--white),
+    -5px 8.66px 0 var(--white),
+    -6.43px 7.66px 0 var(--white),
+    -7.66px 6.43px 0 var(--white),
+    -8.66px 5px 0 var(--white),
+    -9.4px 3.42px 0 var(--white),
+    -9.85px 1.74px 0 var(--white),
+    -10px 0px 0 var(--white),
+    -9.85px -1.74px 0 var(--white),
+    -9.4px -3.42px 0 var(--white),
+    -8.66px -5px 0 var(--white),
+    -7.66px -6.43px 0 var(--white),
+    -6.43px -7.66px 0 var(--white),
+    -5px -8.66px 0 var(--white),
+    -3.42px -9.4px 0 var(--white),
+    -1.74px -9.85px 0 var(--white),
+    -0px -10px 0 var(--white),
+    1.74px -9.85px 0 var(--white),
+    3.42px -9.4px 0 var(--white),
+    5px -8.66px 0 var(--white),
+    6.43px -7.66px 0 var(--white),
+    7.66px -6.43px 0 var(--white),
+    8.66px -5px 0 var(--white),
+    9.4px -3.42px 0 var(--white),
+    9.85px -1.74px 0 var(--white);
 }
 
 /* ---------- Каркас страницы ---------- */
@@ -806,44 +826,44 @@ a {
     font-size: 22px;
   }
 
-  .t-stroke {
+  .t-stroke::before {
     text-shadow:
-      6px 0px 0 var(--stroke-c, #fff),
-      5.91px 1.04px 0 var(--stroke-c, #fff),
-      5.64px 2.05px 0 var(--stroke-c, #fff),
-      5.2px 3px 0 var(--stroke-c, #fff),
-      4.6px 3.86px 0 var(--stroke-c, #fff),
-      3.86px 4.6px 0 var(--stroke-c, #fff),
-      3px 5.2px 0 var(--stroke-c, #fff),
-      2.05px 5.64px 0 var(--stroke-c, #fff),
-      1.04px 5.91px 0 var(--stroke-c, #fff),
-      0px 6px 0 var(--stroke-c, #fff),
-      -1.04px 5.91px 0 var(--stroke-c, #fff),
-      -2.05px 5.64px 0 var(--stroke-c, #fff),
-      -3px 5.2px 0 var(--stroke-c, #fff),
-      -3.86px 4.6px 0 var(--stroke-c, #fff),
-      -4.6px 3.86px 0 var(--stroke-c, #fff),
-      -5.2px 3px 0 var(--stroke-c, #fff),
-      -5.64px 2.05px 0 var(--stroke-c, #fff),
-      -5.91px 1.04px 0 var(--stroke-c, #fff),
-      -6px 0px 0 var(--stroke-c, #fff),
-      -5.91px -1.04px 0 var(--stroke-c, #fff),
-      -5.64px -2.05px 0 var(--stroke-c, #fff),
-      -5.2px -3px 0 var(--stroke-c, #fff),
-      -4.6px -3.86px 0 var(--stroke-c, #fff),
-      -3.86px -4.6px 0 var(--stroke-c, #fff),
-      -3px -5.2px 0 var(--stroke-c, #fff),
-      -2.05px -5.64px 0 var(--stroke-c, #fff),
-      -1.04px -5.91px 0 var(--stroke-c, #fff),
-      -0px -6px 0 var(--stroke-c, #fff),
-      1.04px -5.91px 0 var(--stroke-c, #fff),
-      2.05px -5.64px 0 var(--stroke-c, #fff),
-      3px -5.2px 0 var(--stroke-c, #fff),
-      3.86px -4.6px 0 var(--stroke-c, #fff),
-      4.6px -3.86px 0 var(--stroke-c, #fff),
-      5.2px -3px 0 var(--stroke-c, #fff),
-      5.64px -2.05px 0 var(--stroke-c, #fff),
-      5.91px -1.04px 0 var(--stroke-c, #fff);
+      6px 0px 0 var(--white),
+      5.91px 1.04px 0 var(--white),
+      5.64px 2.05px 0 var(--white),
+      5.2px 3px 0 var(--white),
+      4.6px 3.86px 0 var(--white),
+      3.86px 4.6px 0 var(--white),
+      3px 5.2px 0 var(--white),
+      2.05px 5.64px 0 var(--white),
+      1.04px 5.91px 0 var(--white),
+      0px 6px 0 var(--white),
+      -1.04px 5.91px 0 var(--white),
+      -2.05px 5.64px 0 var(--white),
+      -3px 5.2px 0 var(--white),
+      -3.86px 4.6px 0 var(--white),
+      -4.6px 3.86px 0 var(--white),
+      -5.2px 3px 0 var(--white),
+      -5.64px 2.05px 0 var(--white),
+      -5.91px 1.04px 0 var(--white),
+      -6px 0px 0 var(--white),
+      -5.91px -1.04px 0 var(--white),
+      -5.64px -2.05px 0 var(--white),
+      -5.2px -3px 0 var(--white),
+      -4.6px -3.86px 0 var(--white),
+      -3.86px -4.6px 0 var(--white),
+      -3px -5.2px 0 var(--white),
+      -2.05px -5.64px 0 var(--white),
+      -1.04px -5.91px 0 var(--white),
+      -0px -6px 0 var(--white),
+      1.04px -5.91px 0 var(--white),
+      2.05px -5.64px 0 var(--white),
+      3px -5.2px 0 var(--white),
+      3.86px -4.6px 0 var(--white),
+      4.6px -3.86px 0 var(--white),
+      5.2px -3px 0 var(--white),
+      5.64px -2.05px 0 var(--white),
+      5.91px -1.04px 0 var(--white);
   }
 
   .case__slide {
