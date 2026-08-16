@@ -1003,23 +1003,14 @@ a {
     display: none;
   }
 
-  /* Лента в две колонки, но без потери работ: раньше третья колонка просто
-     пряталась и 22 плаката пропадали. Раскрываем колонки в общий поток
-     (display: contents) и раскладываем всё многоколоночной вёрсткой —
-     карточки третьей колонки становятся продолжением первых двух. */
+  /* Лента в две колонки. Работы перекладывает скрипт, сохраняя сквозной
+     порядок; третья колонка макета при этом пустеет и прячется. */
   .feed__grid {
-    display: block;
-    columns: 2;
-    column-gap: 13px;
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .feed__col {
-    display: contents;
-  }
-
-  .feed__item {
-    break-inside: avoid;
-    margin-bottom: 13px;
+  .feed__col[hidden] {
+    display: none;
   }
 
   .footer__circle {

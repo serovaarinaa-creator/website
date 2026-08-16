@@ -167,6 +167,52 @@ document.addEventListener("DOMContentLoaded", () => {
     videos.forEach((video) => player.observe(video));
   }
 
+  /* --- Дизайн-лента: на узких экранах три колонки макета сводим в две --- */
+  const feedGrid = document.querySelector(".feed__grid");
+  if (feedGrid) {
+    const cols = [...feedGrid.querySelectorAll(".feed__col")];
+    const original = cols.map((col) => [...col.children]);
+    const order = (el) => {
+      const img = el.querySelector("img");
+      const m = img && img.getAttribute("src").match(/dl-(\d+)/);
+      return m ? Number(m[1]) : 0;
+    };
+    // сквозной порядок работ: дл-1, дл-2, дл-3 …
+    const all = original.flat().sort((a, b) => order(a) - order(b));
+    const designHeight = (el) => {
+      const img = el.querySelector("img");
+      return img ? Number(img.getAttribute("height")) || 1 : 1;
+    };
+
+    let mode = "";
+
+    const layout = () => {
+      const want = window.matchMedia("(max-width: 720px)").matches ? "two" : "three";
+      if (want === mode) return;
+      mode = want;
+
+      if (want === "two") {
+        // раскладываем по порядку, каждую следующую — в колонку покороче,
+        // чтобы низ обеих колонок сходился
+        const heights = [0, 0];
+        all.forEach((item) => {
+          const i = heights[0] <= heights[1] ? 0 : 1;
+          heights[i] += designHeight(item);
+          cols[i].appendChild(item);
+        });
+        if (cols[2]) cols[2].hidden = true;
+      } else {
+        if (cols[2]) cols[2].hidden = false;
+        original.forEach((items, i) =>
+          items.forEach((item) => cols[i].appendChild(item))
+        );
+      }
+    };
+
+    layout();
+    window.addEventListener("resize", layout);
+  }
+
   /* --- Подсветка активного пункта меню --- */
   const links = [...document.querySelectorAll(".menu__btn")];
   const navItems = links.map((link) => {
