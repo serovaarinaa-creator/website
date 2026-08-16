@@ -893,57 +893,6 @@ a {
 }
 
 @media (max-width: 720px) {
-  .t-promo-1 {
-    font-size: 40px;
-  }
-
-  .t-h1 {
-    font-size: 28px;
-  }
-
-  .t-h2 {
-    font-size: 22px;
-  }
-
-  .t-stroke::before {
-    text-shadow:
-      6px 0px 0 var(--white),
-      5.91px 1.04px 0 var(--white),
-      5.64px 2.05px 0 var(--white),
-      5.2px 3px 0 var(--white),
-      4.6px 3.86px 0 var(--white),
-      3.86px 4.6px 0 var(--white),
-      3px 5.2px 0 var(--white),
-      2.05px 5.64px 0 var(--white),
-      1.04px 5.91px 0 var(--white),
-      0px 6px 0 var(--white),
-      -1.04px 5.91px 0 var(--white),
-      -2.05px 5.64px 0 var(--white),
-      -3px 5.2px 0 var(--white),
-      -3.86px 4.6px 0 var(--white),
-      -4.6px 3.86px 0 var(--white),
-      -5.2px 3px 0 var(--white),
-      -5.64px 2.05px 0 var(--white),
-      -5.91px 1.04px 0 var(--white),
-      -6px 0px 0 var(--white),
-      -5.91px -1.04px 0 var(--white),
-      -5.64px -2.05px 0 var(--white),
-      -5.2px -3px 0 var(--white),
-      -4.6px -3.86px 0 var(--white),
-      -3.86px -4.6px 0 var(--white),
-      -3px -5.2px 0 var(--white),
-      -2.05px -5.64px 0 var(--white),
-      -1.04px -5.91px 0 var(--white),
-      -0px -6px 0 var(--white),
-      1.04px -5.91px 0 var(--white),
-      2.05px -5.64px 0 var(--white),
-      3px -5.2px 0 var(--white),
-      3.86px -4.6px 0 var(--white),
-      4.6px -3.86px 0 var(--white),
-      5.2px -3px 0 var(--white),
-      5.64px -2.05px 0 var(--white),
-      5.91px -1.04px 0 var(--white);
-  }
 
   /* слайд держит пропорцию макета 400x666, карточка занимает
      те же 77.5% ширины слайда, что и в десктопе */
@@ -968,10 +917,6 @@ a {
     max-width: 100%;
   }
 
-  .sidebar__lines .t-body-1 {
-    font-size: 13px;
-  }
-
   .pill-row {
     grid-column: 1 / -1;
     height: 60px;
@@ -986,7 +931,6 @@ a {
     /* по ширине фото, чтобы имя не залезало в текстовую колонку справа */
     width: 128px;
     margin-top: -32px;
-    font-size: 24px;
   }
 
   /* слайд держит пропорцию макета 400x666, карточка — те же 77.5% его ширины,
@@ -1005,20 +949,9 @@ a {
     border-radius: var(--radius-24);
   }
 
-  .case__card .t-h1 {
-    font-size: clamp(20px, 7vw, 36px);
-    max-width: 100%;
-  }
-
+  .case__card .t-h1,
   .case__card .t-body-1 {
-    font-size: clamp(11px, 2.7vw, 14px);
     max-width: 100%;
-  }
-
-  .case__card .chip {
-    height: clamp(24px, 6.2vw, 32px);
-    padding: 2px clamp(10px, 3.1vw, 16px);
-    font-size: clamp(11px, 2.7vw, 14px);
   }
 
   .case__card .case__logo {
@@ -1056,10 +989,6 @@ a {
     gap: 12px;
   }
 
-  .case__overlay .t-h1 {
-    font-size: 24px;
-  }
-
   /* на плашке чипы переносятся: без зазора кольца строк налезают и мусорят */
   .case__overlay .chips {
     row-gap: 8px;
@@ -1074,12 +1003,23 @@ a {
     display: none;
   }
 
+  /* Лента в две колонки, но без потери работ: раньше третья колонка просто
+     пряталась и 22 плаката пропадали. Раскрываем колонки в общий поток
+     (display: contents) и раскладываем всё многоколоночной вёрсткой —
+     карточки третьей колонки становятся продолжением первых двух. */
   .feed__grid {
-    grid-template-columns: repeat(2, 1fr);
+    display: block;
+    columns: 2;
+    column-gap: 13px;
   }
 
-  .feed__col:last-child {
-    display: none;
+  .feed__col {
+    display: contents;
+  }
+
+  .feed__item {
+    break-inside: avoid;
+    margin-bottom: 13px;
   }
 
   .footer__circle {
