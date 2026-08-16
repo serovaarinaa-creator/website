@@ -207,6 +207,8 @@ a {
   display: flex;
   flex-direction: column;
   gap: 22px;
+  /* ширина текстовой колонки из макета — иначе строки уезжают слишком широко */
+  max-width: 242px;
 }
 
 .sidebar__lines {
@@ -263,9 +265,9 @@ a {
   align-items: center;
   gap: 2px;
   padding: 12px;
+  margin-top: 12px;
   background: var(--pink-100);
-  border-radius: 0 0 var(--radius-24) var(--radius-24);
-  box-shadow: var(--shadow-container);
+  border-radius: var(--radius-24);
   pointer-events: auto;
 }
 
@@ -287,7 +289,7 @@ a {
 
 .lang {
   position: absolute;
-  top: 12px;
+  top: 24px;
   right: var(--gutter);
   height: 30px;
   display: flex;
@@ -296,7 +298,6 @@ a {
   background: var(--pink-100);
   border: none;
   border-radius: var(--radius-absolute);
-  box-shadow: var(--shadow-container);
   cursor: pointer;
   pointer-events: auto;
 }
@@ -590,7 +591,7 @@ a {
   overflow: hidden;
   background: var(--pink-100);
   /* правый верхний угол скруглён сильнее — как в макете */
-  border-radius: var(--radius-24) var(--radius-128) var(--radius-24) var(--radius-24);
+  border-radius: var(--radius-24) 88px var(--radius-24) var(--radius-24);
 }
 
 .about__bg {
@@ -652,9 +653,15 @@ a {
   width: 100%;
 }
 
+.about__content {
+  text-align: center;
+}
+
 .about__video {
   width: 100%;
-  height: 312px;
+  height: auto;
+  /* пропорция из макета 416x312 — на узких экранах видео не сплющивается */
+  aspect-ratio: 416 / 312;
   object-fit: cover;
   border: 1px solid var(--black);
   border-radius: 7px;
@@ -731,6 +738,7 @@ a {
 
 .footer {
   position: relative;
+  width: calc(100% - var(--gutter) * 2);
   max-width: calc(var(--sidebar-w) + var(--content-w) + var(--gutter) * 2);
   margin: 13px auto 36px;
   border-radius: var(--radius-24);
@@ -860,6 +868,8 @@ a {
     top: auto;
     transform: none;
     width: 100%;
+    max-width: 100%;
+    align-self: center;
   }
 
   .about__panel {
@@ -978,8 +988,10 @@ a {
     height: 16px;
   }
 
+  /* высота от ширины экрана: иначе плашка сжимается до высоты текста
+     и от фотографии остаётся узкая полоска */
   .case--plate {
-    min-height: 0;
+    min-height: 125vw;
   }
 
   .case__overlay {

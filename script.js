@@ -114,15 +114,24 @@ document.addEventListener("DOMContentLoaded", () => {
       const to = Math.min(Math.max(from + delta, 0), max);
       if (to === from) return;
 
-      const duration = 520;
+      const duration = 620;
       const started = performance.now();
       // плавно разгоняется и плавно тормозит
       const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
+      // scroll-snap дёргает ленту к ближайшей точке прямо во время анимации —
+      // отключаем на время перехода, потом возвращаем значение из CSS
+      track.style.scrollSnapType = "none";
+
       const frame = (now) => {
         const t = Math.min((now - started) / duration, 1);
         track.scrollLeft = from + (to - from) * ease(t);
-        if (t < 1) anim = requestAnimationFrame(frame);
+        if (t < 1) {
+          anim = requestAnimationFrame(frame);
+        } else {
+          anim = 0;
+          track.style.scrollSnapType = "";
+        }
       };
       anim = requestAnimationFrame(frame);
     };
