@@ -198,15 +198,21 @@
       <section class="about" id="about">
         <div class="about__panel">
           <img class="about__bg" src="assets/about/about-bg-1.png" alt="" loading="lazy" decoding="async">
-          <h2 class="t-h2 t-stroke">Всю жизнь исследую искусство от академической живописи до современных воплощений, фотографии и танца</h2>
+          <h2 class="t-h2 t-stroke about__text--tl">Всю жизнь исследую искусство от академической живописи до современных воплощений, фотографии и танца</h2>
           <img class="about__photo" src="assets/about/about-photo.png" alt="Арина Серова — работы и выставки" loading="lazy" decoding="async">
-          <p class="t-h2 t-stroke about__text--end">Переношу этот опыт в дизайн, соединяя визуальную культуру с бизнес-задачами</p>
+          <p class="t-h2 t-stroke about__text--br">Переношу этот опыт в дизайн, соединяя визуальную культуру с бизнес-задачами</p>
         </div>
         <div class="about__panel">
           <img class="about__bg" src="assets/about/about-bg-2.png" alt="" loading="lazy" decoding="async">
-          <video class="about__video" src="assets/about/about-video.mp4" muted loop playsinline preload="metadata" aria-label="Видео о работе"></video>
-          <video class="about__dog" src="assets/about/medor-video.mp4" muted loop playsinline preload="metadata" aria-label="Французский бульдог Медор"></video>
-          <p class="t-h2 t-stroke about__caption">Главный источник вдохновения вне дизайна — мой талисман и верный спутник, французский бульдог Медор</p>
+          <div class="about__content">
+            <div class="about__media">
+              <video class="about__video" src="assets/about/about-video.mp4" muted loop playsinline preload="metadata" aria-label="Видео о работе"></video>
+              <div class="about__dog">
+                <video src="assets/about/medor-video.mp4" muted loop playsinline preload="metadata" aria-label="Французский бульдог Медор"></video>
+              </div>
+            </div>
+            <p class="t-h2 t-stroke about__caption">Главный источник вдохновения вне дизайна — мой талисман и верный спутник, французский бульдог Медор</p>
+          </div>
         </div>
       </section>
 
@@ -291,8 +297,12 @@
 
   <footer class="footer">
     <img class="footer__bg" src="assets/footer-bg.png" alt="" loading="lazy" decoding="async">
-    <img class="footer__photo" src="assets/avatar.png" alt="Арина Серова" width="382" height="382">
-    <p class="t-promo-1">Let’s go!</p>
+    <div class="footer__hero">
+      <div class="footer__circle">
+        <video src="assets/about/medor-video.mp4" muted loop playsinline preload="metadata" aria-label="Французский бульдог Медор"></video>
+      </div>
+      <p class="t-promo-1 t-stroke footer__title">Let’s go!</p>
+    </div>
     <div class="footer__pills">
       <a class="pill t-body-2" href="https://hirehi.ru/resume/XbLth3skez" target="_blank" rel="noopener">CV</a>
       <a class="pill t-body-2" href="https://www.linkedin.com/in/arina-serova-61530b253/" target="_blank" rel="noopener">LinkedIn</a>

@@ -16,6 +16,7 @@
   --radius-absolute: 1000px;
 
   /* Shadow */
+  /* Shadow - Container: offset (0,12), blur 16; Shadow - Arrows: offset (0,24), blur 32 */
   --shadow-container: 0 12px 16px rgba(0, 0, 0, 0.08);
   --shadow-arrows: 0 24px 32px rgba(0, 0, 0, 0.08);
 
@@ -43,7 +44,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--white);
+  background: var(--pink-100);
   color: var(--black);
   font: 600 14px/1.5 var(--font-body);
   letter-spacing: -0.02em;
@@ -93,29 +94,12 @@ a {
   margin: 0;
 }
 
-/* Белый текст с чёрной обводкой — блок «Обо мне» */
+/* Чёрный текст в белой обводке — «Обо мне» и футер.
+   paint-order рисует обводку под заливкой, поэтому буквы не «худеют». */
 .t-stroke {
-  color: var(--white);
-  text-shadow:
-    -2px -2px 0 var(--black), 2px -2px 0 var(--black),
-    -2px 2px 0 var(--black), 2px 2px 0 var(--black),
-    0 -2px 0 var(--black), 0 2px 0 var(--black),
-    -2px 0 0 var(--black), 2px 0 0 var(--black);
-}
-
-/* ---------- Розовая клетка (паттерн из макета) ---------- */
-
-.checker {
-  background-color: var(--white);
-  background-image:
-    conic-gradient(
-      from 90deg at 50% 50%,
-      var(--pink-200) 25%,
-      transparent 0 50%,
-      var(--pink-200) 0 75%,
-      transparent 0
-    );
-  background-size: 19.38px 19.38px;
+  color: var(--black);
+  -webkit-text-stroke: var(--stroke-w, 6px) var(--white);
+  paint-order: stroke fill;
 }
 
 /* ---------- Каркас страницы ---------- */
@@ -165,7 +149,6 @@ a {
   display: flex;
   flex-direction: column;
   gap: 22px;
-  padding: 0 24px 0 16px;
 }
 
 .sidebar__lines {
@@ -244,11 +227,6 @@ a {
   background: var(--pink-100);
 }
 
-.menu__btn svg {
-  width: 20px;
-  height: 20px;
-}
-
 .lang {
   position: absolute;
   top: 12px;
@@ -258,8 +236,10 @@ a {
   align-items: center;
   padding: 0 13px;
   background: var(--white);
+  border: none;
   border-radius: var(--radius-absolute);
   box-shadow: var(--shadow-container);
+  cursor: pointer;
   pointer-events: auto;
 }
 
@@ -273,19 +253,20 @@ a {
 
 .case {
   position: relative;
-  border-radius: var(--radius-32);
+  border-radius: var(--radius-24);
   overflow: hidden;
 }
 
 /* --- Тип A: кейс-слайдер --- */
 
 .case--slider {
+  background: var(--white);
   padding: 8px;
 }
 
 .case__track {
   display: flex;
-  gap: 16px;
+  gap: 8px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -300,7 +281,7 @@ a {
   flex: 0 0 400px;
   height: 666px;
   scroll-snap-align: start;
-  border-radius: var(--radius-24);
+  border-radius: var(--radius-20);
   overflow: hidden;
   background: var(--pink-100);
 }
@@ -320,7 +301,6 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 45px;
 }
 
 .case__intro-bg {
@@ -333,6 +313,7 @@ a {
 
 .case__card {
   position: relative;
+  width: 310px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -348,8 +329,7 @@ a {
 .case__logo {
   width: 64px;
   height: 64px;
-  border-radius: var(--radius-20);
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .case__card .t-h1 {
@@ -360,12 +340,24 @@ a {
   max-width: 244px;
 }
 
-/* Стрелка слайдера */
+/* Градиент и стрелка справа */
+
+.case__fade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 176px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(255, 221, 242, 0) 4.31%, var(--white) 100%);
+  border-radius: 0 var(--radius-24) var(--radius-24) 0;
+  z-index: 1;
+}
 
 .case__arrow {
   position: absolute;
   top: 50%;
-  right: 24px;
+  right: 34px;
   transform: translateY(-50%);
   width: 56px;
   height: 56px;
@@ -374,7 +366,7 @@ a {
   justify-content: center;
   background: var(--white);
   border: none;
-  border-radius: 50%;
+  border-radius: var(--radius-32);
   box-shadow: var(--shadow-arrows);
   cursor: pointer;
   transition: transform 0.15s ease;
@@ -383,23 +375,6 @@ a {
 
 .case__arrow:hover {
   transform: translateY(-50%) scale(1.06);
-}
-
-.case__arrow svg {
-  width: 20px;
-  height: 20px;
-}
-
-.case__fade {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  bottom: 8px;
-  width: 176px;
-  pointer-events: none;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 70%);
-  border-radius: 0 var(--radius-24) var(--radius-24) 0;
-  z-index: 1;
 }
 
 /* --- Тип B: кейс-плашка --- */
@@ -411,6 +386,14 @@ a {
   padding: 8px;
   /* подложка на случай, если фото ещё не загрузилось — белый текст остаётся читаемым */
   background: #46323f;
+}
+
+.case__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* затемнение под текстом, чтобы подпись читалась на светлых фото */
@@ -432,16 +415,8 @@ a {
   width: 93.28%;
   aspect-ratio: 985 / 430;
   object-fit: cover;
-  border-radius: var(--radius-24);
+  border-radius: var(--radius-20);
   z-index: 0;
-}
-
-.case__media {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .case__overlay {
@@ -513,12 +488,12 @@ a {
 
 .about__panel {
   position: relative;
-  min-height: 666px;
-  border-radius: var(--radius-32);
-  overflow: hidden;
+  height: 666px;
   padding: 24px;
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
+  background: var(--pink-100);
+  /* правый верхний угол скруглён сильнее — как в макете */
+  border-radius: var(--radius-24) var(--radius-128) var(--radius-24) var(--radius-24);
 }
 
 .about__bg {
@@ -529,52 +504,89 @@ a {
   object-fit: cover;
 }
 
-.about__panel > *:not(.about__bg) {
-  position: relative;
+/* левая панель — текст по углам, фото по центру во всю ширину */
+
+.about__text--tl {
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  width: 476px;
+  max-width: calc(100% - 48px);
 }
 
-/* фото уходит в край панели, как в макете;
-   max-width сбрасывается — иначе глобальное правило для img обрежет вылет за поля */
 .about__photo {
-  width: calc(100% + 48px);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
   max-width: none;
-  margin: 20px -24px;
+  height: 360px;
+  object-fit: cover;
 }
 
-/* правая панель в макете с большими полями */
-.about__panel + .about__panel {
-  padding: 54px;
-}
-
-.about__text--end {
-  margin-top: auto;
+.about__text--br {
+  position: absolute;
+  right: 24px;
+  top: 542px;
+  width: 369px;
+  max-width: calc(100% - 48px);
   text-align: right;
+}
+
+/* правая панель — колонка по центру */
+
+.about__content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 416px;
+  max-width: calc(100% - 48px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about__media {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
 }
 
 .about__video {
   width: 100%;
-  /* пропорция из макета — блок держит высоту до загрузки видео */
-  aspect-ratio: 416 / 312;
+  height: 312px;
   object-fit: cover;
-  border-radius: var(--radius-24);
+  border: 1px solid var(--black);
+  border-radius: 7px;
 }
 
+/* белый кружок, внутри видео меньшего размера — как в макете */
 .about__dog {
+  position: relative;
   width: 116px;
   height: 116px;
+  margin-top: -65px;
   border-radius: 50%;
-  border: 6px solid var(--white);
-  object-fit: cover;
   background: var(--white);
-  align-self: flex-end;
-  margin-top: -58px;
-  position: relative;
-  z-index: 1;
+  overflow: hidden;
+}
+
+.about__dog video {
+  position: absolute;
+  left: 9.48%;
+  top: 9.48%;
+  width: 80.96%;
+  height: 80.96%;
+  object-fit: contain;
 }
 
 .about__caption {
+  width: 364px;
+  max-width: 100%;
   text-align: center;
-  margin-top: 16px;
 }
 
 /* ---------- Дизайн-лента ---------- */
@@ -590,7 +602,7 @@ a {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 13px;
-  padding: 17px 16px 0;
+  padding: 17px 16px 16px;
 }
 
 .feed__col {
@@ -599,9 +611,10 @@ a {
   gap: 13px;
 }
 
+/* карточки ленты в макете без скругления — скругление уже нарисовано в самих картинках */
 .feed__item {
   width: 100%;
-  border-radius: var(--radius-24);
+  margin: 0;
   overflow: hidden;
   background: var(--pink-100);
 }
@@ -616,8 +629,9 @@ a {
 
 .footer {
   position: relative;
-  margin: 13px var(--gutter) 36px;
-  border-radius: var(--radius-32);
+  max-width: calc(var(--sidebar-w) + var(--content-w) + var(--gutter) * 2);
+  margin: 13px auto 36px;
+  border-radius: var(--radius-24);
   overflow: hidden;
   min-height: 668px;
   display: flex;
@@ -641,12 +655,38 @@ a {
   position: relative;
 }
 
-.footer__photo {
+.footer__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* белый круг с видео внутри */
+.footer__circle {
+  position: relative;
   width: 382px;
   height: 382px;
   max-width: 80vw;
+  aspect-ratio: 1;
   border-radius: 50%;
-  object-fit: cover;
+  background: var(--white);
+  overflow: hidden;
+}
+
+.footer__circle video {
+  position: absolute;
+  left: 11.34%;
+  top: 7.3%;
+  width: 78.88%;
+  height: 78.88%;
+  object-fit: contain;
+}
+
+/* подпись наезжает на круг снизу */
+.footer__title {
+  --stroke-w: 8px;
+  margin-top: -32px;
+  z-index: 1;
 }
 
 .footer__pills {
@@ -666,24 +706,41 @@ a {
 
   .sidebar {
     position: static;
-    align-items: center;
-    text-align: center;
-  }
-
-  .sidebar__name {
-    width: auto;
-    margin-top: -40px;
-  }
-
-  .sidebar__about {
-    align-items: center;
-    text-align: center;
-    max-width: 420px;
   }
 
   .pill-row {
-    width: 100%;
     max-width: 328px;
+  }
+}
+
+@media (max-width: 860px) {
+  .about {
+    grid-template-columns: 1fr;
+  }
+
+  .about__panel {
+    height: auto;
+    min-height: 520px;
+  }
+
+  .about__text--tl,
+  .about__text--br {
+    position: static;
+    width: auto;
+    max-width: 100%;
+  }
+
+  .about__photo {
+    position: static;
+    transform: none;
+    height: auto;
+    margin: 20px 0;
+  }
+
+  .about__content {
+    position: static;
+    transform: none;
+    width: 100%;
   }
 }
 
@@ -696,16 +753,21 @@ a {
     font-size: 28px;
   }
 
+  .t-h2 {
+    font-size: 22px;
+  }
+
+  .t-stroke {
+    --stroke-w: 4px;
+  }
+
   .case__slide {
     flex-basis: 280px;
     height: 466px;
   }
 
-  .case__intro {
-    padding: 20px;
-  }
-
   .case__card {
+    width: 100%;
     padding: 20px;
   }
 
@@ -717,14 +779,6 @@ a {
     display: none;
   }
 
-  .about {
-    grid-template-columns: 1fr;
-  }
-
-  .about__panel {
-    min-height: 0;
-  }
-
   .feed__grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -733,8 +787,12 @@ a {
     display: none;
   }
 
-  .footer__photo {
+  .footer__circle {
     width: 260px;
     height: 260px;
+  }
+
+  .footer__title {
+    --stroke-w: 6px;
   }
 }

@@ -1,4 +1,48 @@
 document.addEventListener("DOMContentLoaded", () => {
+  /* --- Мягкий скролл колесом: цель догоняется плавно, а не рывком --- */
+  const smoothOk =
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (smoothOk) {
+    let target = window.scrollY;
+    let running = false;
+
+    const maxScroll = () =>
+      document.documentElement.scrollHeight - window.innerHeight;
+
+    const tick = () => {
+      const diff = target - window.scrollY;
+      if (Math.abs(diff) < 0.5) {
+        window.scrollTo(0, target);
+        running = false;
+        return;
+      }
+      window.scrollTo(0, window.scrollY + diff * 0.12);
+      requestAnimationFrame(tick);
+    };
+
+    window.addEventListener(
+      "wheel",
+      (e) => {
+        // горизонтальные слайдеры и жесты с зажатыми модификаторами не трогаем
+        if (e.ctrlKey || e.metaKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        e.preventDefault();
+        target = Math.min(Math.max(target + e.deltaY, 0), maxScroll());
+        if (!running) {
+          running = true;
+          requestAnimationFrame(tick);
+        }
+      },
+      { passive: false }
+    );
+
+    // клики по якорям и любой другой скролл сбрасывают цель на факт
+    window.addEventListener("scroll", () => {
+      if (!running) target = window.scrollY;
+    });
+  }
+
   /* --- Слайдеры кейсов: стрелка листает на один слайд --- */
   document.querySelectorAll(".case--slider").forEach((slider) => {
     const track = slider.querySelector(".case__track");
