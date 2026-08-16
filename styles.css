@@ -976,44 +976,37 @@ a {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     column-gap: 16px;
-    row-gap: 14px;
+    /* отступ между текстом и кнопками под ним */
+    row-gap: 24px;
     /* текст справа начинается вровень с верхним краем фото */
     align-items: start;
   }
 
+  /* текст и кнопки — один блок правой колонки, поэтому расстояние между
+     ними задаётся здесь и не зависит от высоты колонки с фото */
   .sidebar__about {
-    display: contents;
-  }
-
-  .sidebar__lines {
-    grid-column: 2;
-    gap: 12px;
+    gap: 24px;
     max-width: 100%;
   }
 
-  /* кнопки — под текстом, в той же правой колонке; чтобы три штуки
-     влезли в узкую колонку, поля и обводка меньше десктопных */
+  .sidebar__lines {
+    gap: 12px;
+  }
+
+  /* кнопки — под текстом, во всю ширину его колонки; боковые поля
+     чуть меньше десктопных, иначе три подписи не помещаются */
   .pill-row {
-    grid-column: 2;
-    height: auto;
-    flex-wrap: wrap;
-    row-gap: 8px;
+    height: 60px;
     max-width: 100%;
   }
 
   .pill {
-    flex: 0 1 auto;
-    height: 44px;
-    padding: 5px 10px;
+    padding: 5px 8px;
     border-width: 4px;
   }
 
   .pill + .pill {
-    margin-left: 0;
-  }
-
-  .pill:not(:last-child) {
-    margin-right: -12px;
+    margin-left: -12px;
   }
 
   .sidebar__avatar {
