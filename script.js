@@ -33,6 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
       (e) => {
         if (e.ctrlKey || e.metaKey) return;
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        // открыт просмотр работы — страница под ним стоит
+        if (document.body.dataset.lock !== undefined) return;
         e.preventDefault();
 
         let delta = e.deltaY;
@@ -256,6 +258,90 @@ document.addEventListener("DOMContentLoaded", () => {
           other.link.classList.toggle("is-active", i === j)
         );
       });
+    });
+  }
+
+  /* --- Просмотр работы из дизайн-ленты --- */
+  const lightbox = document.querySelector(".lightbox");
+  if (lightbox) {
+    const shot = lightbox.querySelector(".lightbox__img");
+    const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let source = null;
+    let closing = null;
+
+    /* Картинка вырастает со своего места: считаем, где стоит миниатюра,
+       и анимируем большую копию от её положения к финальному. */
+    const flip = (from, reverse) => {
+      const to = shot.getBoundingClientRect();
+      if (!from.width || !to.width) return null;
+      const scale = from.width / to.width;
+      const dx = from.left + from.width / 2 - (to.left + to.width / 2);
+      const dy = from.top + from.height / 2 - (to.top + to.height / 2);
+      const shifted = `translate(${dx}px, ${dy}px) scale(${scale})`;
+      const frames = reverse ? [{ transform: "none" }, { transform: shifted }]
+                             : [{ transform: shifted }, { transform: "none" }];
+      return shot.animate(frames, {
+        duration: reverse ? 320 : 420,
+        easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+      });
+    };
+
+    const open = (img) => {
+      if (closing) closing.cancel();
+      source = img;
+      shot.src = img.currentSrc || img.src;
+      shot.alt = img.alt;
+      lightbox.hidden = false;
+      // страница под слоем не должна прокручиваться
+      document.body.dataset.lock = "";
+      document.body.style.overflow = "hidden";
+
+      const from = img.getBoundingClientRect();
+      // считываем размер, чтобы браузер зафиксировал стартовое состояние,
+      // и включаем проявление сразу — не дожидаясь кадра анимации
+      void lightbox.offsetWidth;
+      lightbox.classList.add("is-open");
+
+      // размеры большой копии известны только после загрузки — до тех пор
+      // ждать нельзя, иначе слой залипает невидимым
+      const grow = () => requestAnimationFrame(() => smooth && flip(from, false));
+      if (shot.complete && shot.naturalWidth) grow();
+      else shot.addEventListener("load", grow, { once: true });
+    };
+
+    const close = () => {
+      if (lightbox.hidden) return;
+      lightbox.classList.remove("is-open");
+
+      const finish = () => {
+        lightbox.hidden = true;
+        shot.removeAttribute("src");
+        delete document.body.dataset.lock;
+        document.body.style.overflow = "";
+        if (source) source.closest(".feed__btn").focus({ preventScroll: true });
+        source = null;
+        closing = null;
+      };
+
+      // если миниатюра всё ещё на экране — уводим картинку обратно к ней
+      const rect = source ? source.getBoundingClientRect() : null;
+      const visible = rect && rect.bottom > 0 && rect.top < window.innerHeight;
+      closing = smooth && visible ? flip(rect, true) : null;
+
+      if (closing) closing.addEventListener("finish", finish);
+      else setTimeout(finish, smooth ? 320 : 0);
+    };
+
+    document.querySelectorAll(".feed__btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const img = btn.querySelector("img");
+        if (img) open(img);
+      });
+    });
+
+    lightbox.addEventListener("click", close);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") close();
     });
   }
 
