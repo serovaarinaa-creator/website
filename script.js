@@ -73,11 +73,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* --- Слайдеры кейсов: стрелка листает на один слайд --- */
+  /* --- Слайдеры кейсов: стрелки листают на один слайд --- */
   document.querySelectorAll(".case--slider").forEach((slider) => {
     const track = slider.querySelector(".case__track");
-    const arrow = slider.querySelector(".case__arrow");
-    if (!track || !arrow) return;
+    const prev = slider.querySelector(".case__arrow--prev");
+    const next = slider.querySelector(".case__arrow--next");
+    const fadePrev = slider.querySelector(".case__fade--prev");
+    const fadeNext = slider.querySelector(".case__fade--next");
+    if (!track || !next) return;
 
     const step = () => {
       const slide = track.querySelector(".case__slide");
@@ -86,21 +89,26 @@ document.addEventListener("DOMContentLoaded", () => {
       return slide.getBoundingClientRect().width + gap;
     };
 
-    const atEnd = () => track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+    const atStart = () => track.scrollLeft <= 2;
+    const atEnd = () =>
+      track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
 
-    arrow.addEventListener("click", () => {
-      if (atEnd()) {
-        track.scrollTo({ left: 0 });
-      } else {
-        track.scrollBy({ left: step() });
-      }
-    });
-
-    const syncArrow = () => {
-      arrow.style.opacity = track.scrollWidth > track.clientWidth + 2 ? "1" : "0";
+    const sync = () => {
+      const scrollable = track.scrollWidth > track.clientWidth + 2;
+      const showPrev = scrollable && !atStart();
+      const showNext = scrollable && !atEnd();
+      if (prev) prev.hidden = !showPrev;
+      if (fadePrev) fadePrev.hidden = !showPrev;
+      next.hidden = !showNext;
+      if (fadeNext) fadeNext.hidden = !showNext;
     };
-    syncArrow();
-    window.addEventListener("resize", syncArrow);
+
+    next.addEventListener("click", () => track.scrollBy({ left: step() }));
+    if (prev) prev.addEventListener("click", () => track.scrollBy({ left: -step() }));
+
+    track.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    sync();
   });
 
   /* --- Видео играют только пока видны на экране --- */
