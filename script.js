@@ -1,45 +1,75 @@
 document.addEventListener("DOMContentLoaded", () => {
-  /* --- Мягкий скролл колесом: цель догоняется плавно, а не рывком --- */
-  const smoothOk =
-    window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* --- Мягкий скролл колесом --- */
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const root = document.documentElement;
 
-  if (smoothOk) {
+  if (finePointer && !reduceMotion) {
+    // родной smooth выключаем, иначе он спорит с нашей анимацией на якорях
+    root.style.scrollBehavior = "auto";
+
     let target = window.scrollY;
-    let running = false;
+    let raf = 0;
 
-    const maxScroll = () =>
-      document.documentElement.scrollHeight - window.innerHeight;
+    const maxScroll = () => root.scrollHeight - window.innerHeight;
+    const clamp = (v) => Math.min(Math.max(v, 0), Math.max(maxScroll(), 0));
 
     const tick = () => {
       const diff = target - window.scrollY;
       if (Math.abs(diff) < 0.5) {
-        window.scrollTo(0, target);
-        running = false;
+        raf = 0;
         return;
       }
-      window.scrollTo(0, window.scrollY + diff * 0.12);
-      requestAnimationFrame(tick);
+      window.scrollTo(0, window.scrollY + diff * 0.18);
+      raf = requestAnimationFrame(tick);
+    };
+
+    const start = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
     };
 
     window.addEventListener(
       "wheel",
       (e) => {
-        // горизонтальные слайдеры и жесты с зажатыми модификаторами не трогаем
-        if (e.ctrlKey || e.metaKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        if (e.ctrlKey || e.metaKey) return;
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
         e.preventDefault();
-        target = Math.min(Math.max(target + e.deltaY, 0), maxScroll());
-        if (!running) {
-          running = true;
-          requestAnimationFrame(tick);
-        }
+
+        let delta = e.deltaY;
+        if (e.deltaMode === 1) delta *= 16;
+        else if (e.deltaMode === 2) delta *= window.innerHeight;
+
+        // цель не должна убегать дальше экрана — иначе инерция тачпада
+        // накапливает события и страница улетает рывком
+        const limit = window.innerHeight;
+        target = clamp(
+          Math.min(
+            Math.max(target + delta, window.scrollY - limit),
+            window.scrollY + limit
+          )
+        );
+        start();
       },
       { passive: false }
     );
 
-    // клики по якорям и любой другой скролл сбрасывают цель на факт
+    // скролл не от нас (клавиатура, полоса прокрутки, тач) — синхронизируем цель
     window.addEventListener("scroll", () => {
-      if (!running) target = window.scrollY;
+      if (!raf) target = window.scrollY;
+    });
+    window.addEventListener("resize", () => {
+      target = clamp(target);
+    });
+
+    // якоря в меню ведём через ту же анимацию
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener("click", (e) => {
+        const el = document.querySelector(link.getAttribute("href"));
+        if (!el) return;
+        e.preventDefault();
+        target = clamp(el.getBoundingClientRect().top + window.scrollY);
+        start();
+      });
     });
   }
 

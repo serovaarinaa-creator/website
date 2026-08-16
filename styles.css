@@ -94,12 +94,50 @@ a {
   margin: 0;
 }
 
-/* Чёрный текст в белой обводке — «Обо мне» и футер.
-   paint-order рисует обводку под заливкой, поэтому буквы не «худеют». */
+/* Чёрный текст в белой обводке 10px наружу.
+   -webkit-text-stroke здесь не годится: он рисует join углом и на острых
+   стыках букв даёт шипы, а в макете join скруглённый. Кольцо из копий
+   текста по окружности радиусом 10px — это ровно наращивание контура
+   диском, то есть обводка наружу со скруглёнными стыками. */
 .t-stroke {
   color: var(--black);
-  -webkit-text-stroke: var(--stroke-w, 6px) var(--white);
-  paint-order: stroke fill;
+  text-shadow:
+    10px 0px 0 var(--stroke-c, #fff),
+    9.85px 1.74px 0 var(--stroke-c, #fff),
+    9.4px 3.42px 0 var(--stroke-c, #fff),
+    8.66px 5px 0 var(--stroke-c, #fff),
+    7.66px 6.43px 0 var(--stroke-c, #fff),
+    6.43px 7.66px 0 var(--stroke-c, #fff),
+    5px 8.66px 0 var(--stroke-c, #fff),
+    3.42px 9.4px 0 var(--stroke-c, #fff),
+    1.74px 9.85px 0 var(--stroke-c, #fff),
+    0px 10px 0 var(--stroke-c, #fff),
+    -1.74px 9.85px 0 var(--stroke-c, #fff),
+    -3.42px 9.4px 0 var(--stroke-c, #fff),
+    -5px 8.66px 0 var(--stroke-c, #fff),
+    -6.43px 7.66px 0 var(--stroke-c, #fff),
+    -7.66px 6.43px 0 var(--stroke-c, #fff),
+    -8.66px 5px 0 var(--stroke-c, #fff),
+    -9.4px 3.42px 0 var(--stroke-c, #fff),
+    -9.85px 1.74px 0 var(--stroke-c, #fff),
+    -10px 0px 0 var(--stroke-c, #fff),
+    -9.85px -1.74px 0 var(--stroke-c, #fff),
+    -9.4px -3.42px 0 var(--stroke-c, #fff),
+    -8.66px -5px 0 var(--stroke-c, #fff),
+    -7.66px -6.43px 0 var(--stroke-c, #fff),
+    -6.43px -7.66px 0 var(--stroke-c, #fff),
+    -5px -8.66px 0 var(--stroke-c, #fff),
+    -3.42px -9.4px 0 var(--stroke-c, #fff),
+    -1.74px -9.85px 0 var(--stroke-c, #fff),
+    -0px -10px 0 var(--stroke-c, #fff),
+    1.74px -9.85px 0 var(--stroke-c, #fff),
+    3.42px -9.4px 0 var(--stroke-c, #fff),
+    5px -8.66px 0 var(--stroke-c, #fff),
+    6.43px -7.66px 0 var(--stroke-c, #fff),
+    7.66px -6.43px 0 var(--stroke-c, #fff),
+    8.66px -5px 0 var(--stroke-c, #fff),
+    9.4px -3.42px 0 var(--stroke-c, #fff),
+    9.85px -1.74px 0 var(--stroke-c, #fff);
 }
 
 /* ---------- Каркас страницы ---------- */
@@ -466,8 +504,9 @@ a {
   background: var(--chip-bg, var(--pink-100));
 }
 
-.chip + .chip {
-  margin-left: -8px;
+/* сдвиг задаётся справа: при переносе первый чип новой строки остаётся по центру */
+.chip:not(:last-child) {
+  margin-right: -8px;
 }
 
 /* Чипы на плашке — стеклянные */
@@ -484,6 +523,9 @@ a {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
+  padding: 8px;
+  background: var(--white);
+  border-radius: var(--radius-24);
 }
 
 .about__panel {
@@ -591,6 +633,11 @@ a {
 
 /* ---------- Дизайн-лента ---------- */
 
+.feed {
+  background: var(--white);
+  border-radius: var(--radius-24);
+}
+
 .feed__head {
   padding: 30px 16px 0;
   display: flex;
@@ -611,11 +658,11 @@ a {
   gap: 13px;
 }
 
-/* карточки ленты в макете без скругления — скругление уже нарисовано в самих картинках */
 .feed__item {
   width: 100%;
   margin: 0;
   overflow: hidden;
+  border-radius: 7px;
   background: var(--pink-100);
 }
 
@@ -682,10 +729,12 @@ a {
   object-fit: contain;
 }
 
-/* подпись наезжает на круг снизу */
+/* подпись наезжает на круг снизу, текст выключен влево */
 .footer__title {
-  --stroke-w: 8px;
+  width: 274px;
+  max-width: 100%;
   margin-top: -32px;
+  text-align: left;
   z-index: 1;
 }
 
@@ -758,7 +807,43 @@ a {
   }
 
   .t-stroke {
-    --stroke-w: 4px;
+    text-shadow:
+      6px 0px 0 var(--stroke-c, #fff),
+      5.91px 1.04px 0 var(--stroke-c, #fff),
+      5.64px 2.05px 0 var(--stroke-c, #fff),
+      5.2px 3px 0 var(--stroke-c, #fff),
+      4.6px 3.86px 0 var(--stroke-c, #fff),
+      3.86px 4.6px 0 var(--stroke-c, #fff),
+      3px 5.2px 0 var(--stroke-c, #fff),
+      2.05px 5.64px 0 var(--stroke-c, #fff),
+      1.04px 5.91px 0 var(--stroke-c, #fff),
+      0px 6px 0 var(--stroke-c, #fff),
+      -1.04px 5.91px 0 var(--stroke-c, #fff),
+      -2.05px 5.64px 0 var(--stroke-c, #fff),
+      -3px 5.2px 0 var(--stroke-c, #fff),
+      -3.86px 4.6px 0 var(--stroke-c, #fff),
+      -4.6px 3.86px 0 var(--stroke-c, #fff),
+      -5.2px 3px 0 var(--stroke-c, #fff),
+      -5.64px 2.05px 0 var(--stroke-c, #fff),
+      -5.91px 1.04px 0 var(--stroke-c, #fff),
+      -6px 0px 0 var(--stroke-c, #fff),
+      -5.91px -1.04px 0 var(--stroke-c, #fff),
+      -5.64px -2.05px 0 var(--stroke-c, #fff),
+      -5.2px -3px 0 var(--stroke-c, #fff),
+      -4.6px -3.86px 0 var(--stroke-c, #fff),
+      -3.86px -4.6px 0 var(--stroke-c, #fff),
+      -3px -5.2px 0 var(--stroke-c, #fff),
+      -2.05px -5.64px 0 var(--stroke-c, #fff),
+      -1.04px -5.91px 0 var(--stroke-c, #fff),
+      -0px -6px 0 var(--stroke-c, #fff),
+      1.04px -5.91px 0 var(--stroke-c, #fff),
+      2.05px -5.64px 0 var(--stroke-c, #fff),
+      3px -5.2px 0 var(--stroke-c, #fff),
+      3.86px -4.6px 0 var(--stroke-c, #fff),
+      4.6px -3.86px 0 var(--stroke-c, #fff),
+      5.2px -3px 0 var(--stroke-c, #fff),
+      5.64px -2.05px 0 var(--stroke-c, #fff),
+      5.91px -1.04px 0 var(--stroke-c, #fff);
   }
 
   .case__slide {
@@ -792,7 +877,5 @@ a {
     height: 260px;
   }
 
-  .footer__title {
-    --stroke-w: 6px;
-  }
+
 }
