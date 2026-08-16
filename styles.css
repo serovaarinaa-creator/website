@@ -263,7 +263,7 @@ a {
   align-items: center;
   gap: 2px;
   padding: 12px;
-  background: var(--white);
+  background: var(--pink-100);
   border-radius: 0 0 var(--radius-24) var(--radius-24);
   box-shadow: var(--shadow-container);
   pointer-events: auto;
@@ -282,7 +282,7 @@ a {
 
 .menu__btn:hover,
 .menu__btn.is-active {
-  background: var(--pink-100);
+  background: var(--white);
 }
 
 .lang {
@@ -293,7 +293,7 @@ a {
   display: flex;
   align-items: center;
   padding: 0 13px;
-  background: var(--white);
+  background: var(--pink-100);
   border: none;
   border-radius: var(--radius-absolute);
   box-shadow: var(--shadow-container);
@@ -329,9 +329,13 @@ a {
      обрезается прямым краем и появляются острые углы */
   border-radius: var(--radius-20);
   overflow-x: auto;
+  /* без этого iOS «резиново» уводит трек за последний слайд и справа
+     открывается пустое место */
+  overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  scroll-behavior: smooth;
+  /* анимацией листания управляет скрипт, нативный smooth только мешает */
+  scroll-behavior: auto;
 }
 
 .case__track::-webkit-scrollbar {
@@ -820,27 +824,47 @@ a {
 
   .about__panel {
     height: auto;
-    min-height: 520px;
+    /* панель тянется по содержимому, иначе снизу остаётся пустая клетка */
+    min-height: 0;
   }
 
+  .about__panel + .about__panel {
+    padding: 24px;
+  }
+
+  /* именно relative, а не static: у обводки ::before абсолютное
+     позиционирование, и при static она цепляется за панель, а не за текст */
   .about__text--tl,
   .about__text--br {
-    position: static;
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
     width: auto;
     max-width: 100%;
   }
 
   .about__photo {
-    position: static;
+    position: relative;
+    left: auto;
+    top: auto;
     transform: none;
+    width: 100%;
     height: auto;
     margin: 20px 0;
   }
 
   .about__content {
-    position: static;
+    position: relative;
+    left: auto;
+    top: auto;
     transform: none;
     width: 100%;
+  }
+
+  .about__panel {
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -897,18 +921,85 @@ a {
       5.91px -1.04px 0 var(--white);
   }
 
+  /* слайд держит пропорцию макета 400x666, карточка занимает
+     те же 77.5% ширины слайда, что и в десктопе */
+  /* слайд держит пропорцию макета 400x666, карточка — те же 77.5% его ширины,
+     а типографика внутри масштабируется от ширины экрана, чтобы соотношения
+     остались десктопными */
   .case__slide {
-    flex-basis: 280px;
-    height: 466px;
+    flex-basis: min(78vw, 400px);
+    height: auto;
+    aspect-ratio: 400 / 666;
   }
 
   .case__card {
-    width: 100%;
-    padding: 20px;
+    width: 77.5%;
+    padding: clamp(14px, 6.2vw, 32px);
+    gap: clamp(8px, 2.4vw, 12px);
+    border-radius: var(--radius-24);
+  }
+
+  .case__card .t-h1 {
+    font-size: clamp(20px, 7vw, 36px);
+    max-width: 100%;
+  }
+
+  .case__card .t-body-1 {
+    font-size: clamp(11px, 2.7vw, 14px);
+    max-width: 100%;
+  }
+
+  .case__card .chip {
+    height: clamp(24px, 6.2vw, 32px);
+    padding: 2px clamp(10px, 3.1vw, 16px);
+    font-size: clamp(11px, 2.7vw, 14px);
+  }
+
+  .case__card .case__logo {
+    width: clamp(40px, 12.5vw, 64px);
+    height: clamp(40px, 12.5vw, 64px);
+  }
+
+  /* стрелки компактнее, чтобы не перекрывали слайд */
+  .case__arrow {
+    width: 40px;
+    height: 40px;
+    right: 12px;
+    border-radius: var(--radius-20);
+  }
+
+  .case__arrow--prev {
+    right: auto;
+    left: 12px;
+  }
+
+  .case__arrow img {
+    width: 16px;
+    height: 16px;
   }
 
   .case--plate {
-    min-height: 520px;
+    min-height: 0;
+  }
+
+  .case__overlay {
+    max-width: 100%;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .case__overlay .t-h1 {
+    font-size: 24px;
+  }
+
+  /* на плашке чипы переносятся: без зазора кольца строк налезают и мусорят */
+  .case__overlay .chips {
+    row-gap: 8px;
+  }
+
+  .case__logos .case__logo {
+    width: 48px;
+    height: 48px;
   }
 
   .case__fade {

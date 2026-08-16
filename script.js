@@ -103,8 +103,32 @@ document.addEventListener("DOMContentLoaded", () => {
       if (fadeNext) fadeNext.hidden = !showNext;
     };
 
-    next.addEventListener("click", () => track.scrollBy({ left: step() }));
-    if (prev) prev.addEventListener("click", () => track.scrollBy({ left: -step() }));
+    /* Плавный переход вместо нативного: у браузера scroll-behavior: smooth
+       отрабатывает рывком, поэтому ведём ленту сами с разгоном и торможением. */
+    let anim = 0;
+
+    const slideTo = (delta) => {
+      cancelAnimationFrame(anim);
+      const from = track.scrollLeft;
+      const max = track.scrollWidth - track.clientWidth;
+      const to = Math.min(Math.max(from + delta, 0), max);
+      if (to === from) return;
+
+      const duration = 520;
+      const started = performance.now();
+      // плавно разгоняется и плавно тормозит
+      const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+      const frame = (now) => {
+        const t = Math.min((now - started) / duration, 1);
+        track.scrollLeft = from + (to - from) * ease(t);
+        if (t < 1) anim = requestAnimationFrame(frame);
+      };
+      anim = requestAnimationFrame(frame);
+    };
+
+    next.addEventListener("click", () => slideTo(step()));
+    if (prev) prev.addEventListener("click", () => slideTo(-step()));
 
     track.addEventListener("scroll", sync, { passive: true });
     window.addEventListener("resize", sync);
