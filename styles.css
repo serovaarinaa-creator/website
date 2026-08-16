@@ -40,6 +40,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* якорь останавливается под липкой шапкой, а не за ней */
+  scroll-padding-top: 92px;
 }
 
 body {
@@ -813,7 +815,8 @@ a {
 @media (max-width: 1080px) {
   .layout {
     grid-template-columns: minmax(0, 1fr);
-    padding-top: 78px;
+    /* липкая шапка уже занимает место в потоке, большой отступ сверху не нужен */
+    padding-top: 16px;
   }
 
   .sidebar {
@@ -868,8 +871,19 @@ a {
     top: auto;
     transform: none;
     width: 100%;
-    max-width: 100%;
+    /* с запасом от скруглённого угла справа сверху */
+    max-width: 88%;
     align-self: center;
+  }
+
+  .about__dog {
+    width: 92px;
+    height: 92px;
+    margin-top: -46px;
+  }
+
+  .about__caption {
+    margin-top: 16px;
   }
 
   .about__panel {
@@ -933,6 +947,48 @@ a {
 
   /* слайд держит пропорцию макета 400x666, карточка занимает
      те же 77.5% ширины слайда, что и в десктопе */
+  /* Верх: слева фото с именем, справа текст, кнопки во всю ширину снизу.
+     display: contents у .sidebar__about раскрывает его детей в ту же сетку,
+     поэтому кнопки могут занять обе колонки. */
+  .sidebar {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 16px;
+    row-gap: 16px;
+    align-items: center;
+  }
+
+  .sidebar__about {
+    display: contents;
+  }
+
+  .sidebar__lines {
+    grid-column: 2;
+    gap: 12px;
+    max-width: 100%;
+  }
+
+  .sidebar__lines .t-body-1 {
+    font-size: 13px;
+  }
+
+  .pill-row {
+    grid-column: 1 / -1;
+    height: 60px;
+  }
+
+  .sidebar__avatar {
+    width: 128px;
+    height: 128px;
+  }
+
+  .sidebar__name {
+    /* по ширине фото, чтобы имя не залезало в текстовую колонку справа */
+    width: 128px;
+    margin-top: -32px;
+    font-size: 24px;
+  }
+
   /* слайд держит пропорцию макета 400x666, карточка — те же 77.5% его ширины,
      а типографика внутри масштабируется от ширины экрана, чтобы соотношения
      остались десктопными */

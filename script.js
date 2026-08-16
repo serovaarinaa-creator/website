@@ -67,7 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const el = document.querySelector(link.getAttribute("href"));
         if (!el) return;
         e.preventDefault();
-        target = clamp(el.getBoundingClientRect().top + window.scrollY);
+        const bar = document.querySelector(".menu");
+        const offset = bar ? bar.getBoundingClientRect().height + 24 : 80;
+        const top = el.getBoundingClientRect().top + window.scrollY;
+        target = clamp(link.getAttribute("href") === "#top" ? 0 : top - offset);
         start();
       });
     });
@@ -164,31 +167,50 @@ document.addEventListener("DOMContentLoaded", () => {
     videos.forEach((video) => player.observe(video));
   }
 
-  /* --- Подсветка активного пункта меню при скролле --- */
+  /* --- Подсветка активного пункта меню --- */
   const links = [...document.querySelectorAll(".menu__btn")];
-  const targets = links
-    .map((link) => {
-      const id = link.getAttribute("href");
-      return id && id.startsWith("#") ? document.querySelector(id) : null;
-    })
-    .filter(Boolean);
+  const navItems = links.map((link) => {
+    const href = link.getAttribute("href");
+    return { link, el: href === "#top" ? null : document.querySelector(href) };
+  });
 
-  if (targets.length) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          links.forEach((link) =>
-            link.classList.toggle(
-              "is-active",
-              link.getAttribute("href") === "#" + entry.target.id
-            )
-          );
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px" }
-    );
-    targets.forEach((target) => observer.observe(target));
+  if (navItems.length) {
+    // высота липкой шапки — на неё смещаем и цель перехода, и порог подсветки
+    const barHeight = () => {
+      const bar = document.querySelector(".menu");
+      return bar ? bar.getBoundingClientRect().bottom + 12 : 80;
+    };
+
+    /* Активен ровно один пункт: берём последний раздел, начало которого уже
+       выше линии под шапкой. Раньше подсветка вешалась по IntersectionObserver
+       и «Главная» подсвечивалась вместе с «Обо мне», потому что её цель —
+       контейнер всей страницы, который пересекается всегда. */
+    const updateActive = () => {
+      const probe = window.scrollY + barHeight() + 1;
+      let activeIndex = 0;
+      navItems.forEach((item, i) => {
+        if (!item.el) return;
+        const rect = item.el.getBoundingClientRect();
+        if (!rect.height) return; // скрытый раздел не участвует
+        if (probe >= rect.top + window.scrollY) activeIndex = i;
+      });
+      navItems.forEach((item, i) =>
+        item.link.classList.toggle("is-active", i === activeIndex)
+      );
+    };
+
+    window.addEventListener("scroll", updateActive, { passive: true });
+    window.addEventListener("resize", updateActive);
+    updateActive();
+
+    // клик подсвечивает пункт сразу, не дожидаясь конца прокрутки
+    navItems.forEach((item, i) => {
+      item.link.addEventListener("click", () => {
+        navItems.forEach((other, j) =>
+          other.link.classList.toggle("is-active", i === j)
+        );
+      });
+    });
   }
 
   /* --- Переключатель языка: заглушка до появления английской версии --- */
