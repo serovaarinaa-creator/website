@@ -730,7 +730,8 @@ a {
   overflow: hidden;
 }
 
-.about__dog video {
+.about__dog video,
+.about__dog img {
   position: absolute;
   left: 9.48%;
   top: 9.48%;
@@ -926,7 +927,8 @@ a {
   overflow: hidden;
 }
 
-.footer__circle video {
+.footer__circle video,
+.footer__circle img {
   position: absolute;
   left: 11.34%;
   top: 7.3%;

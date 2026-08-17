@@ -188,10 +188,37 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Играет всё, что видно на экране. Запуск в разметке делает autoplay,
        скрипт только подстраховывает: если браузер автозапуск отменил
        (данных ещё нет), пробуем снова, а ушедшее с экрана ставим на паузу. */
+    /* Когда браузер отказывается играть ролик, он рисует поверх него свою
+       кнопку play — на iOS Safari её не убрать стилями надёжно. Поэтому такой
+       ролик подменяем его же кадром-постером: кнопки нет, картинка та же,
+       геометрия та же (класс копируем). Подменяем только по факту отказа
+       play(), а не по таймауту: медленная сеть отказ не даёт, там промис
+       просто висит, и видео потом доигрывается само. */
+    const swapped = new Map();
+
+    const toPoster = (video) => {
+      const src = video.getAttribute("poster");
+      if (!src || swapped.has(video) || !video.isConnected) return;
+      const img = document.createElement("img");
+      img.src = src;
+      img.className = video.className;
+      img.alt = "";
+      img.setAttribute("aria-hidden", "true");
+      swapped.set(video, img);
+      video.replaceWith(img);
+    };
+
+    const fromPoster = (video) => {
+      const img = swapped.get(video);
+      if (!img || !img.isConnected) return;
+      swapped.delete(video);
+      img.replaceWith(video);
+    };
+
     const nudge = (video) => {
       if (!video.paused) return;
       const play = video.play();
-      if (play) play.catch(() => {});
+      if (play) play.catch(() => toPoster(video));
     };
 
     const player = new IntersectionObserver(
@@ -231,6 +258,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const gestures = ["pointerdown", "touchstart", "keydown", "wheel"];
     const kick = () => {
       gestures.forEach((evt) => window.removeEventListener(evt, kick));
+      // жест снимает запрет — возвращаем подменённые ролики и пробуем снова
+      [...swapped.keys()].forEach(fromPoster);
       videos.forEach((video) => {
         if (onScreen(video)) nudge(video);
       });
