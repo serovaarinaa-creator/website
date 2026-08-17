@@ -71,6 +71,14 @@ video {
   pointer-events: none;
 }
 
+/* Щит поверх видео (см. video() в генераторе) — тап перехватывает он, а не
+   ролик. Позиционирование/размер задаёт контекст (общий класс с видео или
+   отдельное правило ниже); здесь только то, что нужно всем щитам одинаково. */
+.video-shield {
+  z-index: 1;
+  pointer-events: auto;
+}
+
 /* Плюс прячем сами элементы управления — на случай, когда браузер рисует их
    без всякого тапа (например, поверх ролика, который отказался запускаться).
    Каждый селектор отдельным правилом, а не списком через запятую: если движок
@@ -404,6 +412,7 @@ a {
 }
 
 .case__slide {
+  position: relative;
   flex: 0 0 400px;
   height: 666px;
   scroll-snap-align: start;
@@ -421,6 +430,11 @@ a {
   /* дублируем радиус: видео уезжает в свой слой композитинга
      и не всегда обрезается скруглением родителя */
   border-radius: var(--radius-20);
+}
+
+.case__slide > .video-shield {
+  position: absolute;
+  inset: 0;
 }
 
 /* Первый слайд — карточка с описанием на фоне */
@@ -748,14 +762,26 @@ a {
   text-align: center;
 }
 
-.about__video {
+/* обёртка нужна для щита над видео: сам .about__video больше не задаёт
+   рамку — она переехала на обёртку, а видео с щитом внутри становятся
+   абсолютно позиционированными на всю её площадь */
+.about__frame {
+  position: relative;
   width: 100%;
-  height: auto;
   /* пропорция из макета 416x312 — на узких экранах видео не сплющивается */
   aspect-ratio: 416 / 312;
-  object-fit: cover;
   border: 1px solid var(--black);
   border-radius: 7px;
+  overflow: hidden;
+}
+
+.about__video,
+.about__frame .video-shield {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* белый кружок, внутри видео меньшего размера — как в макете */
@@ -770,7 +796,8 @@ a {
 }
 
 .about__dog video,
-.about__dog img {
+.about__dog img,
+.about__dog .video-shield {
   position: absolute;
   left: 9.48%;
   top: 9.48%;
@@ -967,7 +994,8 @@ a {
 }
 
 .footer__circle video,
-.footer__circle img {
+.footer__circle img,
+.footer__circle .video-shield {
   position: absolute;
   left: 11.34%;
   top: 7.3%;
