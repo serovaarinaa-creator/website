@@ -2,13 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
   /* --- Мягкий скролл колесом --- */
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // Safari и так скроллит трекпадом мягко нативно; наша анимация на каждый
-  // тик колеса дергает scrollTo и спорит с его собственной инерцией —
-  // в Chrome незаметно, в Safari ощущается как торможение всей страницы
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   const root = document.documentElement;
 
-  if (finePointer && !reduceMotion && !isSafari) {
+  if (finePointer && !reduceMotion) {
     // родной smooth выключаем, иначе он спорит с нашей анимацией на якорях
     root.style.scrollBehavior = "auto";
 
@@ -156,6 +152,28 @@ document.addEventListener("DOMContentLoaded", () => {
   /* --- Видео играют только пока видны на экране --- */
   const videos = [...document.querySelectorAll("video")];
   if (videos.length) {
+    /* Буферизация заранее. В разметке стоит preload="metadata" — браузер тянет
+       только заголовок файла. Chrome сверх этого набирает ещё и часть картинки,
+       поэтому play() у него стартует сразу; Safari трактует "metadata" буквально
+       и на play() только начинает качать — отсюда пауза в несколько секунд перед
+       первым кадром. Поэтому за 800px до появления блока переводим ролик в
+       preload="auto": к моменту, когда до него дойдёт прокрутка, он уже готов.
+       Ролики теперь по 0,06–1,7 МБ, так что это дёшево. */
+    const warmer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const video = entry.target;
+          warmer.unobserve(video);
+          if (video.preload !== "auto") {
+            video.preload = "auto";
+            video.load();
+          }
+        });
+      },
+      { rootMargin: "800px" }
+    );
+
     const player = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -170,7 +188,11 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       { rootMargin: "100px" }
     );
-    videos.forEach((video) => player.observe(video));
+
+    videos.forEach((video) => {
+      warmer.observe(video);
+      player.observe(video);
+    });
   }
 
   /* --- Дизайн-лента: на узких экранах три колонки макета сводим в две --- */
