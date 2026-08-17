@@ -215,10 +215,20 @@ document.addEventListener("DOMContentLoaded", () => {
       img.replaceWith(video);
     };
 
-    const nudge = (video) => {
+    /* swapOnFail ставим только там, где play() вызван прямо из обработчика
+       действия пользователя. До первого касания Safari отказывает штатно —
+       в режиме энергосбережения он вообще не даёт автозапуск, — и подменять
+       ролик картинкой на этом основании нельзя: именно из-за этого видео
+       переставали проигрываться совсем. Отказ вне жеста просто игнорируем:
+       постер и так стоит на месте кадра, а кнопку play прячет CSS. */
+    const nudge = (video, swapOnFail) => {
       if (!video.paused) return;
       const play = video.play();
-      if (play) play.catch(() => toPoster(video));
+      if (play) {
+        play.catch(() => {
+          if (swapOnFail) toPoster(video);
+        });
+      }
     };
 
     const player = new IntersectionObserver(
@@ -260,8 +270,10 @@ document.addEventListener("DOMContentLoaded", () => {
       gestures.forEach((evt) => window.removeEventListener(evt, kick));
       // жест снимает запрет — возвращаем подменённые ролики и пробуем снова
       [...swapped.keys()].forEach(fromPoster);
+      /* здесь play() идёт прямо из жеста: если и так не пошло, браузер
+         не даст воспроизвести вообще — вот тогда и оставляем постер */
       videos.forEach((video) => {
-        if (onScreen(video)) nudge(video);
+        if (onScreen(video)) nudge(video, true);
       });
     };
     gestures.forEach((evt) =>
