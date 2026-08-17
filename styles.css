@@ -320,6 +320,11 @@ a {
   position: relative;
   border-radius: var(--radius-24);
   overflow: hidden;
+  cursor: pointer;
+}
+
+.case__arrow {
+  cursor: pointer;
 }
 
 /* --- Тип A: кейс-слайдер --- */
@@ -766,7 +771,8 @@ a {
 
 /* ---------- Просмотр работы ---------- */
 
-.lightbox {
+.lightbox,
+.modal {
   position: fixed;
   inset: 0;
   z-index: 100;
@@ -783,11 +789,13 @@ a {
   transition: opacity 0.32s ease;
 }
 
-.lightbox[hidden] {
+.lightbox[hidden],
+.modal[hidden] {
   display: none;
 }
 
-.lightbox.is-open {
+.lightbox.is-open,
+.modal.is-open {
   opacity: 1;
 }
 
@@ -802,9 +810,28 @@ a {
   will-change: transform;
 }
 
+/* заглушка кейса — всплывает так же, как просмотр работы */
+.modal {
+  cursor: default;
+}
+
+.modal__card {
+  max-width: min(100%, 420px);
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+  background: var(--white);
+  border-radius: var(--radius-32);
+  box-shadow: var(--shadow-container);
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .feed__item img,
-  .lightbox {
+  .lightbox,
+  .modal {
     transition: none;
   }
 }

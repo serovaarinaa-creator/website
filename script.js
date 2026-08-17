@@ -261,18 +261,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* --- Просмотр работы из дизайн-ленты --- */
-  const lightbox = document.querySelector(".lightbox");
-  if (lightbox) {
-    const shot = lightbox.querySelector(".lightbox__img");
-    const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let source = null;
+  /* --- Всплывающие слои: просмотр работы и сообщение о кейсе ---
+     Оба ведут себя одинаково: фон уходит в цвет страницы и размывается,
+     содержимое вырастает с того места, по которому кликнули. */
+  const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const overlay = (layer, box) => {
+    if (!layer || !box) return null;
+    let back = null; // куда возвращаться при закрытии
     let closing = null;
 
-    /* Картинка вырастает со своего места: считаем, где стоит миниатюра,
-       и анимируем большую копию от её положения к финальному. */
+    /* Считаем, где было начало, и анимируем слой от него к финальному месту. */
     const flip = (from, reverse) => {
-      const to = shot.getBoundingClientRect();
+      const to = box.getBoundingClientRect();
       if (!from.width || !to.width) return null;
       const scale = from.width / to.width;
       const dx = from.left + from.width / 2 - (to.left + to.width / 2);
@@ -280,70 +281,126 @@ document.addEventListener("DOMContentLoaded", () => {
       const shifted = `translate(${dx}px, ${dy}px) scale(${scale})`;
       const frames = reverse ? [{ transform: "none" }, { transform: shifted }]
                              : [{ transform: shifted }, { transform: "none" }];
-      return shot.animate(frames, {
+      return box.animate(frames, {
         duration: reverse ? 320 : 420,
         easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
       });
     };
 
-    const open = (img) => {
+    /* from — прямоугольник, из которого растём; ready — когда размеры слоя
+       уже известны (картинке нужно дождаться загрузки). */
+    const open = (from, focusBack, ready) => {
       if (closing) closing.cancel();
-      source = img;
-      shot.src = img.currentSrc || img.src;
-      shot.alt = img.alt;
-      lightbox.hidden = false;
+      back = focusBack || null;
+      layer.hidden = false;
       // страница под слоем не должна прокручиваться
       document.body.dataset.lock = "";
       document.body.style.overflow = "hidden";
 
-      const from = img.getBoundingClientRect();
       // считываем размер, чтобы браузер зафиксировал стартовое состояние,
       // и включаем проявление сразу — не дожидаясь кадра анимации
-      void lightbox.offsetWidth;
-      lightbox.classList.add("is-open");
+      void layer.offsetWidth;
+      layer.classList.add("is-open");
 
-      // размеры большой копии известны только после загрузки — до тех пор
-      // ждать нельзя, иначе слой залипает невидимым
-      const grow = () => requestAnimationFrame(() => smooth && flip(from, false));
-      if (shot.complete && shot.naturalWidth) grow();
-      else shot.addEventListener("load", grow, { once: true });
+      const grow = () => requestAnimationFrame(() => smooth && flip(from(), false));
+      if (ready) ready(grow);
+      else grow();
     };
 
-    const close = () => {
-      if (lightbox.hidden) return;
-      lightbox.classList.remove("is-open");
+    const close = (rect) => {
+      if (layer.hidden) return;
+      layer.classList.remove("is-open");
 
       const finish = () => {
-        lightbox.hidden = true;
-        shot.removeAttribute("src");
+        layer.hidden = true;
         delete document.body.dataset.lock;
         document.body.style.overflow = "";
-        if (source) source.closest(".feed__btn").focus({ preventScroll: true });
-        source = null;
+        if (back) back.focus({ preventScroll: true });
+        back = null;
         closing = null;
+        layer.dispatchEvent(new CustomEvent("overlay:closed"));
       };
 
-      // если миниатюра всё ещё на экране — уводим картинку обратно к ней
-      const rect = source ? source.getBoundingClientRect() : null;
-      const visible = rect && rect.bottom > 0 && rect.top < window.innerHeight;
-      closing = smooth && visible ? flip(rect, true) : null;
+      // если исходное место всё ещё на экране — уводим слой обратно к нему
+      const to = rect && rect();
+      const visible = to && to.width && to.bottom > 0 && to.top < window.innerHeight;
+      closing = smooth && visible ? flip(to, true) : null;
 
       if (closing) closing.addEventListener("finish", finish);
       else setTimeout(finish, smooth ? 320 : 0);
     };
 
+    return { layer, open, close };
+  };
+
+  /* --- Просмотр работы из дизайн-ленты --- */
+  const lightbox = document.querySelector(".lightbox");
+  const shot = lightbox && lightbox.querySelector(".lightbox__img");
+  const viewer = overlay(lightbox, shot);
+  let closeViewer = () => {};
+  if (viewer) {
+    let source = null;
+    const sourceRect = () => (source ? source.getBoundingClientRect() : null);
+
     document.querySelectorAll(".feed__btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         const img = btn.querySelector("img");
-        if (img) open(img);
+        if (!img) return;
+        source = img;
+        shot.src = img.currentSrc || img.src;
+        shot.alt = img.alt;
+        const from = img.getBoundingClientRect();
+        // размеры большой копии известны только после загрузки — до тех пор
+        // ждать нельзя, иначе слой залипает невидимым
+        viewer.open(() => from, btn, (grow) => {
+          if (shot.complete && shot.naturalWidth) grow();
+          else shot.addEventListener("load", grow, { once: true });
+        });
       });
     });
 
-    lightbox.addEventListener("click", close);
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") close();
+    closeViewer = () => viewer.close(sourceRect);
+    lightbox.addEventListener("click", closeViewer);
+    lightbox.addEventListener("overlay:closed", () => {
+      shot.removeAttribute("src");
+      source = null;
     });
   }
+
+  /* --- Сообщение о кейсе в работе --- */
+  const modal = document.querySelector(".modal");
+  const dialog = overlay(modal, modal && modal.querySelector(".modal__card"));
+  let closeDialog = () => {};
+  if (dialog) {
+    let from = null;
+    const rect = () => from;
+
+    document.querySelectorAll(".case").forEach((card) => {
+      // стрелки листают слайдер — по ним окно не открываем
+      let start = null;
+      card.addEventListener("pointerdown", (e) => {
+        start = { x: e.clientX, y: e.clientY };
+      });
+      card.addEventListener("click", (e) => {
+        if (e.target.closest(".case__arrow")) return;
+        // это был свайп по ленте слайдов, а не клик
+        if (start && Math.hypot(e.clientX - start.x, e.clientY - start.y) > 8) return;
+        // карточка кейса намного больше окна, поэтому растём не из неё,
+        // а из точки нажатия
+        from = new DOMRect(e.clientX - 24, e.clientY - 24, 48, 48);
+        dialog.open(rect, card);
+      });
+    });
+
+    closeDialog = () => dialog.close(rect);
+    modal.addEventListener("click", closeDialog);
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    closeViewer();
+    closeDialog();
+  });
 
   /* --- Переключение языка --- */
   const langBtn = document.querySelector(".lang");
