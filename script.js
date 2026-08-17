@@ -2,9 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
   /* --- Мягкий скролл колесом --- */
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Safari и так скроллит трекпадом мягко нативно; наша анимация на каждый
+  // тик колеса дергает scrollTo и спорит с его собственной инерцией —
+  // в Chrome незаметно, в Safari ощущается как торможение всей страницы
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   const root = document.documentElement;
 
-  if (finePointer && !reduceMotion) {
+  if (finePointer && !reduceMotion && !isSafari) {
     // родной smooth выключаем, иначе он спорит с нашей анимацией на якорях
     root.style.scrollBehavior = "auto";
 
