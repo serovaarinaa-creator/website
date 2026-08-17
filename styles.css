@@ -61,6 +61,37 @@ video {
   max-width: 100%;
 }
 
+/* Ролики на странице — часть оформления, а не плеер: управления у них нет.
+   Safari поверх ещё не запустившегося видео рисует свою кнопку play, причём
+   даже без атрибута controls. Убираем её — вместе со всей панелью управления
+   на всякий случай. */
+/* Каждый селектор — отдельным правилом, а не списком через запятую: если
+   движок не знает хотя бы один из этих псевдоэлементов, по стандарту
+   пропадает всё правило целиком. А набор у Safari и Chrome разный. */
+video::-webkit-media-controls {
+  display: none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+
+video::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+/* это Safari: большая кнопка play поверх ещё не запущенного ролика */
+video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* а это Chrome */
+video::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+}
+
 a {
   color: inherit;
   text-decoration: none;

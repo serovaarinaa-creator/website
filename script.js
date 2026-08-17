@@ -221,6 +221,23 @@ document.addEventListener("DOMContentLoaded", () => {
         })
       );
     });
+
+    /* Автозапуск браузер может и запретить: Safari так делает в режиме
+       энергосбережения и когда в настройках сайта выключено автовоспроизведение
+       (именно в этом случае он и рисовал поверх ролика кнопку play). Разрешение
+       на воспроизведение даёт любое действие пользователя, поэтому по первому
+       же из них досылаем play() всем роликам на экране. Слушатели одноразовые
+       и снимают себя сами, чтобы не висеть на прокрутке. */
+    const gestures = ["pointerdown", "touchstart", "keydown", "wheel"];
+    const kick = () => {
+      gestures.forEach((evt) => window.removeEventListener(evt, kick));
+      videos.forEach((video) => {
+        if (onScreen(video)) nudge(video);
+      });
+    };
+    gestures.forEach((evt) =>
+      window.addEventListener(evt, kick, { passive: true })
+    );
   }
 
   /* --- Дизайн-лента: на узких экранах три колонки макета сводим в две --- */
