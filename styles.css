@@ -1136,16 +1136,74 @@ a {
     height: 16px;
   }
 
-  /* высота от ширины экрана: иначе плашка сжимается до высоты текста
-     и от фотографии остаётся узкая полоска */
+  /* пропорция плашки из макета «mobile cases» — 541×739 */
   .case--plate {
-    min-height: 125vw;
+    /* сбрасываем десктопные 743px, иначе они держат высоту вместо пропорции */
+    min-height: 0;
+    aspect-ratio: 541 / 739;
+    background: var(--plate-bg, #46323f);
+  }
+
+  /* В макете видео занимает не всю плашку, а полосу сверху: кадр целиком
+     помещается в ширину, а не обрезается по краям, как при заливке на всю
+     высоту. Ниже полосы — заливка цветом, снятым с кадра, и градиент, который
+     сводит нижний край видео с этой заливкой, чтобы стык не читался.
+     Высота полосы, цвет и высота градиента у каждого кейса свои — см. ниже. */
+  .case--plate .case__media {
+    top: 0;
+    bottom: auto;
+    height: var(--media-h, 100%);
+  }
+
+  .case--plate::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--media-h, 100%) - var(--fade-h, 0px));
+    height: var(--fade-h, 0px);
+    background: linear-gradient(to bottom, transparent, var(--plate-bg, #46323f));
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* подпись лежит на заливке, поэтому общее затемнение снизу тут не нужно */
+  .case--plate::after {
+    display: none;
+  }
+
+  #case-neurocamp {
+    --plate-bg: #000;
+  }
+
+  #case-oped {
+    --plate-bg: #72aacf;
+    --media-h: 82.2%;
+    --fade-h: 17.3%;
+  }
+
+  #case-masterskaya {
+    --plate-bg: #000;
+    --media-h: 62.5%;
+    --fade-h: 12.3%;
+  }
+
+  /* Кадр разворотов в макете виден целиком, а не обрезан по краям. Ролик снят
+     на чёрном фоне и плашка тоже чёрная, поэтому поля от вписывания не видны. */
+  #case-masterskaya .case__media {
+    object-fit: contain;
+  }
+
+  #case-doggymoggy {
+    --plate-bg: #14140a;
+    --media-h: 73.9%;
+    --fade-h: 24.3%;
   }
 
   .case__overlay {
     max-width: 100%;
-    padding: 16px;
-    gap: 12px;
+    padding: 24px;
+    gap: 16px;
   }
 
   /* на плашке чипы переносятся: без зазора кольца строк налезают и мусорят */
