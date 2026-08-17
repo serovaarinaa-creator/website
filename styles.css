@@ -494,6 +494,9 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* свой composite-слой: без него Safari на каждый кадр видео пересчитывает
+     блюр стеклянных чипов поверх него заново — на весь размер плашки */
+  transform: translateZ(0);
 }
 
 /* затемнение под текстом, чтобы подпись читалась на светлых фото */
@@ -517,6 +520,7 @@ a {
   object-fit: cover;
   border-radius: var(--radius-20);
   z-index: 0;
+  transform: translateZ(0);
 }
 
 .case__overlay {
@@ -582,6 +586,8 @@ a {
   -webkit-backdrop-filter: blur(16px);
   color: var(--white);
   box-shadow: 0 0 0 4px var(--white);
+  /* свой слой, чтобы блюр не тянул за собой пересчёт всего кадра видео под ним */
+  transform: translateZ(0);
 }
 
 /* ---------- Обо мне ---------- */
@@ -676,6 +682,9 @@ a {
   object-fit: cover;
   border: 1px solid var(--black);
   border-radius: 7px;
+  /* свой composite-слой: скруглённый угол иначе заставляет Safari
+     перерисовывать всю рамку видео на каждом кадре */
+  transform: translateZ(0);
 }
 
 /* белый кружок, внутри видео меньшего размера — как в макете */
@@ -687,6 +696,7 @@ a {
   border-radius: 50%;
   background: var(--white);
   overflow: hidden;
+  transform: translateZ(0);
 }
 
 .about__dog video {
@@ -696,6 +706,7 @@ a {
   width: 80.96%;
   height: 80.96%;
   object-fit: contain;
+  transform: translateZ(0);
 }
 
 .about__caption {
