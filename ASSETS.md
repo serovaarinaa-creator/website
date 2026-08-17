@@ -8,37 +8,65 @@
 
 ```
 assets/
-  avatar.png              фото профиля (376×376, используется и в сайдбаре, и в футере)
-  footer-bg.png           фон футера (2664×1336)
+  avatar.webp             фото профиля (376×376, в сайдбаре и в футере)
+  avatar.png              то же фото для og:image — соцсети WebP понимают не все
+  footer-bg.webp          фон футера (2664×1336)
   logos/                  логотипы проектов, 128×128 PNG
     restore.png  restore-black.png  scholotch.png
     oped.png  xiaomi.png  masterskaya.png  doggymoggy.png
   icons/                  home.svg, chevron-right.svg, chevron-left.svg, menu.png, favicon.png
   cases/
-    cchb-fon.png  cchb-video.mp4  cchb-1…3.png            Цветное vs. Чёрно-белое
-    neurocamp-bg.png  neurocamp-video.mp4                 NEURO CAMP
-    digitalart-fon.png  digitalart-video.mp4  digitalart-1…3.png
+    cchb-fon.webp  cchb-video.mp4  cchb-1…3.webp          Цветное vs. Чёрно-белое
+    neurocamp-bg.webp  neurocamp-video.mp4                NEURO CAMP
+    digitalart-fon.webp  digitalart-video.mp4  digitalart-1…3.webp
     oped-video.mp4                                        OP:ED
-    rumikom-fon.png  rumikom-1…4.png                      Румиком
+    rumikom-fon.webp  rumikom-1…4.webp                    Румиком
     masterskaya-video.mp4                                 Мастерская дизайн-практик
     doggymoggy-video.mp4                                  DoggyMoggy
   about/
-    about-bg-1.png  about-bg-2.png  about-photo.png
+    about-bg-1.webp  about-bg-2.webp  about-photo.webp
     about-video.mp4  medor-video.mp4
   feed/
-    dl-1.png … dl-62.png                                  дизайн-лента
+    dl-1.webp … dl-62.webp                                дизайн-лента
 ```
+
+## Вес
+
+Исходники из Figma весили 127 МБ — этого хватало, чтобы сайт подтормаживал на
+прокрутке и долго прогружался. Сейчас все материалы весят 10 МБ, разрешение и
+кадрирование не менялись.
+
+**Картинки — WebP вместо PNG, 41 МБ → 4,3 МБ.** Размеры в пикселях те же, так что
+на ретине всё по-прежнему чёткое:
+
+```
+cwebp -q 82 -m 6 -alpha_q 100 -metadata none in.png -o out.webp
+```
+
+Логотипы, иконки и `avatar.png` остались PNG: они и так лёгкие, а `avatar.png`
+нужен для `og:image` — часть соцсетей до сих пор не читает WebP.
+
+**Видео — пережаты, 86 МБ → 5,7 МБ.** Ролики приходили с битрейтом 6–10 Мбит/с
+при кадре меньше 1100 px: столько нужно для 4K, а не для блока на странице.
+Пережаты в H.264 с постоянным качеством и шириной под двукратный размер блока
+(SSIM 0,97–0,99 — разницу на глаз не видно):
+
+```
+ffmpeg -i in.mp4 -vf "scale=<2× ширины блока>:-2:flags=lanczos" \
+  -c:v libx264 -crf 27 -preset slow -pix_fmt yuv420p -movflags +faststart -an out.mp4
+```
+
+Оригиналы никуда не делись — они лежат в истории git до коммита «Compress the
+media so the site loads and scrolls smoothly».
 
 ## Видео
 
-Восемь роликов суммарно весят около 86 МБ, поэтому они не грузятся все сразу:
+Восемь роликов не грузятся все сразу:
 
 - `preload="metadata"` — браузер тянет только заголовок файла и показывает первый кадр;
 - скрипт запускает воспроизведение, когда блок попадает в экран, и ставит на паузу, когда уходит.
 
-Если захотите ускорить загрузку ещё сильнее — стоит пережать ролики в 1080p H.264
-(например, `ffmpeg -i in.mp4 -vf scale=-2:1080 -crf 26 -an out.mp4`) и добавить `.webm`.
-Звук в роликах не нужен: они играют без него.
+Звук в роликах не нужен: они играют без него, звуковая дорожка вырезана.
 
 ## Ссылки
 
