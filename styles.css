@@ -548,6 +548,18 @@ a {
   z-index: 1;
 }
 
+/* DoggyMoggy — картинка вместо ролика, поэтому и затемнение своё: в макете это
+   не полоса снизу, а диагональный градиент от левого нижнего угла. */
+#case-doggymoggy::after {
+  inset: 0;
+  height: auto;
+  background: linear-gradient(
+    34.3deg,
+    rgba(0, 0, 0, 0.19) 12.65%,
+    rgba(0, 0, 0, 0) 46.36%
+  );
+}
+
 /* Видео, вложенное в плашку поверх фона (NEURO CAMP) */
 .case__inset {
   position: absolute;
@@ -1182,6 +1194,13 @@ a {
     --fade-h: 17.3%;
   }
 
+  /* В макете баннер крупнее и уходит в правый верхний угол, поэтому кадр
+     дополнительно приближен и сдвинут: сначала сдвиг, потом масштаб — так
+     смещение считается от размера полосы и не умножается на зум. */
+  #case-oped .case__media {
+    transform: translate(9%, -11%) scale(1.25);
+  }
+
   #case-masterskaya {
     --plate-bg: #000;
     --media-h: 62.5%;
@@ -1194,10 +1213,32 @@ a {
     object-fit: contain;
   }
 
+  /* DoggyMoggy собран иначе: не полоса с заливкой, а картинка, увеличенная
+     и сдвинутая влево, на подложке #dce0eb — размеры и сдвиг из макета
+     (w 160.6%, h 80.28%, left −30.3%, top 0 от блока 525×723). */
   #case-doggymoggy {
-    --plate-bg: #14140a;
-    --media-h: 73.9%;
-    --fade-h: 24.3%;
+    --plate-bg: #dce0eb;
+  }
+
+  #case-doggymoggy .case__media {
+    /* без сброса общий img { max-width: 100% } обрезал бы 160.6% до ширины блока */
+    max-width: none;
+    width: 160.6%;
+    height: 80.28%;
+    left: -30.3%;
+    top: 0;
+    bottom: auto;
+    object-fit: cover;
+  }
+
+  /* этому кейсу градиент нужен — выше он отключён для остальных плашек */
+  #case-doggymoggy::after {
+    display: block;
+    background: linear-gradient(
+      39.98deg,
+      rgba(0, 0, 0, 0.25) 13.82%,
+      rgba(0, 0, 0, 0) 58.39%
+    );
   }
 
   .case__overlay {
