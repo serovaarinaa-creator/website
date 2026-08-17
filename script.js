@@ -151,7 +151,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* --- Видео играют только пока видны на экране --- */
   const videos = [...document.querySelectorAll("video")];
-  if (videos.length) {
+
+  /* Диагностический выключатель: ?video=off открывает страницу вообще без
+     видео, на одних постерах. Нужен, чтобы за один заход отличить тормоза
+     от декодирования роликов от тормозов вёрстки — если с ?video=off всё
+     летает, дело в видео, если нет — в чём-то другом. */
+  if (new URLSearchParams(location.search).get("video") === "off") {
+    videos.forEach((video) => {
+      video.pause();
+      video.removeAttribute("src");
+      video.load();
+    });
+  } else if (videos.length) {
     /* Буферизация заранее. В разметке стоит preload="metadata" — браузер тянет
        только заголовок файла. Chrome сверх этого набирает ещё и часть картинки,
        поэтому play() у него стартует сразу; Safari трактует "metadata" буквально
@@ -165,33 +176,60 @@ document.addEventListener("DOMContentLoaded", () => {
           if (!entry.isIntersecting) return;
           const video = entry.target;
           warmer.unobserve(video);
-          if (video.preload !== "auto") {
-            video.preload = "auto";
-            video.load();
-          }
+          if (video.preload === "auto") return;
+          video.preload = "auto";
+          /* load() сбрасывает элемент и обрывает уже начавшееся
+             воспроизведение, поэтому догружаем только то, что стоит */
+          if (video.paused) video.load();
         });
+        // после догрузки пересматриваем, кто должен играть
+        pickOne();
       },
       { rootMargin: "800px" }
     );
 
-    const player = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const video = entry.target;
-          if (entry.isIntersecting) {
-            const play = video.play();
-            if (play) play.catch(() => {});
-          } else if (!video.paused) {
-            video.pause();
-          }
-        });
-      },
-      { rootMargin: "100px" }
-    );
+    /* Играет ровно один ролик — тот, которого сейчас видно больше всех.
+       Раньше запускались все, что попали в экран: на «Мастерской» и
+       DoggyMoggy это два-три H.264-потока сразу, и каждый кадр их надо
+       декодировать и собрать вместе с прокруткой. Chrome это тянет,
+       Safari — заметно хуже. */
+    const visibleArea = (video) => {
+      const r = video.getBoundingClientRect();
+      const h = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0);
+      const w = Math.min(r.right, window.innerWidth) - Math.max(r.left, 0);
+      return h > 0 && w > 0 ? h * w : 0;
+    };
+
+    const pickOne = () => {
+      let best = null;
+      let bestArea = 0;
+      videos.forEach((video) => {
+        const area = visibleArea(video);
+        if (area > bestArea) {
+          bestArea = area;
+          best = video;
+        }
+      });
+      videos.forEach((video) => {
+        if (video === best) {
+          const play = video.play();
+          if (play) play.catch(() => {});
+        } else if (!video.paused) {
+          video.pause();
+        }
+      });
+    };
+
+    const player = new IntersectionObserver(pickOne, {
+      threshold: [0, 0.15, 0.35, 0.6, 0.85, 1],
+    });
 
     videos.forEach((video) => {
       warmer.observe(video);
       player.observe(video);
+      /* play() на непрогруженном ролике браузер отменяет — когда данные
+         доедут, пробуем снова, иначе кадр так и останется стоять */
+      video.addEventListener("canplay", pickOne);
     });
   }
 
