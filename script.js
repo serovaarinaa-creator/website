@@ -84,18 +84,38 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    const mouseLike = (e, gap) => {
+    /* Опознание устройства.
+
+       По значению дельты это не делается: на macOS Safari нормализует и мышь,
+       и тачпад в одинаковые пиксельные дельты, а wheelDeltaY у обоих — просто
+       deltaY*3. Замер на живой мыши дал deltaY 216.56 / 151.57 / 36.03 при
+       wheelDeltaY -649 / -454 / -108: дробные и некратные 120. Прошлые попытки
+       ловить «кратно 120» и «шаг от 40px» ловили ровно ничего.
+
+       Отличается не значение, а рисунок потока. Щелчок мыши — короткая пачка
+       затухающих событий (216 → 151 → 36 примерно за 57 мс), и перед ней
+       тишина в четверть секунды. Тачпад разгоняется с нуля: к моменту, когда
+       дельта дорастает до сотни, позади уже плотный поток мелких событий.
+
+       Отсюда правило: крупный шаг, пришедший БЕЗ разгона перед ним, — мышь.
+       А признак тачпада — длинная плотная очередь. Между этими двумя
+       событиями режим держится защёлкой, иначе пачка одного щелчка успевала
+       бы переключить режим на себе самой. */
+    const WINDOW = 200; // мс, окно «что было недавно»
+    const recent = []; // времена последних событий в этом окне
+    let dense = 0; // сколько событий подряд пришло с крошечной паузой
+
+    const mouseLike = (e, now, gap) => {
+      while (recent.length && now - recent[0] > WINDOW) recent.shift();
+      const before = recent.length; // сколько событий было ДО этого
+      recent.push(now);
+
+      dense = gap < 20 ? dense + 1 : 0;
+
       if (e.deltaMode !== 0) return true; // построчный режим — тачпады так не умеют
-      const w = e.wheelDeltaY;
-      if (typeof w !== "number" || w === 0 || Math.abs(w) % 120 !== 0) return false;
-      /* Второй признак — «щелчок, а не поток». Safari отдаёт мыши разный шаг
-         в зависимости от ускорения, поэтому одного порога по deltaY мало:
-         при медленной прокрутке щелчок приходит совсем мелким и под порог не
-         попадал — из-за этого сглаживание не включалось вовсе. Считаем мышью
-         либо крупный шаг, либо заметную паузу перед следующим событием.
-         Инерция тачпада не проходит ни по одному: она сыплет мелкими
-         значениями подряд каждые 8-16 мс. */
-      return Math.abs(e.deltaY) >= 40 || gap >= 60;
+      if (dense >= 10) return false; // ~150мс сплошного потока — это палец
+      if (Math.abs(e.deltaY) >= 80 && before <= 3) return true; // щелчок без разгона
+      return smoothing; // ничего нового не сказано — режим не трогаем
     };
 
     /* Экранный индикатор для разбора полётов: ?wheel в адресе показывает, что
@@ -112,9 +132,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const now = e.timeStamp || performance.now();
         const gap = now - lastAt;
         lastAt = now;
-        const mouse = mouseLike(e, gap);
+        const mouse = mouseLike(e, now, gap);
         setSmoothing(mouse);
-        if (probe) probe(e, gap, mouse);
+        if (probe) probe(e, gap, mouse, recent.length - 1, dense);
       },
       { passive: true }
     );
@@ -132,19 +152,20 @@ document.addEventListener("DOMContentLoaded", () => {
     let mouseCount = 0;
     let padCount = 0;
 
-    return (e, gap, mouse) => {
+    return (e, gap, mouse, before, dense) => {
       if (mouse) mouseCount++;
       else padCount++;
       rows.unshift(
-        `deltaY ${String(Math.round(e.deltaY * 100) / 100).padStart(8)}  ` +
-          `wheelDeltaY ${String(e.wheelDeltaY).padStart(6)}  ` +
-          `пауза ${String(Math.round(gap)).padStart(5)}мс  ` +
+        `${String(Math.round(e.deltaY * 10) / 10).padStart(7)}px  ` +
+          `пауза ${String(Math.round(gap)).padStart(4)}мс  ` +
+          `до ${String(before).padStart(2)}  ` +
+          `поток ${String(dense).padStart(2)}  ` +
           (mouse ? "МЫШЬ" : "тачпад")
       );
       rows.length = Math.min(rows.length, 12);
       box.textContent =
         `опознано: мышь ${mouseCount} / тачпад ${padCount}\n` +
-        `сглаживание: ${mouseCount && rows[0].endsWith("МЫШЬ") ? "включено" : "выключено"}\n\n` +
+        `сглаживание: ${rows[0].endsWith("МЫШЬ") ? "включено" : "выключено"}\n\n` +
         rows.join("\n");
     };
   }
