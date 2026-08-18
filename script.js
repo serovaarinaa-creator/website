@@ -1,82 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
-  /* --- Мягкий скролл колесом --- */
-  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  /* --- Прокрутка --- */
+  /* Раньше здесь колесо перехватывалось вручную: не-passive обработчик wheel
+     с preventDefault() и window.scrollTo() в каждом кадре requestAnimationFrame.
+     В Safari на макбуке это самая дорогая конструкция на странице: обычная
+     прокрутка там идёт мимо основного потока, а preventDefault() на wheel
+     принудительно возвращает её в основной поток и отключает асинхронный
+     скролл целиком. Тачпад шлёт события инерции сотнями в секунду, и каждое
+     тянуло за собой пересчёт вёрстки, размытие стеклянных чипов и пересборку
+     всех видеослоёв — отсюда лаги, которых нет ни на айфоне (там указатель
+     не fine, ветка не включалась), ни в других браузерах. Прокрутку отдаём
+     системе: у macOS своя инерция, и она бесплатная. */
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const root = document.documentElement;
 
-  if (finePointer && !reduceMotion) {
-    // родной smooth выключаем, иначе он спорит с нашей анимацией на якорях
-    root.style.scrollBehavior = "auto";
-
-    let target = window.scrollY;
-    let raf = 0;
-
-    const maxScroll = () => root.scrollHeight - window.innerHeight;
-    const clamp = (v) => Math.min(Math.max(v, 0), Math.max(maxScroll(), 0));
-
-    const tick = () => {
-      const diff = target - window.scrollY;
-      if (Math.abs(diff) < 0.5) {
-        raf = 0;
-        return;
-      }
-      window.scrollTo(0, window.scrollY + diff * 0.18);
-      raf = requestAnimationFrame(tick);
-    };
-
-    const start = () => {
-      if (!raf) raf = requestAnimationFrame(tick);
-    };
-
-    window.addEventListener(
-      "wheel",
-      (e) => {
-        if (e.ctrlKey || e.metaKey) return;
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-        // открыт просмотр работы — страница под ним стоит
-        if (document.body.dataset.lock !== undefined) return;
-        e.preventDefault();
-
-        let delta = e.deltaY;
-        if (e.deltaMode === 1) delta *= 16;
-        else if (e.deltaMode === 2) delta *= window.innerHeight;
-
-        // цель не должна убегать дальше экрана — иначе инерция тачпада
-        // накапливает события и страница улетает рывком
-        const limit = window.innerHeight;
-        target = clamp(
-          Math.min(
-            Math.max(target + delta, window.scrollY - limit),
-            window.scrollY + limit
-          )
-        );
-        start();
-      },
-      { passive: false }
-    );
-
-    // скролл не от нас (клавиатура, полоса прокрутки, тач) — синхронизируем цель
-    window.addEventListener("scroll", () => {
-      if (!raf) target = window.scrollY;
-    });
-    window.addEventListener("resize", () => {
-      target = clamp(target);
-    });
-
-    // якоря в меню ведём через ту же анимацию
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener("click", (e) => {
-        const el = document.querySelector(link.getAttribute("href"));
-        if (!el) return;
-        e.preventDefault();
-        const bar = document.querySelector(".menu");
-        const offset = bar ? bar.getBoundingClientRect().height + 24 : 80;
-        const top = el.getBoundingClientRect().top + window.scrollY;
-        target = clamp(link.getAttribute("href") === "#top" ? 0 : top - offset);
-        start();
+  /* Якоря в меню ведём нативным плавным скроллом — он не занимает основной
+     поток и работает только на время самого перехода. */
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const el = document.querySelector(link.getAttribute("href"));
+      if (!el) return;
+      e.preventDefault();
+      const bar = document.querySelector(".menu");
+      const offset = bar ? bar.getBoundingClientRect().height + 24 : 80;
+      const top =
+        link.getAttribute("href") === "#top"
+          ? 0
+          : el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({
+        top: Math.max(top, 0),
+        behavior: reduceMotion ? "auto" : "smooth",
       });
     });
-  }
+  });
 
   /* --- Слайдеры кейсов: стрелки листают на один слайд --- */
   document.querySelectorAll(".case--slider").forEach((slider) => {
@@ -163,13 +117,19 @@ document.addEventListener("DOMContentLoaded", () => {
       video.load();
     });
   } else if (videos.length) {
-    /* Буферизация заранее. В разметке стоит preload="metadata" — браузер тянет
-       только заголовок файла. Chrome сверх этого набирает ещё и часть картинки,
-       поэтому play() у него стартует сразу; Safari трактует "metadata" буквально
-       и на play() только начинает качать — отсюда пауза в несколько секунд перед
-       первым кадром. Поэтому за 800px до появления блока переводим ролик в
-       preload="auto": к моменту, когда до него дойдёт прокрутка, он уже готов.
-       Ролики теперь по 0,06–1,7 МБ, так что это дёшево. */
+    /* Буферизация заранее. В разметке у роликов стоит preload="none" и нет
+       autoplay — при открытии страницы браузер не трогает ни один файл. За
+       200px до появления блока переводим ролик в preload="auto", и к моменту,
+       когда до него дойдёт прокрутка, он уже готов к первому кадру.
+
+       Так сделано ради Safari. Раньше в разметке стояли autoplay и
+       preload="metadata" у всех восьми роликов, а этот запас был 800px —
+       то есть при загрузке страницы Safari поднимал восемь медиасессий
+       разом и почти сразу переводил их в автозапуск. Аппаратных декодеров
+       на процесс конечное число: лишние уходят в программное декодирование
+       (это и есть тормоза), а на машине послабее play() просто отказывает —
+       ролики так и остаются постерами. Теперь одновременно готовится
+       один-два, а играет только то, что видно. */
     const warmer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -182,12 +142,12 @@ document.addEventListener("DOMContentLoaded", () => {
           if (video.preload !== "auto") video.preload = "auto";
         });
       },
-      { rootMargin: "800px" }
+      { rootMargin: "200px" }
     );
 
-    /* Играет всё, что видно на экране. Запуск в разметке делает autoplay,
-       скрипт только подстраховывает: если браузер автозапуск отменил
-       (данных ещё нет), пробуем снова, а ушедшее с экрана ставим на паузу. */
+    /* Играет ровно то, что видно на экране, и запускает всё это скрипт:
+       в разметке autoplay больше нет. Если браузер запуск отменил (данных
+       ещё нет), пробуем снова, а ушедшее с экрана ставим на паузу. */
     /* iOS Safari поверх ролика, который не смог запуститься, рисует свою
        кнопку play — причём даже без атрибута controls и без единого тапа
        пользователя: сам факт того, что видео стоит на паузе, а не играет,
@@ -223,7 +183,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const nudge = (video) => {
       if (!video.paused) return;
       const play = video.play();
-      if (play) play.catch(() => toPoster(video));
+      if (!play) return;
+      play.catch((err) => {
+        /* AbortError означает, что запуск прервали мы сами: play() ждал
+           данные, а ролик за это время ушёл с экрана и его поставили на
+           паузу. Это штатный ход, а не отказ браузера — подменять ролик
+           постером тут нельзя, иначе он так и останется картинкой до
+           первого жеста. Постером подменяем только настоящий запрет
+           (NotAllowedError) — ради него вся эта ветка и написана. */
+        if (err && err.name === "AbortError") return;
+        toPoster(video);
+      });
     };
 
     const player = new IntersectionObserver(
@@ -234,12 +204,15 @@ document.addEventListener("DOMContentLoaded", () => {
           else if (!video.paused) video.pause();
         });
       },
-      { rootMargin: "100px" }
+      /* Тоже было 100px. Играть должно ровно то, что видно: каждый лишний
+         одновременно декодируемый ролик — это кадры, которые Safari рисует
+         вместо прокрутки. */
+      { rootMargin: "0px" }
     );
 
     const onScreen = (video) => {
       const r = video.getBoundingClientRect();
-      return r.bottom > -100 && r.top < window.innerHeight + 100;
+      return r.bottom > 0 && r.top < window.innerHeight;
     };
 
     videos.forEach((video) => {
@@ -263,6 +236,10 @@ document.addEventListener("DOMContentLoaded", () => {
        геометрию напрямую и досылаем play() всему, что уже на экране. */
     videos.forEach((video) => {
       if (onScreen(video)) nudge(video);
+      /* А всё, до чего ещё не долистали, гасим сразу, не дожидаясь первого
+         колбэка IntersectionObserver: если в разметку когда-нибудь вернётся
+         autoplay, страница не начнёт с того, что заведёт все ролики разом. */
+      else if (!video.paused) video.pause();
     });
 
     /* Подстраховка на случай, если и это не сработало (например, readyState
@@ -293,6 +270,22 @@ document.addEventListener("DOMContentLoaded", () => {
     gestures.forEach((evt) =>
       window.addEventListener(evt, kick, { passive: true })
     );
+
+    /* Вкладку увели — декодировать нечего и незачем. Safari сам приглушает
+       фоновые вкладки не всегда (в отдельном окне рядом с активным — нет),
+       а девять ждущих роликов продолжают греть процессор и мешать соседним
+       вкладкам. Возвращаемся — запускаем обратно то, что видно. */
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        videos.forEach((video) => {
+          if (!video.paused) video.pause();
+        });
+      } else {
+        videos.forEach((video) => {
+          if (onScreen(video)) nudge(video);
+        });
+      }
+    });
   }
 
   /* --- Дизайн-лента: на узких экранах три колонки макета сводим в две --- */
@@ -359,27 +352,84 @@ document.addEventListener("DOMContentLoaded", () => {
        выше линии под шапкой. Раньше подсветка вешалась по IntersectionObserver
        и «Главная» подсвечивалась вместе с «Обо мне», потому что её цель —
        контейнер всей страницы, который пересекается всегда. */
-    const updateActive = () => {
-      const probe = window.scrollY + barHeight() + 1;
-      let activeIndex = 0;
-      navItems.forEach((item, i) => {
-        if (!item.el) return;
+    /* Геометрия разделов меняется только от перевёрстки, а не от прокрутки,
+       поэтому меряем её отдельно и кладём в кэш. Раньше updateActive дёргала
+       getBoundingClientRect() у каждого раздела на каждое событие scroll —
+       это принудительный пересчёт вёрстки по нескольку раз за кадр, и в
+       Safari он ложился ровно поверх прокрутки. */
+    let tops = [];
+    let bar = 80;
+    let stale = true;
+
+    const measure = () => {
+      stale = false;
+      bar = barHeight();
+      tops = navItems.map((item) => {
+        if (!item.el) return null;
         const rect = item.el.getBoundingClientRect();
-        if (!rect.height) return; // скрытый раздел не участвует
-        if (probe >= rect.top + window.scrollY) activeIndex = i;
+        return rect.height ? rect.top + window.scrollY : null; // скрытый раздел не участвует
       });
+    };
+
+    /* Границы разделов не постоянны: картинки в ленте грузятся лениво, и пока
+       они подъезжают, всё, что ниже, съезжает вниз. Ловим это по высоте body —
+       любое такое смещение её меняет — и помечаем кэш устаревшим. Пересчёт
+       случится один раз в следующем кадре, а не на каждое событие scroll. */
+    if (window.ResizeObserver) {
+      new ResizeObserver(() => {
+        stale = true;
+      }).observe(document.body);
+    }
+
+    let active = -1;
+
+    const paint = () => {
+      const probe = window.scrollY + bar + 1;
+      let activeIndex = 0;
+      tops.forEach((top, i) => {
+        if (top !== null && probe >= top) activeIndex = i;
+      });
+      if (activeIndex === active) return; // класс не трогаем, если ничего не изменилось
+      active = activeIndex;
       navItems.forEach((item, i) =>
         item.link.classList.toggle("is-active", i === activeIndex)
       );
     };
 
-    window.addEventListener("scroll", updateActive, { passive: true });
+    /* На кадр — одна проверка: событий scroll браузер шлёт заметно больше,
+       чем успевает отрисовать кадров. */
+    let queued = 0;
+    const onScroll = () => {
+      if (queued) return;
+      queued = requestAnimationFrame(() => {
+        queued = 0;
+        if (stale) measure();
+        paint();
+      });
+    };
+
+    const updateActive = () => {
+      measure();
+      paint();
+    };
+
+    /* Без ResizeObserver кэш обновлять некому — тогда меряем каждый кадр
+       прокрутки. Всё равно это на порядок реже, чем событий scroll. */
+    if (!window.ResizeObserver) {
+      window.addEventListener("scroll", () => {
+        stale = true;
+      }, { passive: true });
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", updateActive);
+    window.addEventListener("load", updateActive);
     updateActive();
 
     // клик подсвечивает пункт сразу, не дожидаясь конца прокрутки
     navItems.forEach((item, i) => {
       item.link.addEventListener("click", () => {
+        active = i; // иначе paint() решит, что подсвечивать нечего, и класс залипнет
         navItems.forEach((other, j) =>
           other.link.classList.toggle("is-active", i === j)
         );
