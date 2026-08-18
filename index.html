@@ -318,8 +318,14 @@
     <img class="footer__bg" src="assets/footer-bg.webp" alt="" loading="lazy" decoding="async">
     <div class="footer__hero">
       <div class="footer__circle">
-        <video src="assets/about/medor-video.mp4" poster="assets/posters/medor-video.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Французский бульдог Медор" data-label-en="Medor, the French bulldog"></video>
-        <div class="video-shield" aria-hidden="true"></div>
+        <!-- Здесь именно анимированный WebP, а не <video>. Safari на macOS
+             рисует поверх крупного самозапустившегося ролика свою кнопку паузы,
+             чтобы человек мог его остановить, и убрать её стилями нельзя: правило
+             в таблице браузера помечено !important, а такое авторский CSS не
+             перебивает. Мелкие ролики под это правило не попадают — тот же медор
+             кружком 116px в блоке «Обо мне» остаётся видео. Здесь он ~300px,
+             поэтому кнопка вылезала. У картинки такой кнопки нет по построению. -->
+        <img src="assets/about/medor-footer.webp" alt="Французский бульдог Медор" data-alt-en="Medor, the French bulldog" width="640" height="640" loading="lazy" decoding="async">
       </div>
       <p class="t-promo-1 t-stroke footer__title" data-text="Let’s go!">Let’s go!</p>
     </div>
