@@ -381,6 +381,12 @@ a {
   color: var(--black);
   cursor: pointer;
   pointer-events: auto;
+  transition: background 0.2s ease;
+}
+
+/* при наведении — как пункты меню рядом: плашка становится белой */
+.lang:hover {
+  background: var(--white);
 }
 
 /* ---------- Общее для блоков кейсов ---------- */
