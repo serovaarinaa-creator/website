@@ -12,163 +12,21 @@ document.addEventListener("DOMContentLoaded", () => {
      системе: у macOS своя инерция, и она бесплатная. */
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* Мягкая инерция для колеса мыши — и только для неё.
+  /* Сглаживания колеса здесь больше нет, и возвращать его не стоит.
 
-     Нативная прокрутка колесом в Safari идёт ступеньками: один щелчок — один
-     рывок, без разгона и торможения. У тачпада всё наоборот: macOS даёт свою
-     инерцию, причём мимо основного потока и бесплатно, и трогать её нельзя —
-     ровно на этом сайт и лежал.
+     Пробовали дважды. Замысел был такой: перехватывать только мышь, а тачпад
+     оставлять системе — у него инерция своя, от macOS, мимо основного потока
+     и бесплатная. Но надёжно отличить одно устройство от другого не выходит.
+     Safari нормализует оба в одинаковые пиксельные дельты (wheelDeltaY у обоих
+     это просто deltaY*3), и остаётся гадать по рисунку потока событий.
 
-     Поэтому сглаживание включается только когда колесо опознано как мышиное,
-     и выключается при первом же признаке тачпада. Нюанс исполнения: «нюхач»
-     висит пассивным слушателем (пассивный на быстрый путь прокрутки не влияет)
-     и сам решает, подключён ли сейчас непассивный сглаживатель. Слушатель,
-     снятый во время рассылки события, по стандарту уже не вызывается — значит
-     первое же тачпадное событие отключает сглаживание, не дав себя перехватить.
+     Гадание ошибается, а цена ошибки несимметрична: непассивный обработчик
+     wheel с preventDefault() возвращает прокрутку в основной поток и выключает
+     асинхронный скролл целиком. То есть один неверный вердикт возвращает ровно
+     те тормоза, ради которых всё и затевалось. Проверено на живом Safari —
+     лаги вернулись.
 
-     Отличаем по wheelDeltaY: у мыши он всегда кратен 120, у тачпада — почти
-     никогда. Плюс требуем заметный шаг: тачпадная инерция под конец сыплет
-     совсем мелкими значениями. */
-  if (!reduceMotion) {
-    const root = document.documentElement;
-    let target = 0;
-    let raf = 0;
-    let smoothing = false;
-
-    const clamp = (v) =>
-      Math.min(Math.max(v, 0), Math.max(root.scrollHeight - window.innerHeight, 0));
-
-    const tick = () => {
-      /* Просмотр работы открылся прямо на ходу — доезжать под ним не нужно. */
-      if (document.body.dataset.lock !== undefined) {
-        raf = 0;
-        return;
-      }
-      const diff = target - window.scrollY;
-      if (Math.abs(diff) < 0.5) {
-        raf = 0;
-        return;
-      }
-      /* behavior: "instant" обязателен: в CSS у html стоит scroll-behavior:
-         smooth, и без этого браузер начал бы плавно ехать к каждой отдельной
-         точке нашей же анимации — они бы спорили друг с другом. */
-      window.scrollTo({ top: window.scrollY + diff * 0.2, behavior: "instant" });
-      raf = requestAnimationFrame(tick);
-    };
-
-    const smooth = (e) => {
-      if (e.ctrlKey || e.metaKey) return; // зум
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // горизонтальный жест
-      if (document.body.dataset.lock !== undefined) return; // открыт просмотр работы
-      e.preventDefault();
-
-      let delta = e.deltaY;
-      if (e.deltaMode === 1) delta *= 16;
-      else if (e.deltaMode === 2) delta *= window.innerHeight;
-
-      // пока анимация стоит, цель могла разъехаться с реальным положением
-      if (!raf) target = window.scrollY;
-      target = clamp(target + delta);
-      if (!raf) raf = requestAnimationFrame(tick);
-    };
-
-    const setSmoothing = (on) => {
-      if (on === smoothing) return;
-      smoothing = on;
-      if (on) {
-        window.addEventListener("wheel", smooth, { passive: false });
-      } else {
-        window.removeEventListener("wheel", smooth, { passive: false });
-        cancelAnimationFrame(raf);
-        raf = 0;
-      }
-    };
-
-    /* Опознание устройства.
-
-       По значению дельты это не делается: на macOS Safari нормализует и мышь,
-       и тачпад в одинаковые пиксельные дельты, а wheelDeltaY у обоих — просто
-       deltaY*3. Замер на живой мыши дал deltaY 216.56 / 151.57 / 36.03 при
-       wheelDeltaY -649 / -454 / -108: дробные и некратные 120. Прошлые попытки
-       ловить «кратно 120» и «шаг от 40px» ловили ровно ничего.
-
-       Отличается не значение, а рисунок потока. Щелчок мыши — короткая пачка
-       затухающих событий (216 → 151 → 36 примерно за 57 мс), и перед ней
-       тишина в четверть секунды. Тачпад разгоняется с нуля: к моменту, когда
-       дельта дорастает до сотни, позади уже плотный поток мелких событий.
-
-       Отсюда правило: крупный шаг, пришедший БЕЗ разгона перед ним, — мышь.
-       А признак тачпада — длинная плотная очередь. Между этими двумя
-       событиями режим держится защёлкой, иначе пачка одного щелчка успевала
-       бы переключить режим на себе самой. */
-    const WINDOW = 200; // мс, окно «что было недавно»
-    const recent = []; // времена последних событий в этом окне
-    let dense = 0; // сколько событий подряд пришло с крошечной паузой
-
-    const mouseLike = (e, now, gap) => {
-      while (recent.length && now - recent[0] > WINDOW) recent.shift();
-      const before = recent.length; // сколько событий было ДО этого
-      recent.push(now);
-
-      dense = gap < 20 ? dense + 1 : 0;
-
-      if (e.deltaMode !== 0) return true; // построчный режим — тачпады так не умеют
-      if (dense >= 10) return false; // ~150мс сплошного потока — это палец
-      if (Math.abs(e.deltaY) >= 80 && before <= 3) return true; // щелчок без разгона
-      return smoothing; // ничего нового не сказано — режим не трогаем
-    };
-
-    /* Экранный индикатор для разбора полётов: ?wheel в адресе показывает, что
-       именно шлёт устройство и каким оно опознано. Нужен потому, что значения
-       у Safari свои и на других движках их не воспроизвести. */
-    const probe =
-      new URLSearchParams(location.search).get("wheel") !== null ? makeWheelProbe() : null;
-
-    let lastAt = 0;
-
-    window.addEventListener(
-      "wheel",
-      (e) => {
-        const now = e.timeStamp || performance.now();
-        const gap = now - lastAt;
-        lastAt = now;
-        const mouse = mouseLike(e, now, gap);
-        setSmoothing(mouse);
-        if (probe) probe(e, gap, mouse, recent.length - 1, dense);
-      },
-      { passive: true }
-    );
-  }
-
-  function makeWheelProbe() {
-    const box = document.createElement("div");
-    box.style.cssText =
-      "position:fixed;top:12px;right:12px;z-index:9999;max-width:340px;padding:10px 12px;" +
-      "background:#000;color:#0f0;font:12px/1.45 ui-monospace,Menlo,monospace;" +
-      "border-radius:8px;white-space:pre;pointer-events:none";
-    document.body.appendChild(box);
-
-    const rows = [];
-    let mouseCount = 0;
-    let padCount = 0;
-
-    return (e, gap, mouse, before, dense) => {
-      if (mouse) mouseCount++;
-      else padCount++;
-      rows.unshift(
-        `${String(Math.round(e.deltaY * 10) / 10).padStart(7)}px  ` +
-          `пауза ${String(Math.round(gap)).padStart(4)}мс  ` +
-          `до ${String(before).padStart(2)}  ` +
-          `поток ${String(dense).padStart(2)}  ` +
-          (mouse ? "МЫШЬ" : "тачпад")
-      );
-      rows.length = Math.min(rows.length, 12);
-      box.textContent =
-        `опознано: мышь ${mouseCount} / тачпад ${padCount}\n` +
-        `сглаживание: ${rows[0].endsWith("МЫШЬ") ? "включено" : "выключено"}\n\n` +
-        rows.join("\n");
-    };
-  }
+     Плавность колеса мыши того не стоит. Прокрутку целиком ведёт система. */
 
   /* Якоря в меню ведём нативным плавным скроллом — он не занимает основной
      поток и работает только на время самого перехода. */
