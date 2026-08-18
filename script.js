@@ -12,6 +12,91 @@ document.addEventListener("DOMContentLoaded", () => {
      системе: у macOS своя инерция, и она бесплатная. */
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* Мягкая инерция для колеса мыши — и только для неё.
+
+     Нативная прокрутка колесом в Safari идёт ступеньками: один щелчок — один
+     рывок, без разгона и торможения. У тачпада всё наоборот: macOS даёт свою
+     инерцию, причём мимо основного потока и бесплатно, и трогать её нельзя —
+     ровно на этом сайт и лежал.
+
+     Поэтому сглаживание включается только когда колесо опознано как мышиное,
+     и выключается при первом же признаке тачпада. Нюанс исполнения: «нюхач»
+     висит пассивным слушателем (пассивный на быстрый путь прокрутки не влияет)
+     и сам решает, подключён ли сейчас непассивный сглаживатель. Слушатель,
+     снятый во время рассылки события, по стандарту уже не вызывается — значит
+     первое же тачпадное событие отключает сглаживание, не дав себя перехватить.
+
+     Отличаем по wheelDeltaY: у мыши он всегда кратен 120, у тачпада — почти
+     никогда. Плюс требуем заметный шаг: тачпадная инерция под конец сыплет
+     совсем мелкими значениями. */
+  if (!reduceMotion) {
+    const root = document.documentElement;
+    let target = 0;
+    let raf = 0;
+    let smoothing = false;
+
+    const clamp = (v) =>
+      Math.min(Math.max(v, 0), Math.max(root.scrollHeight - window.innerHeight, 0));
+
+    const tick = () => {
+      /* Просмотр работы открылся прямо на ходу — доезжать под ним не нужно. */
+      if (document.body.dataset.lock !== undefined) {
+        raf = 0;
+        return;
+      }
+      const diff = target - window.scrollY;
+      if (Math.abs(diff) < 0.5) {
+        raf = 0;
+        return;
+      }
+      /* behavior: "instant" обязателен: в CSS у html стоит scroll-behavior:
+         smooth, и без этого браузер начал бы плавно ехать к каждой отдельной
+         точке нашей же анимации — они бы спорили друг с другом. */
+      window.scrollTo({ top: window.scrollY + diff * 0.2, behavior: "instant" });
+      raf = requestAnimationFrame(tick);
+    };
+
+    const smooth = (e) => {
+      if (e.ctrlKey || e.metaKey) return; // зум
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // горизонтальный жест
+      if (document.body.dataset.lock !== undefined) return; // открыт просмотр работы
+      e.preventDefault();
+
+      let delta = e.deltaY;
+      if (e.deltaMode === 1) delta *= 16;
+      else if (e.deltaMode === 2) delta *= window.innerHeight;
+
+      // пока анимация стоит, цель могла разъехаться с реальным положением
+      if (!raf) target = window.scrollY;
+      target = clamp(target + delta);
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+
+    const setSmoothing = (on) => {
+      if (on === smoothing) return;
+      smoothing = on;
+      if (on) {
+        window.addEventListener("wheel", smooth, { passive: false });
+      } else {
+        window.removeEventListener("wheel", smooth, { passive: false });
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
+
+    const mouseLike = (e) => {
+      if (e.deltaMode !== 0) return true; // построчный режим — тачпады так не умеют
+      const w = e.wheelDeltaY;
+      return (
+        typeof w === "number" && w !== 0 && Math.abs(w) % 120 === 0 && Math.abs(e.deltaY) >= 40
+      );
+    };
+
+    window.addEventListener("wheel", (e) => setSmoothing(mouseLike(e)), {
+      passive: true,
+    });
+  }
+
   /* Якоря в меню ведём нативным плавным скроллом — он не занимает основной
      поток и работает только на время самого перехода. */
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
