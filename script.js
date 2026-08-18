@@ -84,17 +84,69 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    const mouseLike = (e) => {
+    const mouseLike = (e, gap) => {
       if (e.deltaMode !== 0) return true; // построчный режим — тачпады так не умеют
       const w = e.wheelDeltaY;
-      return (
-        typeof w === "number" && w !== 0 && Math.abs(w) % 120 === 0 && Math.abs(e.deltaY) >= 40
-      );
+      if (typeof w !== "number" || w === 0 || Math.abs(w) % 120 !== 0) return false;
+      /* Второй признак — «щелчок, а не поток». Safari отдаёт мыши разный шаг
+         в зависимости от ускорения, поэтому одного порога по deltaY мало:
+         при медленной прокрутке щелчок приходит совсем мелким и под порог не
+         попадал — из-за этого сглаживание не включалось вовсе. Считаем мышью
+         либо крупный шаг, либо заметную паузу перед следующим событием.
+         Инерция тачпада не проходит ни по одному: она сыплет мелкими
+         значениями подряд каждые 8-16 мс. */
+      return Math.abs(e.deltaY) >= 40 || gap >= 60;
     };
 
-    window.addEventListener("wheel", (e) => setSmoothing(mouseLike(e)), {
-      passive: true,
-    });
+    /* Экранный индикатор для разбора полётов: ?wheel в адресе показывает, что
+       именно шлёт устройство и каким оно опознано. Нужен потому, что значения
+       у Safari свои и на других движках их не воспроизвести. */
+    const probe =
+      new URLSearchParams(location.search).get("wheel") !== null ? makeWheelProbe() : null;
+
+    let lastAt = 0;
+
+    window.addEventListener(
+      "wheel",
+      (e) => {
+        const now = e.timeStamp || performance.now();
+        const gap = now - lastAt;
+        lastAt = now;
+        const mouse = mouseLike(e, gap);
+        setSmoothing(mouse);
+        if (probe) probe(e, gap, mouse);
+      },
+      { passive: true }
+    );
+  }
+
+  function makeWheelProbe() {
+    const box = document.createElement("div");
+    box.style.cssText =
+      "position:fixed;top:12px;right:12px;z-index:9999;max-width:340px;padding:10px 12px;" +
+      "background:#000;color:#0f0;font:12px/1.45 ui-monospace,Menlo,monospace;" +
+      "border-radius:8px;white-space:pre;pointer-events:none";
+    document.body.appendChild(box);
+
+    const rows = [];
+    let mouseCount = 0;
+    let padCount = 0;
+
+    return (e, gap, mouse) => {
+      if (mouse) mouseCount++;
+      else padCount++;
+      rows.unshift(
+        `deltaY ${String(Math.round(e.deltaY * 100) / 100).padStart(8)}  ` +
+          `wheelDeltaY ${String(e.wheelDeltaY).padStart(6)}  ` +
+          `пауза ${String(Math.round(gap)).padStart(5)}мс  ` +
+          (mouse ? "МЫШЬ" : "тачпад")
+      );
+      rows.length = Math.min(rows.length, 12);
+      box.textContent =
+        `опознано: мышь ${mouseCount} / тачпад ${padCount}\n` +
+        `сглаживание: ${mouseCount && rows[0].endsWith("МЫШЬ") ? "включено" : "выключено"}\n\n` +
+        rows.join("\n");
+    };
   }
 
   /* Якоря в меню ведём нативным плавным скроллом — он не занимает основной

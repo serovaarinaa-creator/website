@@ -108,6 +108,24 @@ video::-webkit-media-controls-overlay-play-button {
   display: none !important;
 }
 
+/* Большую круглую кнопку пауза/плей поверх кадра WebKit рисует не в панели, а
+   в отдельной «наложенной» обёртке — её в списке не хватало, и на крупных
+   роликах (в футере медор занимает ~300px) Safari считает видео основным
+   контентом страницы и показывает эту кнопку поверх играющего кадра, несмотря
+   на скрытые панель и enclosure. Мелкие ролики под эту эвристику не попадают —
+   поэтому кнопка вылезала ровно в одном месте. */
+video::-webkit-media-controls-overlay-enclosure {
+  display: none !important;
+}
+
+video::-webkit-media-controls-container {
+  display: none !important;
+}
+
+video::-webkit-media-controls-play-button {
+  display: none !important;
+}
+
 a {
   color: inherit;
   text-decoration: none;
