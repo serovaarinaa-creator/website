@@ -600,6 +600,16 @@ a {
   object-fit: cover;
 }
 
+/* Обёртка вокруг видео+щита у «Мастерской» (мобильный клип-фикс, см. ниже) —
+   тем же position: absolute держим её вне потока и на десктопе тоже, иначе
+   в .case--plate { display: flex } она сама станет flex-item и подвинет
+   .case__overlay. На десктопе эта обёртка ничем больше не отличается от
+   обычного .case__media — только на мобильном получает overflow/radius. */
+.case__media-clip {
+  position: absolute;
+  inset: 0;
+}
+
 /* затемнение под текстом, чтобы подпись читалась на светлых фото */
 .case--plate::after {
   content: "";
@@ -1453,6 +1463,35 @@ a {
      на чёрном фоне и плашка тоже чёрная, поэтому поля от вписывания не видны. */
   #case-masterskaya .case__media {
     object-fit: contain;
+  }
+
+  /* border-radius прямо на <video> (см. .case--plate .case__media выше) не
+     спасал: на живом Safari на iPhone углы у «Мастерской» всё равно были
+     прямыми, притом все четыре, а не только верхние — судя по всему, видео
+     как отдельный композитный слой не только не обрезается скруглением
+     родителя, но местами не учитывает и его own border-radius. Собственного
+     overflow: hidden + border-radius у обычного div, в отличие от border-
+     radius на самом видео, в Safari не подводит — заворачиваем видео и щит
+     в такой div (case__media-clip) и клипаем на нём, а не на видео. Заодно
+     это ровно то же самое устройство, что у Content в Figma (обёртка со
+     скруглением снаружи видео/картинки). Только для «Мастерской»: чёрный
+     фон делает огрехи заметнее всего, у остальных плашек баг не поймали. */
+  #case-masterskaya .case__media-clip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    height: var(--media-h, 100%);
+    overflow: hidden;
+    border-radius: var(--radius-20);
+  }
+
+  #case-masterskaya .case__media-clip .case__media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
   /* DoggyMoggy собран иначе: не полоса с заливкой, а картинка, увеличенная
