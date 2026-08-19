@@ -1009,6 +1009,41 @@ a {
   will-change: transform;
 }
 
+/* Стрелки листания — тот же вид, что у стрелок кейс-слайдера (.case__arrow),
+   но висят у края экрана, а не у края картинки: ширина картинок в ленте
+   разная, а стрелки должны стоять на одном месте при пролистывании. */
+.lightbox__arrow {
+  position: fixed;
+  top: 50%;
+  right: 34px;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  border: none;
+  border-radius: var(--radius-32);
+  box-shadow: var(--shadow-arrows);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  z-index: 1;
+}
+
+.lightbox__arrow:hover {
+  transform: translateY(-50%) scale(1.06);
+}
+
+.lightbox__arrow--prev {
+  right: auto;
+  left: 34px;
+}
+
+.lightbox__arrow[hidden] {
+  display: none;
+}
+
 /* заглушка кейса — всплывает так же, как просмотр работы */
 .modal {
   cursor: default;
@@ -1315,6 +1350,24 @@ a {
   }
 
   .case__arrow img {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* тот же компактный размер, что у стрелок кейс-слайдера на мобильном */
+  .lightbox__arrow {
+    width: 40px;
+    height: 40px;
+    right: 12px;
+    border-radius: var(--radius-20);
+  }
+
+  .lightbox__arrow--prev {
+    right: auto;
+    left: 12px;
+  }
+
+  .lightbox__arrow img {
     width: 16px;
     height: 16px;
   }

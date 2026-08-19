@@ -587,20 +587,39 @@ document.addEventListener("DOMContentLoaded", () => {
   /* --- Просмотр работы из дизайн-ленты --- */
   const lightbox = document.querySelector(".lightbox");
   const shot = lightbox && lightbox.querySelector(".lightbox__img");
+  const prevWork = lightbox && lightbox.querySelector(".lightbox__arrow--prev");
+  const nextWork = lightbox && lightbox.querySelector(".lightbox__arrow--next");
   const viewer = overlay(lightbox, shot);
   let closeViewer = () => {};
   if (viewer) {
-    let source = null;
-    const sourceRect = () => (source ? source.getBoundingClientRect() : null);
+    /* Листаем по номеру файла (dl-1, dl-2, ...), а не по порядку в DOM —
+       плитки разложены по трём колонкам под масонри-раскладку, и колонка
+       содержит только каждый третий номер. */
+    const items = Array.from(document.querySelectorAll(".feed__btn")).sort((a, b) => {
+      const numOf = (btn) => parseInt(btn.querySelector("img").src.match(/dl-(\d+)\./)[1], 10);
+      return numOf(a) - numOf(b);
+    });
 
-    document.querySelectorAll(".feed__btn").forEach((btn) => {
+    let index = -1;
+    const sourceRect = () =>
+      index >= 0 ? items[index].querySelector("img").getBoundingClientRect() : null;
+
+    // переключает картинку в уже открытом слое — без повторной анимации роста
+    const show = (i) => {
+      index = i;
+      const img = items[index].querySelector("img");
+      shot.src = img.currentSrc || img.src;
+      shot.alt = img.alt;
+      if (prevWork) prevWork.hidden = index <= 0;
+      if (nextWork) nextWork.hidden = index >= items.length - 1;
+    };
+
+    items.forEach((btn, i) => {
       btn.addEventListener("click", () => {
         const img = btn.querySelector("img");
         if (!img) return;
-        source = img;
-        shot.src = img.currentSrc || img.src;
-        shot.alt = img.alt;
         const from = img.getBoundingClientRect();
+        show(i);
         // размеры большой копии известны только после загрузки — до тех пор
         // ждать нельзя, иначе слой залипает невидимым
         viewer.open(() => from, btn, (grow) => {
@@ -610,11 +629,21 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    const step = (delta) => {
+      const next = index + delta;
+      if (next < 0 || next >= items.length) return;
+      show(next);
+    };
+    // stopPropagation — иначе клик по стрелке всплывает и закрывает слой
+    // (клик по самому лайтбоксу его закрывает, см. ниже)
+    if (prevWork) prevWork.addEventListener("click", (e) => { e.stopPropagation(); step(-1); });
+    if (nextWork) nextWork.addEventListener("click", (e) => { e.stopPropagation(); step(1); });
+
     closeViewer = () => viewer.close(sourceRect);
     lightbox.addEventListener("click", closeViewer);
     lightbox.addEventListener("overlay:closed", () => {
       shot.removeAttribute("src");
-      source = null;
+      index = -1;
     });
   }
 
