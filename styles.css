@@ -12,13 +12,16 @@
   --radius-20: 20px;
   --radius-24: 24px;
   --radius-32: 32px;
+  --radius-96: 96px;
   --radius-128: 128px;
   --radius-absolute: 1000px;
 
   /* Shadow */
-  /* Shadow - Container: offset (0,12), blur 16; Shadow - Arrows: offset (0,24), blur 32 */
+  /* Shadow - Container: offset (0,12), blur 16; Shadow - Arrows: offset (0,24), blur 32;
+     Shadow - Elevated: offset (0,32), blur 64, наведение на первый слайд кейс-слайдера */
   --shadow-container: 0 12px 16px rgba(0, 0, 0, 0.08);
   --shadow-arrows: 0 24px 32px rgba(0, 0, 0, 0.08);
+  --shadow-elevated: 0 32px 64px rgba(0, 0, 0, 0.12);
 
   /* Цвета */
   --white: #fff;
@@ -460,6 +463,7 @@ a {
   border-radius: var(--radius-20);
   overflow: hidden;
   background: var(--pink-100);
+  transition: border-radius 0.3s ease;
 }
 
 /* только прямые потомки — иначе правило перебивает размер логотипа в карточке */
@@ -493,6 +497,7 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: border-radius 0.3s ease;
 }
 
 .case__card {
@@ -508,6 +513,7 @@ a {
   border-radius: var(--radius-32);
   box-shadow: var(--shadow-container);
   text-align: center;
+  transition: box-shadow 0.3s ease;
 }
 
 .case__logo {
@@ -522,6 +528,44 @@ a {
 
 .case__card .t-body-1 {
   max-width: 244px;
+}
+
+/* Стрелка в углу карточки первого слайда — по умолчанию скрыта, проявляется
+   при наведении вместе с увеличенным скруглением и приподнятой тенью (см.
+   ниже). Только у мыши/трекпада: на тач-устройствах постоянного hover нет,
+   а тапом сразу уходишь по клику — мигать стрелкой не на чем и незачем. */
+.case__card-arrow {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: var(--black);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* «Сайт итоговый 2» в Figma: у первого слайда слайдера скругление растёт
+     с 20px до 96px, у карточки внутри тень становится «приподнятой»
+     (Shadow - Elevated вместо Shadow - Container), и в её углу проявляется
+     стрелка — оба узла (382:14015 → 443:1809) взяты из макета напрямую. */
+  .case__intro:hover {
+    border-radius: var(--radius-96);
+  }
+
+  /* дублируем радиус явно, как и у .case__slide > video — иначе на стыке
+     20px-скругления картинки и 96px-скругления контейнера остаётся уголок */
+  .case__intro:hover .case__intro-bg {
+    border-radius: var(--radius-96);
+  }
+
+  .case__intro:hover .case__card {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .case__intro:hover .case__card-arrow {
+    opacity: 1;
+  }
 }
 
 /* Градиент и стрелка справа */
@@ -590,6 +634,41 @@ a {
   padding: 8px;
   /* подложка на случай, если фото ещё не загрузилось — белый текст остаётся читаемым */
   background: #46323f;
+}
+
+/* Стрелка в правом верхнем углу — в отличие от .case__card-arrow у слайдеров,
+   здесь она видна всегда (в макете «Сайт итоговый», без наведения, у этих
+   четырёх плашек уже стоит голая стрелка без подложки). Наведение (макет
+   «Сайт итоговый 2») добавляет под ней белый кружок — см. правило в
+   @media (hover: hover) ниже. На мобильном (тач, hover нет) так и остаётся
+   голая стрелка, без кружка, всегда — то есть отдельного мобильного кода
+   не нужно, только не подключать hover-эффект к тач-устройствам. */
+.case__corner-arrow {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--white);
+  pointer-events: none;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* doggymoggy светлая — стрелка, как и весь остальной текст на ней, чёрная */
+#case-doggymoggy .case__corner-arrow {
+  color: var(--black);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .case--plate:hover .case__corner-arrow {
+    background: var(--white);
+    color: var(--black);
+  }
 }
 
 .case__media {
@@ -1569,6 +1648,19 @@ a {
   .case__logos .case__logo {
     width: 48px;
     height: 48px;
+  }
+
+  /* поменьше и поближе к углу — вровень с компактной 8px-рамкой плашки */
+  .case__corner-arrow {
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .case__corner-arrow svg {
+    width: 14px;
+    height: 14px;
   }
 
   .case__fade {
