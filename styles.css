@@ -638,11 +638,14 @@ a {
 
 /* Стрелка в правом верхнем углу — в отличие от .case__card-arrow у слайдеров,
    здесь она видна всегда (в макете «Сайт итоговый», без наведения, у этих
-   четырёх плашек уже стоит голая стрелка без подложки). Наведение (макет
-   «Сайт итоговый 2») добавляет под ней белый кружок — см. правило в
-   @media (hover: hover) ниже. На мобильном (тач, hover нет) так и остаётся
-   голая стрелка, без кружка, всегда — то есть отдельного мобильного кода
-   не нужно, только не подключать hover-эффект к тач-устройствам. */
+   четырёх плашек уже стоит голая стрелка без подложки). На мобильном (тач,
+   hover нет) так и остаётся голая стрелка, всегда — отдельного мобильного
+   кода не нужно, только не подключать переход к тач-устройствам.
+
+   Внутри — два SVG друг на друге: голая стрелка (case__corner-arrow-default,
+   свой рисунок) и стрелка с обводкой (case__corner-arrow-hover, готовый
+   ассет от Арины — вырезана как негативное пространство в белой заливке).
+   Наведение (макет «Сайт итоговый 2») кросс-фейдит один в другой. */
 .case__corner-arrow {
   position: absolute;
   top: 24px;
@@ -650,24 +653,46 @@ a {
   z-index: 2;
   width: 40px;
   height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
   color: var(--white);
   pointer-events: none;
-  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* doggymoggy светлая — стрелка, как и весь остальной текст на ней, чёрная */
+/* два разных по смыслу изображения: default — маленькая голая стрелка,
+   центруется в своём натуральном размере; hover — готовый ассет, сам
+   целиком рисует бейдж (обводку + вырезанную из неё стрелку), поэтому
+   растягивается на всю область .case__corner-arrow */
+.case__corner-arrow-default,
+.case__corner-arrow-hover {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  transition: opacity 0.3s ease;
+}
+
+.case__corner-arrow-default {
+  width: 16px;
+  height: 16px;
+  opacity: 1;
+}
+
+.case__corner-arrow-hover {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+/* doggymoggy светлая — голая стрелка, как и весь остальной текст на ней, чёрная */
 #case-doggymoggy .case__corner-arrow {
   color: var(--black);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .case--plate:hover .case__corner-arrow {
-    background: var(--white);
-    color: var(--black);
+  .case--plate:hover .case__corner-arrow-default {
+    opacity: 0;
+  }
+
+  .case--plate:hover .case__corner-arrow-hover {
+    opacity: 1;
   }
 }
 
@@ -1658,7 +1683,9 @@ a {
     height: 32px;
   }
 
-  .case__corner-arrow svg {
+  /* на мобильном hover-ассет всё равно не покажется (hover: hover не
+     срабатывает) — уменьшаем только голую стрелку */
+  .case__corner-arrow-default {
     width: 14px;
     height: 14px;
   }
