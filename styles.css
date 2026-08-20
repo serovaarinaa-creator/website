@@ -746,7 +746,6 @@ a {
    на случай проблем с Safari скругляем ту же обёртку .case__media-clip,
    что уже проверена на мобильном. */
 #case-neurocamp .case__media,
-#case-oped .case__media,
 #case-doggymoggy .case__media {
   border-radius: var(--radius-20);
   transition: border-radius 0.3s ease;
@@ -757,6 +756,15 @@ a {
   border-radius: var(--radius-20);
   transition: border-radius 0.3s ease;
 }
+
+/* У OP:ED кадр специально больше плашки и сдвинут (см. #case-oped .case__media
+   в @media min-width: 721px ниже) — так его видео покрывает плашку целиком,
+   без полей. Из-за этого угол самого .case__media уезжает далеко за пределы
+   видимой рамки, и скругление на нём было бы невидимым (радиус есть, но
+   применяется к углу, который и так всегда обрезан внешней маской раньше,
+   чем до него доходит дело). Скругляем не видео, а обёртку .case__media-clip
+   — её размер и позиция всегда точно совпадают с видимой плашкой, тем же
+   приёмом, что уже применён у «Мастерской» (см. @media min-width: 721px). */
 
 /* Затемняющий градиент (.case--plate::after) лежит поверх того же медиа —
    без своего скругления его нижний угол остался бы квадратным и торчал бы
@@ -771,8 +779,8 @@ a {
 
 @media (hover: hover) and (pointer: fine) {
   #case-neurocamp:hover .case__media,
-  #case-oped:hover .case__media,
   #case-doggymoggy:hover .case__media,
+  #case-oped:hover .case__media-clip,
   #case-masterskaya:hover .case__media-clip {
     border-radius: var(--radius-96) var(--radius-96) var(--radius-96) var(--radius-20);
   }
@@ -831,6 +839,17 @@ a {
     top: -16.2%;
     right: auto;
     bottom: auto;
+  }
+
+  /* Обёртка, которую скругляет правило выше (см. #case-oped .case__media-clip
+     в общем блоке скруглений) — только на десктопе, чтобы не задеть мобильную
+     раскладку (там кадр той же природы перекрывает плашку через transform:
+     scale, см. #case-oped ниже, и overflow: hidden на обёртке обрезал бы
+     этот намеренный напуск). */
+  #case-oped .case__media-clip {
+    overflow: hidden;
+    border-radius: var(--radius-20);
+    transition: border-radius 0.3s ease;
   }
 }
 
