@@ -757,6 +757,41 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (saved === "en") applyLang("en");
 
-    langBtn.addEventListener("click", () => applyLang(lang === "en" ? "ru" : "en"));
+    /* Переключение языка похоже на перезагрузку страницы: розовая шторка
+       наезжает сверху донизу, текст меняется, пока экран полностью закрыт,
+       и шторка тем же движением уезжает дальше вверх. При
+       prefers-reduced-motion шторка скрыта в CSS — просто меняем язык. */
+    const transitionLayer = document.querySelector(".lang-transition");
+    let switching = false;
+
+    const switchLang = (next) => {
+      if (switching) return;
+      if (!transitionLayer || reduceMotion) {
+        applyLang(next);
+        return;
+      }
+      switching = true;
+      transitionLayer.classList.add("is-covering");
+
+      const onCovered = (e) => {
+        if (e.target !== transitionLayer || e.propertyName !== "transform") return;
+        transitionLayer.removeEventListener("transitionend", onCovered);
+        applyLang(next);
+        transitionLayer.classList.remove("is-covering");
+        transitionLayer.classList.add("is-revealing");
+        transitionLayer.addEventListener("transitionend", onRevealed);
+      };
+
+      const onRevealed = (e) => {
+        if (e.target !== transitionLayer || e.propertyName !== "transform") return;
+        transitionLayer.removeEventListener("transitionend", onRevealed);
+        transitionLayer.classList.remove("is-revealing");
+        switching = false;
+      };
+
+      transitionLayer.addEventListener("transitionend", onCovered);
+    };
+
+    langBtn.addEventListener("click", () => switchLang(lang === "en" ? "ru" : "en"));
   }
 });

@@ -14,7 +14,7 @@ assets/
   logos/                  логотипы проектов, 128×128 PNG
     restore.png  restore-black.png  scholotch.png
     oped.png  xiaomi.png  masterskaya.png  doggymoggy.png
-  icons/                  home.svg, chevron-right.svg, chevron-left.svg, menu.png, favicon.png
+  icons/                  home.svg, chevron-right.svg, chevron-left.svg, menu-shape.svg, favicon.png
   cases/
     cchb-fon.webp  cchb-video.mp4  cchb-1…3.webp          Цветное vs. Чёрно-белое
     neurocamp-bg.webp  neurocamp-video.mp4                NEURO CAMP

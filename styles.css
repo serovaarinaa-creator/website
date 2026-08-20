@@ -353,6 +353,7 @@ a {
 }
 
 .menu {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 2px;
@@ -360,6 +361,13 @@ a {
   background: var(--pink-100);
   border-radius: var(--radius-24);
   pointer-events: auto;
+}
+
+/* «Ушки» пилюли меню — только на десктопе (просили именно десктопную
+   версию). Скрыты по умолчанию: на мобильном/планшете (≤1080px) пилюля
+   остаётся обычным скруглённым прямоугольником, как была. */
+.menu__ear {
+  display: none;
 }
 
 .menu__btn {
@@ -407,6 +415,45 @@ a {
 /* при наведении — как пункты меню рядом: плашка становится белой */
 .lang:hover {
   background: var(--white);
+}
+
+@media (min-width: 1081px) {
+  /* Форма пилюли меню из Figma — не простой скруглённый прямоугольник,
+     а «ушки», вогнутые с боков и вздёрнутые к самому верху (ассет
+     menu-shape.svg, 332×54, тот же розовый #ffddf2, что и фон .menu).
+     Ширина .menu — по содержимому (RU/EN подписи разной длины), а сам
+     ассет — фиксированной формы, поэтому его не тянем на всю ширину:
+     показываем по кусочку сразу за каждым краем в его настоящем
+     масштабе (background-size без искажения), а правый угол — тот же
+     левый кусок, отражённый по горизонтали (форма и так симметричная).
+     Цвет совпадает с фоном .menu, поэтому шов у стыка не читается,
+     даже если ширина «ушка» не идеально совпала с кривой в оригинале. */
+  .menu__ear {
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 50px;
+    height: 54px;
+    /* z-index: -1 — иначе position: absolute кладёт «ушко» поверх кнопок
+       меню (у них position: static, они красятся раньше, ниже слоем) и
+       перекрывает их своими вогнутыми краями */
+    z-index: -1;
+    background-image: url("assets/icons/menu-shape.svg");
+    background-repeat: no-repeat;
+    background-size: 332px 54px;
+    pointer-events: none;
+  }
+
+  .menu__ear--left {
+    left: 0;
+    background-position: 0 0;
+  }
+
+  .menu__ear--right {
+    right: 0;
+    transform: scaleX(-1);
+    background-position: 0 0;
+  }
 }
 
 /* ---------- Общее для блоков кейсов ---------- */
@@ -1076,6 +1123,43 @@ a {
 
 .feed__btn:hover img {
   transform: scale(1.03);
+}
+
+/* ---------- Переключение языка: имитация перезагрузки ---------- */
+
+/* Полноэкранная шторка: наезжает сверху вниз (0% → покрывает всё), в этот
+   момент под ней applyLang() меняет текст мгновенно, и та же шторка
+   продолжает движение дальше вверх и с экрана (0% → -100%) — визуально
+   один непрерывный проезд, а не «затемнение и появление». z-index выше
+   лайтбокса и модалки (100), чтобы шторка перекрывала вообще всё. */
+.lang-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--pink-100);
+  transform: translateY(100%);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.lang-transition.is-covering,
+.lang-transition.is-revealing {
+  transition: transform 0.42s cubic-bezier(0.6, 0, 0.4, 1);
+  pointer-events: auto;
+}
+
+.lang-transition.is-covering {
+  transform: translateY(0%);
+}
+
+.lang-transition.is-revealing {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lang-transition {
+    display: none;
+  }
 }
 
 /* ---------- Просмотр работы ---------- */
