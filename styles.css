@@ -657,6 +657,7 @@ a {
   width: 40px;
   height: 40px;
   pointer-events: none;
+  transition: top 0.3s ease, right 0.3s ease;
 }
 
 /* два разных по смыслу изображения: default — маленькая голая стрелка,
@@ -709,6 +710,67 @@ a {
 .case__media-clip {
   position: absolute;
   inset: 0;
+}
+
+/* Скругление трёх углов при наведении (neuro camp, «Мастерская», doggymoggy —
+   у OP:ED в макете такого нет, три угла там и без ховера обычные). Ровно
+   тот же приём, что у первого слайда кейс-слайдера (--radius-20 → --radius-96,
+   см. .case__intro), только по трём углам вместо всех четырёх — низ-лево
+   (rounded-bl в Figma, узел 443:1835/1913/1924) остаётся на 20px в обеих
+   версиях. Радиус ставим на сам медиа-слой (картинку/обёртку видео), а не на
+   .case--plate: внешняя белая рамка и так обрезает всё по своим 24px, но её
+   радиус меньше отступа (8px) до внутреннего слоя, поэтому даже 96px изнутри
+   не задевает рамку — можно спокойно расти независимо от неё.
+
+   У «Мастерской» видео нельзя скруглить напрямую (см. комментарий у
+   #case-masterskaya .case__media в мобильном блоке — Safari не держит
+   border-radius на самом <video> с object-fit: contain). На десктопе этой
+   проблемы нет (тут просто object-fit: cover), но для единообразия и
+   на случай проблем с Safari скругляем ту же обёртку .case__media-clip,
+   что уже проверена на мобильном. */
+#case-neurocamp .case__media,
+#case-doggymoggy .case__media {
+  border-radius: var(--radius-20);
+  transition: border-radius 0.3s ease;
+}
+
+#case-masterskaya .case__media-clip {
+  overflow: hidden;
+  border-radius: var(--radius-20);
+  transition: border-radius 0.3s ease;
+}
+
+/* Затемняющий градиент (.case--plate::after) лежит поверх того же медиа —
+   без своего скругления его нижний угол остался бы квадратным и торчал бы
+   из-под скруглённого на ховере видео/картинки. У doggymoggy градиента нет
+   вообще (::after выключен отдельным правилом выше), поэтому его тут нет. */
+#case-neurocamp::after,
+#case-masterskaya::after {
+  border-radius: var(--radius-20);
+  transition: border-radius 0.3s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #case-neurocamp:hover .case__media,
+  #case-doggymoggy:hover .case__media,
+  #case-masterskaya:hover .case__media-clip {
+    border-radius: var(--radius-96) var(--radius-96) var(--radius-96) var(--radius-20);
+  }
+
+  #case-neurocamp:hover::after,
+  #case-masterskaya:hover::after {
+    border-radius: var(--radius-96) var(--radius-96) var(--radius-96) var(--radius-20);
+  }
+
+  /* Стрелка при ховере отъезжает от угла ровно на величину нового радиуса
+     (96px) — иначе она осталась бы висеть над той частью угла, что скругление
+     увело внутрь, и повисла бы над пустым местом вместо видео/картинки. */
+  #case-neurocamp:hover .case__corner-arrow,
+  #case-doggymoggy:hover .case__corner-arrow,
+  #case-masterskaya:hover .case__corner-arrow {
+    top: var(--radius-96);
+    right: var(--radius-96);
+  }
 }
 
 /* затемнение под текстом, чтобы подпись читалась на светлых фото */
