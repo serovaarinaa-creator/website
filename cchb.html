@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Цветное vs. Чёрно-белое — Арина Серова</title>
+  <meta name="description" content="Айдентика для restore:digital art — ежегодного конкурса цифрового искусства. Кейс Арины Серовой.">
+  <meta property="og:title" content="Цветное vs. Чёрно-белое — Арина Серова">
+  <meta property="og:description" content="Айдентика для restore:digital art — ежегодного конкурса цифрового искусства.">
+  <meta property="og:image" content="assets/posters/cchb-cover.jpg">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#FFDDF2">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="icon" href="assets/icons/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260820">
+  <link rel="stylesheet" href="cchb.css?v=20260821">
+</head>
+<body class="case-page-body">
+
+  <!-- ---------- Мобильный топ-бар: лого + бургер ---------- -->
+  <div class="case-topbar-mobile">
+    <a class="case-topbar-mobile__brand" href="index.html">
+      <img class="case-topbar-mobile__logo" src="assets/logos/restore.png" alt="" width="32" height="32">
+      <span class="t-body-2">Цветное vs. Чёрно-белое</span>
+    </a>
+    <button class="case-burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="case-menu">
+      <img src="assets/icons/burger.svg" alt="" width="18" height="13">
+    </button>
+  </div>
+
+  <!-- ---------- Мобильное меню (оверлей) ---------- -->
+  <div class="case-menu-overlay" id="case-menu">
+    <div class="case-menu-overlay__top">
+      <a class="case-menu-overlay__brand" href="index.html">
+        <img class="case-menu-overlay__logo" src="assets/logos/restore.png" alt="" width="32" height="32">
+        <span class="t-body-2">Цветное vs. Чёрно-белое</span>
+      </a>
+      <button class="case-menu-close" type="button" aria-label="Закрыть меню">
+        <img src="assets/icons/cross.svg" alt="" width="16" height="16">
+      </button>
+    </div>
+    <nav class="case-menu-overlay__toc" aria-label="Оглавление кейса">
+      <a class="t-body-2" href="#context">Контекст и задача</a>
+      <a class="t-body-2" href="#research">Исследование</a>
+      <a class="t-body-2" href="#concept">Концепция</a>
+      <a class="t-body-2" href="#logo">Лого и графические элементы</a>
+      <a class="t-body-2" href="#site">Сайт</a>
+      <a class="t-body-2" href="#exhibition">Выставка</a>
+      <a class="t-body-2" href="#mapping">3D-маппинг</a>
+      <a class="t-body-2" href="#yandex">Яндекс дача</a>
+      <a class="t-body-2" href="#results">Результаты</a>
+    </nav>
+    <div class="case-menu-overlay__profile">
+      <div class="case-menu-overlay__avatar">
+        <img src="assets/avatar.webp" alt="Арина Серова" width="64" height="64">
+      </div>
+      <div class="case-menu-overlay__bio">
+        <p class="t-body-1">Графический дизайнер 5+ лет в брендинге и креативных коммуникациях</p>
+      </div>
+    </div>
+    <div class="pill-row" style="padding: 0 18px 24px;">
+      <a class="pill t-body-2" href="https://hirehi.ru/resume/XbLth3skez" target="_blank" rel="noopener">CV</a>
+      <a class="pill t-body-2" href="https://www.linkedin.com/in/arina-serova-61530b253/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="pill t-body-2" href="https://www.behance.net/greisolar" target="_blank" rel="noopener">Behance</a>
+    </div>
+    <div class="case-menu-overlay__bottom">
+      <a class="case-home" href="index.html" aria-label="На главную">
+        <img src="assets/icons/home.svg" alt="" width="20" height="20">
+      </a>
+      <button class="lang t-body-2" type="button" aria-label="Сменить язык">RU&nbsp;🇷🇺</button>
+    </div>
+  </div>
+
+  <button class="lang case-lang t-body-2" type="button" aria-label="Сменить язык">RU&nbsp;🇷🇺</button>
+
+  <div class="case-page">
+    <!-- ---------- Сайдбар: назад, оглавление, домой, следующий кейс ---------- -->
+    <aside class="case-sidebar">
+      <a class="case-back t-body-2" href="index.html">
+        <img src="assets/icons/chevron-left.svg" alt="" width="16" height="16">
+        Назад
+      </a>
+
+      <nav class="case-toc" aria-label="Оглавление кейса">
+        <a class="t-body-2" href="#context">Контекст и задача</a>
+        <a class="t-body-2" href="#research">Исследование</a>
+        <a class="t-body-2" href="#concept">Концепция</a>
+        <a class="t-body-2" href="#logo">Лого и графические элементы</a>
+        <a class="t-body-2" href="#site">Сайт</a>
+        <a class="t-body-2" href="#exhibition">Выставка</a>
+        <a class="t-body-2" href="#mapping">3D-маппинг</a>
+        <a class="t-body-2" href="#yandex">Яндекс дача</a>
+        <a class="t-body-2" href="#results">Результаты</a>
+      </nav>
+
+      <div class="case-sidebar__bottom">
+        <a class="case-home" href="index.html" aria-label="На главную">
+          <img src="assets/icons/home.svg" alt="" width="20" height="20">
+        </a>
+        <a class="case-next" href="index.html#case-neurocamp">
+          <div class="case-next__top">
+            <img class="case-next__logo" src="assets/logos/restore.png" alt="restore:" width="32" height="32">
+            <span class="case-next__arrow">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+          <div>
+            <p class="t-body-1 case-next__label">Следующий кейс</p>
+            <p class="t-body-2">NEURO CAMP</p>
+          </div>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ---------- Контент кейса ---------- -->
+    <main class="case-content">
+
+      <!-- Hero -->
+      <section class="case-hero">
+        <div class="case-hero__media">
+          <video src="assets/cchb/video/cchb-cover.mp4" poster="assets/posters/cchb-cover.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Обложка кейса Цветное vs. Чёрно-белое"></video>
+          <div class="video-shield" aria-hidden="true"></div>
+        </div>
+        <div class="case-hero__text">
+          <p class="t-body-1 case-hero__label">Описание</p>
+          <div class="case-hero__row">
+            <h1 class="t-h2 case-hero__title">Айдентика для restore:digital art — ежегодного конкурса цифрового искусства</h1>
+            <div class="case-hero__chips chips">
+              <span class="chip t-body-2">Брендинг</span>
+              <span class="chip t-body-2">Веб-сайт</span>
+              <span class="chip t-body-2">Ивент</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Контекст и задача -->
+      <section class="case-section" id="context">
+        <div class="case-section__head">
+          <h2 class="t-h2 case-section__title">Контекст<br>и задача</h2>
+          <p class="t-body-1 case-section__text">Задача проекта — разработать визуальный стиль конкурса современного цифрового искусства restore:digital art для широкой аудитории, вовлечённой в актуальный художественный и интеллектуальный контекст<br><br>Важно было создать узнаваемую айдентику, работающую в медиа и PR, и одновременно усиливающую присутствие бренда restore: — крупнейшей сети премиум техники в России<br><br>Проект нацелен на укрепление позиционирования бренда через выразительное раскрытие темы конкурса этого года «Цветное vs чёрно-белое»: столкновение контрастов</p>
+        </div>
+        <div class="case-media" style="aspect-ratio: 2144 / 1270;">
+          <img src="assets/cchb/cchb-1.webp" alt="" loading="lazy" decoding="async">
+        </div>
+      </section>
+
+      <!-- Исследование -->
+      <section class="case-section" id="research">
+        <div class="case-section__head">
+          <h2 class="t-h2 case-section__title">Исследование</h2>
+          <p class="t-body-1 case-section__text">Конкурс обращается к широкой аудитории, интересующихся современным искусством и стремящихся осмыслить текущую реальность через визуальный язык<br><br>Анализ конкурентов (open call-проектов с выставками и образовательными программами) выявил перенасыщенность визуальной среды и потребность в чётком, концептуально выстроенном высказывании<br><br>Дизайн-решение опирается на запрос аудитории на рефлексию, формируя бренд как проводника в актуальный художественный контекст и платформу для новых авторов</p>
+        </div>
+        <div class="case-row">
+          <div class="case-media" style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-2.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-media" style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-3.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+      </section>
+
+      <!-- Концепция -->
+      <section class="case-section" id="concept">
+        <div class="case-section__head">
+          <h2 class="t-h2 case-section__title">Концепция</h2>
+          <p class="t-body-1 case-section__text">Концепция строится на восприятии реальности в нескольких слоях одновременно. Мы показываем пересечение живого опыта и технологической среды, создавая визуальный диалог и подчёркивая тему конкурса как метафору разных способов видеть мир</p>
+        </div>
+        <div class="case-collage" style="aspect-ratio: 1072 / 906;">
+          <div style="left:0.00%;top:0.01%;width:35.82%;height:60.04%;"><img src="assets/cchb/cchb-4.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:36.75%;top:22.20%;width:22.68%;height:37.97%;"><img src="assets/cchb/cchb-7.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:60.58%;top:22.20%;width:11.50%;height:37.97%;"><img src="assets/cchb/cchb-8.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:73.13%;top:44.27%;width:26.59%;height:15.78%;"><img src="assets/cchb/cchb-9.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:73.04%;top:0.01%;width:26.68%;height:42.94%;"><img src="assets/cchb/cchb-6.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:36.75%;top:0.01%;width:35.35%;height:20.86%;"><img src="assets/cchb/cchb-5.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:0.00%;top:61.38%;width:45.45%;height:30.03%; background:#171717;">
+            <video src="assets/cchb/video/cchb-eye.mp4" poster="assets/posters/cchb-eye.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Видео «глаз»"></video>
+            <div class="video-shield" aria-hidden="true"></div>
+          </div>
+          <div style="left:73.23%;top:61.39%;width:26.59%;height:38.63%;"><img src="assets/cchb/cchb-10.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:46.52%;top:61.38%;width:25.56%;height:22.68%;">
+            <video src="assets/cchb/video/cchb-flower.mp4" poster="assets/posters/cchb-flower.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Видео «цветок»"></video>
+            <div class="video-shield" aria-hidden="true"></div>
+          </div>
+        </div>
+        <p class="t-body-1 case-section__text" style="max-width: 486px;">Важно было создать динамичную, флюидную стилистику с возможностью интеграции видео и анимации, чтобы графика ощущалась живой, изменчивой и постоянно находящейся в движении</p>
+      </section>
+
+      <!-- Лого и графические элементы -->
+      <section class="case-section" id="logo">
+        <div class="case-section__head">
+          <h2 class="t-h2 case-section__title">Лого и графические элементы</h2>
+        </div>
+        <div class="case-row">
+          <div class="case-media" style="aspect-ratio: 885 / 500;"><img src="assets/cchb/cchb-11.webp" alt="" loading="lazy" decoding="async"></div>
+          <p class="t-body-1 case-section__text">Логотип строится на модульной, пиксельной системе с мягко скруглёнными углами, где формы букв собраны из укрупнённых цифровых блоков. Такой подход создаёт баланс между технологичностью и пластичностью, визуально отражая идею перехода между чёткой (чёрно-белой) и более гибкой, «живой» реальностью</p>
+        </div>
+        <div class="case-media case-media--logo-strip" style="aspect-ratio: 2136 / 373;">
+          <img class="case-only-desktop" src="assets/cchb/cchb-13.webp" alt="" loading="lazy" decoding="async">
+          <img class="case-only-mobile" src="assets/cchb/cchb-13-mobile.webp" alt="" loading="lazy" decoding="async">
+        </div>
+        <div class="case-row">
+          <div class="case-media" style="aspect-ratio: 1301 / 258;"><img src="assets/cchb/cchb-12.webp" alt="" loading="lazy" decoding="async"></div>
+          <p class="t-body-1 case-section__text">Это основной шрифт бренда restore: — его использование было принципиально важным для сохранения узнаваемости и подчеркивания того, что конкурс является частью экосистемы бренда</p>
+        </div>
+      </section>
+
+      <!-- Композиция макетов -->
+      <section class="case-section case-section--tight">
+        <div class="case-section__head">
+          <span></span>
+          <p class="t-body-1 case-section__text">Композиция макетов строится как наложение трёх слоёв реальности: размытый фон, отсылающий к неопределённости прошлого и будущего; чёткий слой настоящего, находящийся в фокусе, и поверх — флюидная цифровая среда. Верхний слой символизирует постоянное присутствие технологий, влияющих на восприятие и искажающих реальность</p>
+        </div>
+        <div class="case-media" style="aspect-ratio: 2144 / 1270;"><img src="assets/cchb/cchb-14.webp" alt="" loading="lazy" decoding="async"></div>
+      </section>
+
+      <!-- Анимация логотипа -->
+      <section class="case-section case-section--tight">
+        <div class="case-section__head">
+          <span></span>
+          <p class="t-body-1 case-section__text">В анимации логотип становится частью цифровой среды с пиксельной графикой: он постепенно проявляется из набора пикселей, усиливая ощущение цифровой среды. restore:digital art раскрывается через фирменный переход restore:, подчёркивая принадлежность конкурса к бренду и его визуальной системе</p>
+        </div>
+        <div class="case-media" style="aspect-ratio: 2144 / 1206;">
+          <video src="assets/cchb/video/cchb-logo-animation.mp4" poster="assets/posters/cchb-logo-animation.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Анимация логотипа"></video>
+          <div class="video-shield" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- Фотостиль -->
+      <section class="case-section case-section--tight">
+        <div class="case-section__head">
+          <span></span>
+          <p class="t-body-1 case-section__text">В фотостиле используются размытые, нечеткие изображения, символизирующие воспоминания прошлого и неопределённость будущего. Такой подход гармонирует с фирменной айдентикой restore:, создавая узнаваемость бренда в стилистике конкурса</p>
+        </div>
+        <div class="case-row">
+          <div class="case-media" style="aspect-ratio: 1293 / 939;"><img src="assets/cchb/cchb-15.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-media" style="aspect-ratio: 809 / 939;"><img src="assets/cchb/cchb-16.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-media" style="aspect-ratio: 2140 / 1427;"><img src="assets/cchb/cchb-17.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+        <div class="case-media" style="max-width: 340px; aspect-ratio: 680 / 152;">
+          <img src="assets/cchb/cchb-stores.webp" alt="" loading="lazy" decoding="async">
+        </div>
+        <div class="case-masterclass">
+          <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-1.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-2.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-3.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+
+        <!-- Мерч -->
+        <div class="case-section__head" style="margin-top: 20px;">
+          <h2 class="t-h2 case-section__title">Мерч</h2>
+          <p class="t-body-1 case-section__text">Стилистика конкурса проявляется и в материальных объектах через контраст цифровой графики с натуральными материалами: полупрозрачный пластик соседствуют с бумагой, картоном и тканями, создавая ощущение наложения слоёв и продолжая визуальную концепцию конкурса</p>
+        </div>
+        <div class="case-merch">
+          <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-19.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-20.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-21.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-22.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+      </section>
+
+      <!-- Сайт -->
+      <section class="case-section" id="site">
+        <div class="case-section__head">
+          <h2 class="t-h2 case-section__title">Сайт</h2>
+          <p class="t-body-1 case-section__text">Для проекта был разработан многостраничный сайт с продуманной структурой: разделы о проекте, жюри, галерея работ и программа мероприятий. Облегчили восприятие сайта благодаря строгой стилистике и акценте на работах участников</p>
+        </div>
+        <div class="case-media" style="aspect-ratio: 2112 / 1188;">
+          <video src="assets/cchb/video/cchb-site-scroll.mp4" poster="assets/posters/cchb-site-scroll.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Скроллинг сайта конкурса"></video>
+          <div class="video-shield" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- Галерея работ -->
+      <section class="case-section case-section--tight">
+        <div class="case-section__head">
+          <span></span>
+          <p class="t-body-1 case-section__text">Галерея работ на сайте включает разные форматы: статичные изображения, видео и аудио материалы. Работы структурированы по категориям, что позволяет быстро находить интересующие проекты и оценивать их в контексте конкурса</p>
+        </div>
+        <div class="case-row">
+          <div class="case-media" style="aspect-ratio: 1051 / 1359;"><img src="assets/cchb/cchb-24.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-media" style="aspect-ratio: 1051 / 1352;"><img src="assets/cchb/cchb-25.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+      </section>
+
+      <!-- Выставка -->
+      <section class="case-section" id="exhibition">
+        <div class="case-section__head">
+          <h2 class="t-h2 case-section__title">Выставка</h2>
+          <p class="t-body-1 case-section__text">Итогом конкурса стала выставка лучших работ участников в галерее RuArts в Москве. Экспозиция перенесла визуальный язык конкурса в пространство галереи: неоновые цвета, градиенты и пиксельная графика создавали эффект цифрового слоя поверх реальности. Такой приём позволял зрителю ощутить переплетение работ участников с окружающим пространством, продолжая концепцию айдентики и подчеркивая взаимодействие искусства и технологий</p>
+        </div>
+        <div class="case-collage" style="aspect-ratio: 1072 / 3011; overflow-x: hidden;">
+          <div style="left:0.000%;top:0.000%;width:100.000%;height:21.920%;"><img src="assets/cchb/cchb-26.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:0.000%;top:23.912%;width:80.093%;height:19.000%;"><img src="assets/cchb/cchb-27.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:48.358%;top:41.392%;width:51.642%;height:11.491%;"><img src="assets/cchb/cchb-28.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:22.295%;top:51.687%;width:39.767%;height:7.904%;"><img src="assets/cchb/cchb-29.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:55.000%;top:64.646%;width:45.000%;height:19.429%;"><img src="assets/cchb/cchb-30.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:50.588%;top:81.860%;width:50.588%;height:11.255%;"><img src="assets/cchb/cchb-31.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:0.000%;top:92.228%;width:4.944%;height:3.537%;"><img src="assets/cchb/cchb-pixels-3.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:67.983%;top:91.524%;width:36.713%;height:8.482%;"><img src="assets/cchb/cchb-pixels-2.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:80.093%;top:21.609%;width:15.438%;height:11.807%;"><img src="assets/cchb/cchb-pixels-1.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+      </section>
+
+      <!-- 3D-маппинг -->
+      <section class="case-section" id="mapping">
+        <div class="case-section__head">
+          <h2 class="t-h2 case-section__title">3D-маппинг</h2>
+          <p class="t-body-1 case-section__text">Для фотозоны выставки была разработана площадка с 3D-маппингом — технологией проекции видео на объёмные объекты, создающей иллюзию изменения формы, текстуры и «оживления» поверхности</p>
+        </div>
+        <div class="case-media" style="aspect-ratio: 2144 / 1206;">
+          <video src="assets/cchb/video/cchb-3d-mapping-1.mp4" poster="assets/posters/cchb-3d-mapping-1.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="3D-маппинг, видео 1"></video>
+          <div class="video-shield" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- Референсы -->
+      <section class="case-section case-section--tight">
+        <div class="case-section__head">
+          <h2 class="t-h2 case-section__title">Референсы</h2>
+          <p class="t-body-1 case-section__text">В данный проект хотелось интегрировать пиксельную графику конкурса, фирменные графические формы бренда restore;, а также мерцающие силуэты фигур</p>
+        </div>
+        <div class="case-collage" style="aspect-ratio: 1072 / 632;">
+          <div style="left:5.114%;top:3.103%;width:18.850%;height:39.456%;"><img src="assets/cchb/cchb-33.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:0.000%;top:44.693%;width:23.964%;height:32.199%;"><img src="assets/cchb/cchb-34.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:25.181%;top:6.256%;width:28.877%;height:70.636%;"><img src="assets/cchb/cchb-35.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:55.245%;top:0.174%;width:23.255%;height:52.628%;"><img src="assets/cchb/cchb-36.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:55.245%;top:54.918%;width:23.255%;height:38.682%;"><img src="assets/cchb/cchb-37.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:79.719%;top:5.429%;width:18.130%;height:39.084%;"><img src="assets/cchb/cchb-38.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:79.717%;top:46.492%;width:20.283%;height:36.968%;"><img src="assets/cchb/cchb-39.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+      </section>
+
+      <!-- Эскизы -->
+      <section class="case-section case-section--tight">
+        <div class="case-section__head">
+          <h2 class="t-h2 case-section__title">Эскизы</h2>
+          <p class="t-body-1 case-section__text">Для этого были проведены измерения помещения, в котором будут располагаться формы для 3D-маппинга, и по предварительным эскизам сделали визуализацию 3D-пространства со световой схемой</p>
+        </div>
+        <div class="case-collage" style="aspect-ratio: 1072 / 1108;">
+          <div style="left:0.000%;top:0.000%;width:64.858%;height:58.702%;"><img src="assets/cchb/cchb-40.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:0.000%;top:56.904%;width:100.000%;height:44.720%;"><img src="assets/cchb/cchb-41.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:69.312%;top:29.351%;width:19.916%;height:31.814%;"><img src="assets/cchb/cchb-pixels-4.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+      </section>
+
+      <div class="case-media" style="aspect-ratio: 2144 / 1206;">
+        <video src="assets/cchb/video/cchb-3d-mapping-2.mp4" poster="assets/posters/cchb-3d-mapping-2.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="3D-маппинг, видео 2"></video>
+        <div class="video-shield" aria-hidden="true"></div>
+      </div>
+
+      <!-- Яндекс дача -->
+      <section class="case-section" id="yandex">
+        <div class="case-section__head">
+          <h2 class="t-h2 case-section__title">Яндекс Дача</h2>
+          <p class="t-body-1 case-section__text">Событие в поддержку конкурсно-выставочного проекта restore:digital art, главными партнёрами которого выступали «Яндекс Плюс» и «Яндекс Пэй». Мероприятие призвано продемонстрировать, как современные технологии стирают границы между различными видами медиа</p>
+        </div>
+        <div class="case-media" style="aspect-ratio: 2141 / 1432;"><img src="assets/cchb/cchb-42.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-row">
+          <div class="case-media" style="aspect-ratio: 1406 / 1234;"><img src="assets/cchb/cchb-43.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="flex:1; display:flex; flex-direction:column; gap:20px;">
+            <div class="case-media" style="aspect-ratio: 708 / 604;"><img src="assets/cchb/cchb-44.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 708 / 604;"><img src="assets/cchb/cchb-45.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Программа -->
+      <section class="case-section case-section--tight">
+        <p class="t-body-1 case-section__text" style="max-width: 269px;">Программа включала публичные обсуждения, показ фильма, а также мультимедийное и саунд-арт выступление, погружающее гостей в цифровое искусство</p>
+        <div class="case-row">
+          <div class="case-media" style="aspect-ratio: 1505 / 974;"><img src="assets/cchb/cchb-46.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-media" style="aspect-ratio: 909 / 604; max-width: 34%;"><img src="assets/cchb/cchb-47.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+      </section>
+
+      <!-- Результаты -->
+      <section class="case-section" id="results">
+        <div class="case-section__head">
+          <h2 class="t-h2 case-section__title">Результаты</h2>
+          <p class="t-body-1 case-section__text">Для бренда restore: проект прошел на совершенно новом уровне — так как удалось не только усовершенствовать проект, расширить его (параллельная программа, еще больше номинаций), но и привлечь партнеров. Открытие выставки посетило 800 гостей, что было рекордным для проекта</p>
+        </div>
+        <div class="case-media" style="aspect-ratio: 2144 / 266;"><img src="assets/cchb/cchb-numbers-1-desktop.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-collage" style="aspect-ratio: 1072 / 731.72;">
+          <div style="left:0.000%;top:13.505%;width:22.937%;height:67.347%;"><img src="assets/cchb/cchb-48.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:24.099%;top:6.416%;width:24.763%;height:48.389%;"><img src="assets/cchb/cchb-49.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:24.099%;top:56.701%;width:24.763%;height:43.298%;"><img src="assets/cchb/cchb-50.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:50.024%;top:1.520%;width:25.690%;height:43.927%;"><img src="assets/cchb/cchb-51.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:50.024%;top:47.179%;width:25.690%;height:48.208%;"><img src="assets/cchb/cchb-52.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:76.877%;top:6.686%;width:23.123%;height:71.954%;"><img src="assets/cchb/cchb-53.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+      </section>
+
+      <!-- Результаты Яндекс Дача -->
+      <section class="case-section case-section--tight">
+        <div class="case-media" style="aspect-ratio: 983 / 224; max-width: 491px;">
+          <img src="assets/cchb/cchb-numbers-2.webp" alt="" loading="lazy" decoding="async">
+        </div>
+        <div class="case-section__head">
+          <span></span>
+          <div class="case-section__text">
+            <h2 class="t-h2" style="margin-bottom:12px;">Результаты ивента Яндекс Дача</h2>
+            <p class="t-body-1">Программа вызвала широкий интерес в медиа, обеспечив большие охваты, а насыщенная цифровая атмосфера и активное участие посетителей сделали событие ярким и запоминающимся</p>
+          </div>
+        </div>
+        <div class="case-media" style="aspect-ratio: 2140 / 1322;"><img src="assets/cchb/cchb-54.webp" alt="" loading="lazy" decoding="async"></div>
+      </section>
+
+      <!-- Финал -->
+      <section class="case-section case-section--tight">
+        <div class="case-media" style="aspect-ratio: 2144 / 1306;">
+          <video src="assets/cchb/video/cchb-final.mp4" poster="assets/posters/cchb-final.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Финальное видео"></video>
+          <div class="video-shield" aria-hidden="true"></div>
+        </div>
+        <div class="case-team">
+          <h2 class="t-h2">Дизайн команда</h2>
+          <div class="case-team__row">
+            <div>
+              <p class="t-body-1 case-team__role">Арт-директор</p>
+              <div class="case-team__names"><p class="t-body-2">Егор Гализдра</p></div>
+            </div>
+            <div>
+              <p class="t-body-1 case-team__role">Ведущие дизайнеры</p>
+              <div class="case-team__names"><p class="t-body-2">Николай Маковский</p><p class="t-body-2">Светлана Питимирова</p></div>
+            </div>
+            <div>
+              <p class="t-body-1 case-team__role">Дизайнеры</p>
+              <div class="case-team__names"><p class="t-body-2">Анна Белихова</p><p class="t-body-2">Софья Загуменкова</p><p class="t-body-2">Арина Серова</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- Футер (как на главной) ---------- -->
+      <footer class="footer">
+        <img class="footer__bg" src="assets/footer-bg.webp" alt="" loading="lazy" decoding="async">
+        <div class="footer__hero">
+          <div class="footer__circle">
+            <img src="assets/about/medor-footer.webp" alt="Французский бульдог Медор" width="640" height="640" loading="lazy" decoding="async">
+          </div>
+          <p class="t-promo-1 t-stroke footer__title" data-text="Let&rsquo;s go!">Let&rsquo;s go!</p>
+        </div>
+        <div class="footer__pills">
+          <a class="pill t-body-2" href="https://hirehi.ru/resume/XbLth3skez" target="_blank" rel="noopener">CV</a>
+          <a class="pill t-body-2" href="https://www.linkedin.com/in/arina-serova-61530b253/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="pill t-body-2" href="https://www.behance.net/greisolar" target="_blank" rel="noopener">Behance</a>
+          <a class="pill t-body-2" href="https://t.me/greisolar" target="_blank" rel="noopener">Telegram</a>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <div class="lang-transition" aria-hidden="true"></div>
+
+  <script src="script.js?v=20260820"></script>
+  <script src="cchb.js?v=20260821"></script>
+</body>
+</html>

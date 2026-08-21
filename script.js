@@ -674,6 +674,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target.closest(".case__arrow")) return;
         // это был свайп по ленте слайдов, а не клик
         if (start && Math.hypot(e.clientX - start.x, e.clientY - start.y) > 8) return;
+        // у готовых кейсов есть настоящая страница — открываем её вместо
+        // заглушки "в процессе разработки"
+        if (card.dataset.href) {
+          location.href = card.dataset.href;
+          return;
+        }
         // карточка кейса намного больше окна, поэтому растём не из неё,
         // а из точки нажатия
         from = new DOMRect(e.clientX - 24, e.clientY - 24, 48, 48);
@@ -691,9 +697,12 @@ document.addEventListener("DOMContentLoaded", () => {
     closeDialog();
   });
 
-  /* --- Переключение языка --- */
-  const langBtn = document.querySelector(".lang");
-  if (langBtn) {
+  /* --- Переключение языка ---
+     querySelectorAll, а не querySelector: на странице кейса кнопка встречается
+     дважды (постоянная в углу на десктопе и внутри мобильного меню) — обе
+     должны одинаково переключаться и показывать один и тот же язык. */
+  const langBtns = document.querySelectorAll(".lang");
+  if (langBtns.length) {
     const META = {
       ru: {
         title: "Арина Серова — графический дизайнер",
@@ -749,7 +758,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const ogDesc = document.querySelector('meta[property="og:description"]');
       if (ogDesc) ogDesc.setAttribute("content", meta.ogDescription);
 
-      langBtn.textContent = meta.label;
+      langBtns.forEach((btn) => (btn.textContent = meta.label));
       try {
         localStorage.setItem("lang", next);
       } catch (e) {
@@ -801,6 +810,8 @@ document.addEventListener("DOMContentLoaded", () => {
       transitionLayer.addEventListener("transitionend", onCovered);
     };
 
-    langBtn.addEventListener("click", () => switchLang(lang === "en" ? "ru" : "en"));
+    langBtns.forEach((btn) =>
+      btn.addEventListener("click", () => switchLang(lang === "en" ? "ru" : "en"))
+    );
   }
 });

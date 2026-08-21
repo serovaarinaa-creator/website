@@ -14,7 +14,8 @@ assets/
   logos/                  логотипы проектов, 128×128 PNG
     restore.png  restore-black.png  scholotch.png
     oped.png  xiaomi.png  masterskaya.png  doggymoggy.png
-  icons/                  home.svg, chevron-right.svg, chevron-left.svg, menu-shape.svg, favicon.png
+  icons/                  home.svg, chevron-right.svg, chevron-left.svg,
+                          menu-shape.svg, favicon.png, burger.svg, cross.svg
   cases/
     cchb-fon.webp  cchb-video.mp4  cchb-1…3.webp          Цветное vs. Чёрно-белое
     neurocamp-bg.webp  neurocamp-video.mp4                NEURO CAMP
@@ -28,6 +29,13 @@ assets/
     about-video.mp4  medor-video.mp4
   feed/
     dl-1.webp … dl-62.webp                                дизайн-лента
+  cchb/                   картинки страницы кейса ЦЧБ (cchb.html) — 65 файлов,
+                          cchb-1…54.webp плюс именованные (cchb-stores,
+                          cchb-masterclass-1…3, cchb-numbers-1-desktop,
+                          cchb-numbers-2, cchb-pixels-1…4, cchb-13-mobile)
+    video/                cchb-cover.mp4, cchb-eye.mp4, cchb-flower.mp4,
+                          cchb-logo-animation.mp4, cchb-site-scroll.mp4,
+                          cchb-3d-mapping-1…2.mp4, cchb-final.mp4
 ```
 
 ## Вес
