@@ -253,6 +253,12 @@
 
 .case-hero__title {
   max-width: 601px;
+  /* Заголовок переносится на 2-3 строки — у .t-stroke белая обводка
+     выходит на 10px за пределы букв, а базовый line-height 0.9 (плотный,
+     рассчитан на однострочные заголовки) сближает строки настолько, что
+     обводки соседних строк наезжают друг на друга и превращаются в кашу.
+     Увеличиваем интервал только здесь, не трогая .t-h2 в целом. */
+  line-height: 1.25;
 }
 
 .case-hero__chips {
@@ -279,14 +285,33 @@
 .case-section__head {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
   padding: 0 8px;
   flex-wrap: wrap;
 }
 
-.case-section__title {
+/* Раньше justify-content: space-between прижимал .case-section__text к
+   правому краю строки — левый край текста при этом зависел от его
+   собственной ширины (у части абзацев она сужена инлайновым style, у
+   некоторых текста нет вовсе), и левый отступ текста «плавал» от секции
+   к секции. Вместо этого — фиксированная ширина колонки заголовка (547px,
+   среднее по нескольким секциям в Figma, где текст стабильно начинается
+   на x≈555px от начала строки) — теперь .case-section__text всегда
+   начинается в одном и том же месте, независимо от длины заголовка или
+   ширины конкретного абзаца. */
+.case-section__title,
+/* пустой <span> — заглушка вместо заголовка у секций без своего h2
+   («Композиция макетов», «Анимация логотипа» и т. п.) — должен резервировать
+   ту же колонку, иначе текст рядом с ним съезжает к левому краю */
+.case-section__head > span {
+  flex: 0 0 547px;
   white-space: nowrap;
+}
+
+/* «Контекст и задача» — единственный заголовок на странице с ручным
+   переносом строки (см. #context в разметке) — тот же наезд обводок
+   соседних строк, что и у заголовка кейса (.case-hero__title) выше. */
+#context .case-section__title {
+  line-height: 1.3;
 }
 
 .case-section__text {
@@ -332,9 +357,111 @@
   .case-only-mobile {
     display: block;
   }
+}
 
-  .case-media--logo-strip {
-    aspect-ratio: 746 / 268 !important;
+/* ---------- Лого и графические элементы: единая чёрная панель без
+   скруглений (цчб-11, обе подписи, цчб-13 и цчб-12 — на одном общем
+   чёрном холсте, см. cchb.html) ---------- */
+
+.case-logo-panel {
+  position: relative;
+  width: 100%;
+}
+
+.case-logo-panel__logo img,
+.case-logo-panel__strip img,
+.case-logo-panel__font img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 1081px) {
+  .case-logo-panel {
+    aspect-ratio: 1072 / 651;
+    background: #000;
+    overflow: hidden;
+  }
+
+  .case-logo-panel__group {
+    display: contents;
+  }
+
+  .case-logo-panel__logo,
+  .case-logo-panel__strip,
+  .case-logo-panel__font,
+  .case-logo-panel__text {
+    position: absolute;
+  }
+
+  .case-logo-panel__logo {
+    left: 0.076%;
+    top: 0.147%;
+    width: 41.278%;
+    height: 38.402%;
+  }
+
+  .case-logo-panel__text--1 {
+    left: 50.864%;
+    top: 22.421%;
+    width: 48.341%;
+  }
+
+  .case-logo-panel__strip {
+    left: 0.076%;
+    top: 45.419%;
+    width: 99.924%;
+    height: 28.734%;
+  }
+
+  .case-logo-panel__text--2 {
+    left: 0.076%;
+    top: 83.482%;
+    width: 35.269%;
+  }
+
+  .case-logo-panel__font {
+    left: 39.319%;
+    top: 80.184%;
+    width: 60.681%;
+    height: 19.816%;
+  }
+}
+
+@media (max-width: 1080px) {
+  /* На мобилке в Figma это не панель, а обычный вертикальный поток без
+     общей чёрной подложки — страница и так чёрная (см. .case-page-body).
+     Текст здесь мельче обычного case-section__text (12px против 14px —
+     отдельный мобильный типографический стиль в Figma, Mobile/Body 1
+     Mobile), поэтому не переиспользуем .case-section__text вовсе. */
+  .case-logo-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+  }
+
+  .case-logo-panel__group {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+  }
+
+  .case-logo-panel__logo {
+    width: 80.13%;
+    aspect-ratio: 885 / 500;
+  }
+
+  .case-logo-panel__strip {
+    aspect-ratio: 746 / 268;
+  }
+
+  .case-logo-panel__font {
+    aspect-ratio: 1301 / 258;
+  }
+
+  .case-logo-panel__text {
+    font-size: 12px;
   }
 }
 
@@ -381,9 +508,29 @@
   object-fit: cover;
 }
 
-.case-collage__caption {
-  position: absolute;
-  color: rgba(255, 255, 255, 0.6);
+/* подпись под видео «глаз» в разделе «Концепция» — в Figma лежит внутри
+   коллажа, 20px под видео; на десктопе абсолютно позиционируем её туда же
+   (координаты посчитаны из тех же Figma-пикселей, что и остальные дети
+   коллажа выше). На мобилке — у Figma там совсем другая, компактная
+   раскладка коллажа (не масштабированная десктопная), поэтому не пытаемся
+   повторить те же координаты — подпись остаётся обычным блоком после
+   коллажа с отступом, как самый обычный текст в потоке. */
+.case-concept-collage-wrap {
+  position: relative;
+}
+
+.case-collage__eye-caption {
+  margin-top: 45px;
+}
+
+@media (min-width: 1081px) {
+  .case-collage__eye-caption {
+    position: absolute;
+    left: 0%;
+    top: 93.576%;
+    width: 45.359%;
+    margin-top: 0;
+  }
 }
 
 /* ---------- Мастер-классы: 3 в ряд ---------- */
@@ -498,7 +645,6 @@
     z-index: 30;
     background: var(--pink-100);
     padding: 15px var(--gutter);
-    margin: 0 calc(var(--gutter) * -1);
   }
 
   .case-topbar-mobile__brand {
@@ -546,6 +692,32 @@
     flex-direction: column;
     gap: 12px;
     padding: 0;
+  }
+
+  /* flex-direction: column делает flex-basis колонки высотой, а не
+     шириной — без сброса заголовок растянулся бы на 547px по вертикали */
+  .case-section__title,
+  .case-section__head > span {
+    flex: 0 0 auto;
+  }
+
+  /* «Лого и графические элементы» — самый длинный заголовок на странице —
+     на узких экранах не помещается в nowrap-строку и уводит всю страницу
+     в горизонтальный скролл. На десктопе nowrap оправдан (полно места
+     рядом), на мобилке, где заголовок и так уже в своей строке (colonка
+     под ним не нужна), пусть переносится как обычный текст. */
+  .case-section__title {
+    white-space: normal;
+    /* если из-за переноса получилось 2+ строк — тот же зазор, что и у
+       .case-hero__title/#context выше, иначе белые обводки строк наедут
+       друг на друга */
+    line-height: 1.3;
+  }
+
+  /* сами пустые заглушки на мобилке не нужны вовсе — там текст и так один
+     в своей строке (flex-direction: column), а не рядом с заголовком */
+  .case-section__head > span {
+    display: none;
   }
 
   .case-section__text {

@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20260820">
-  <link rel="stylesheet" href="cchb.css?v=20260821b">
+  <link rel="stylesheet" href="cchb.css?v=20260821c">
 </head>
 <body class="case-page-body">
 
@@ -166,24 +166,32 @@
           <h2 class="t-h2 t-stroke case-section__title" data-text="Концепция">Концепция</h2>
           <p class="t-body-1 case-section__text">Концепция строится на восприятии реальности в нескольких слоях одновременно. Мы показываем пересечение живого опыта и технологической среды, создавая визуальный диалог и подчёркивая тему конкурса как метафору разных способов видеть мир</p>
         </div>
-        <div class="case-collage" style="aspect-ratio: 1072 / 906;">
-          <div style="left:0.00%;top:0.01%;width:35.82%;height:60.04%;"><img src="assets/cchb/cchb-4.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:36.75%;top:22.20%;width:22.68%;height:37.97%;"><img src="assets/cchb/cchb-7.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:60.58%;top:22.20%;width:11.50%;height:37.97%;"><img src="assets/cchb/cchb-8.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:73.13%;top:44.27%;width:26.59%;height:15.78%;"><img src="assets/cchb/cchb-9.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:73.04%;top:0.01%;width:26.68%;height:42.94%;"><img src="assets/cchb/cchb-6.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:36.75%;top:0.01%;width:35.35%;height:20.86%;"><img src="assets/cchb/cchb-5.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:0.00%;top:61.38%;width:45.45%;height:30.03%; background:#171717;">
-            <video src="assets/cchb/video/cchb-eye.mp4" poster="assets/posters/cchb-eye.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Видео «глаз»"></video>
-            <div class="video-shield" aria-hidden="true"></div>
+        <!-- В Figma подпись лежит внутри коллажа, в 20px под видео «глаз» —
+             на десктопе (case-concept-collage-wrap ниже) её абсолютно
+             позиционируем туда же; на мобилке эта привязка не работает
+             (мобильный макет — другая, компактная раскладка коллажа, а не
+             масштабированная десктопная), там подпись остаётся обычным
+             блоком после коллажа, как раньше. -->
+        <div class="case-concept-collage-wrap">
+          <div class="case-collage" style="aspect-ratio: 1072 / 906;">
+            <div style="left:0.00%;top:0.01%;width:35.82%;height:60.04%;"><img src="assets/cchb/cchb-4.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:36.75%;top:22.20%;width:22.68%;height:37.97%;"><img src="assets/cchb/cchb-7.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:60.58%;top:22.20%;width:11.50%;height:37.97%;"><img src="assets/cchb/cchb-8.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:73.13%;top:44.27%;width:26.59%;height:15.78%;"><img src="assets/cchb/cchb-9.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:73.04%;top:0.01%;width:26.68%;height:42.94%;"><img src="assets/cchb/cchb-6.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:36.75%;top:0.01%;width:35.35%;height:20.86%;"><img src="assets/cchb/cchb-5.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:0.00%;top:61.38%;width:45.45%;height:30.03%; background:#171717;">
+              <video src="assets/cchb/video/cchb-eye.mp4" poster="assets/posters/cchb-eye.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Видео «глаз»"></video>
+              <div class="video-shield" aria-hidden="true"></div>
+            </div>
+            <div style="left:73.23%;top:61.39%;width:26.59%;height:38.63%;"><img src="assets/cchb/cchb-10.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:46.52%;top:61.38%;width:25.56%;height:22.68%;">
+              <video src="assets/cchb/video/cchb-flower.mp4" poster="assets/posters/cchb-flower.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Видео «цветок»"></video>
+              <div class="video-shield" aria-hidden="true"></div>
+            </div>
           </div>
-          <div style="left:73.23%;top:61.39%;width:26.59%;height:38.63%;"><img src="assets/cchb/cchb-10.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:46.52%;top:61.38%;width:25.56%;height:22.68%;">
-            <video src="assets/cchb/video/cchb-flower.mp4" poster="assets/posters/cchb-flower.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Видео «цветок»"></video>
-            <div class="video-shield" aria-hidden="true"></div>
-          </div>
+          <p class="t-body-1 case-collage__eye-caption" style="max-width: 486px;">Важно было создать динамичную, флюидную стилистику с возможностью интеграции видео и анимации, чтобы графика ощущалась живой, изменчивой и постоянно находящейся в движении</p>
         </div>
-        <p class="t-body-1 case-section__text" style="max-width: 486px;">Важно было создать динамичную, флюидную стилистику с возможностью интеграции видео и анимации, чтобы графика ощущалась живой, изменчивой и постоянно находящейся в движении</p>
       </section>
 
       <!-- Лого и графические элементы -->
@@ -191,17 +199,24 @@
         <div class="case-section__head">
           <h2 class="t-h2 t-stroke case-section__title" data-text="Лого и графические элементы">Лого и графические элементы</h2>
         </div>
-        <div class="case-row">
-          <div class="case-media" style="aspect-ratio: 885 / 500;"><img src="assets/cchb/cchb-11.webp" alt="" loading="lazy" decoding="async"></div>
-          <p class="t-body-1 case-section__text">Логотип строится на модульной, пиксельной системе с мягко скруглёнными углами, где формы букв собраны из укрупнённых цифровых блоков. Такой подход создаёт баланс между технологичностью и пластичностью, визуально отражая идею перехода между чёткой (чёрно-белой) и более гибкой, «живой» реальностью</p>
-        </div>
-        <div class="case-media case-media--logo-strip" style="aspect-ratio: 2136 / 373;">
-          <img class="case-only-desktop" src="assets/cchb/cchb-13.webp" alt="" loading="lazy" decoding="async">
-          <img class="case-only-mobile" src="assets/cchb/cchb-13-mobile.webp" alt="" loading="lazy" decoding="async">
-        </div>
-        <div class="case-row">
-          <div class="case-media" style="aspect-ratio: 1301 / 258;"><img src="assets/cchb/cchb-12.webp" alt="" loading="lazy" decoding="async"></div>
-          <p class="t-body-1 case-section__text">Это основной шрифт бренда restore: — его использование было принципиально важным для сохранения узнаваемости и подчеркивания того, что конкурс является частью экосистемы бренда</p>
+        <!-- Единая чёрная панель без скруглений — в Figma цчб-11, обе подписи,
+             цчб-13 и цчб-12 лежат на одном общем чёрном холсте, а не в
+             отдельных карточках с закруглёнными углами, как остальные медиа
+             на странице. На мобилке в Figma это уже не общая панель, а
+             обычный вертикальный поток (без чёрной подложки — страница и так
+             чёрная), поэтому раскладка переключается целиком через
+             @media в cchb.css, а не только картинка цчб-13/13-mobile. -->
+        <div class="case-logo-panel">
+          <div class="case-logo-panel__logo"><img src="assets/cchb/cchb-11.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-logo-panel__group">
+            <p class="t-body-1 case-logo-panel__text case-logo-panel__text--1">Логотип строится на модульной, пиксельной системе с мягко скруглёнными углами, где формы букв собраны из укрупнённых цифровых блоков. Такой подход создаёт баланс между технологичностью и пластичностью, визуально отражая идею перехода между чёткой (чёрно-белой) и более гибкой, «живой» реальностью</p>
+            <div class="case-logo-panel__strip">
+              <img class="case-only-desktop" src="assets/cchb/cchb-13.webp" alt="" loading="lazy" decoding="async">
+              <img class="case-only-mobile" src="assets/cchb/cchb-13-mobile.webp" alt="" loading="lazy" decoding="async">
+            </div>
+            <p class="t-body-1 case-logo-panel__text case-logo-panel__text--2">Это основной шрифт бренда restore: — его использование было принципиально важным для сохранения узнаваемости и подчеркивания того, что конкурс является частью экосистемы бренда</p>
+          </div>
+          <div class="case-logo-panel__font"><img src="assets/cchb/cchb-12.webp" alt="" loading="lazy" decoding="async"></div>
         </div>
       </section>
 
@@ -245,9 +260,14 @@
           <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-2.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-3.webp" alt="" loading="lazy" decoding="async"></div>
         </div>
+      </section>
 
-        <!-- Мерч -->
-        <div class="case-section__head" style="margin-top: 20px;">
+      <!-- Мерч: в Figma это отдельная секция со стандартным отступом 120px
+           (десктоп)/80px (мобилка) от «Фотостиля» выше — не 20px, как было
+           раньше, когда голова «Мерч» просто лежала внутри той же
+           case-section--tight с ручным margin-top -->
+      <section class="case-section case-section--tight">
+        <div class="case-section__head">
           <h2 class="t-h2 t-stroke case-section__title" data-text="Мерч">Мерч</h2>
           <p class="t-body-1 case-section__text">Стилистика конкурса проявляется и в материальных объектах через контраст цифровой графики с натуральными материалами: полупрозрачный пластик соседствуют с бумагой, картоном и тканями, создавая ощущение наложения слоёв и продолжая визуальную концепцию конкурса</p>
         </div>
