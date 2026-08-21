@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20260820">
-  <link rel="stylesheet" href="cchb.css?v=20260821c">
+  <link rel="stylesheet" href="cchb.css?v=20260821d">
 </head>
 <body class="case-page-body">
 
@@ -103,8 +103,9 @@
         <a class="case-next" href="index.html#case-neurocamp">
           <div class="case-next__top">
             <img class="case-next__logo" src="assets/logos/restore.png" alt="restore:" width="32" height="32">
-            <span class="case-next__arrow">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="case-next__arrow" aria-hidden="true">
+              <img class="case-next__arrow-default" src="assets/icons/case-arrow-white.svg" alt="" width="10" height="10">
+              <img class="case-next__arrow-hover" src="assets/icons/case-arrow-hover.svg" alt="" width="32" height="32">
             </span>
           </div>
           <div>
@@ -252,7 +253,12 @@
           <div class="case-media" style="aspect-ratio: 809 / 939;"><img src="assets/cchb/cchb-16.webp" alt="" loading="lazy" decoding="async"></div>
           <div class="case-media" style="aspect-ratio: 2140 / 1427;"><img src="assets/cchb/cchb-17.webp" alt="" loading="lazy" decoding="async"></div>
         </div>
-        <div class="case-media" style="max-width: 340px; aspect-ratio: 680 / 152;">
+        <!-- 120px до этого блока — как между обычными секциями (Figma: цчб-17
+             заканчивается на y=1202.13, следующая группа начинается на
+             y=1322.13, разница ровно 120px), а не стандартные 45px
+             .case-section--tight — «Сеть магазинов» и мастер-классы ниже
+             визуально отдельная группа от ряда с цчб-15/16/17 */
+        <div class="case-media" style="max-width: 340px; aspect-ratio: 680 / 152; margin-top: 120px;">
           <img src="assets/cchb/cchb-stores.webp" alt="" loading="lazy" decoding="async">
         </div>
         <div class="case-masterclass">
@@ -309,7 +315,21 @@
           <h2 class="t-h2 t-stroke case-section__title" data-text="Выставка">Выставка</h2>
           <p class="t-body-1 case-section__text">Итогом конкурса стала выставка лучших работ участников в галерее RuArts в Москве. Экспозиция перенесла визуальный язык конкурса в пространство галереи: неоновые цвета, градиенты и пиксельная графика создавали эффект цифрового слоя поверх реальности. Такой приём позволял зрителю ощутить переплетение работ участников с окружающим пространством, продолжая концепцию айдентики и подчеркивая взаимодействие искусства и технологий</p>
         </div>
-        <div class="case-collage" style="aspect-ratio: 1072 / 3218; overflow-x: hidden;">
+        <!-- overflow-x: hidden раньше стоял тут на случай, если какая-то из
+             картинок вылезет за правый край (было — цчб-пиксели-2 до
+             пересчёта координат) — сейчас все дети укладываются в 100%
+             ширины, инлайн убран. Он не просто был не нужен: по спецификации
+             overflow, если задать одну ось не visible, а другую — оставить
+             как есть, вторая ось у браузера молча становится auto, и на
+             системах без наложенных скроллбаров (Windows/Linux, Mac с
+             «всегда показывать полосы прокрутки») это рисовало пустую
+             вертикальную полосу-трек справа вдоль всего коллажа.
+
+             margin-top: 15px — расстояние до этого блока от заголовка с
+             текстом было 45px (общий .case-section { gap: 45px }), в Figma
+             же 60px (head-фрейм высотой 147, цчб-26 начинается на y=207) —
+             15px добавкой поверх базовых 45px закрывают разницу. -->
+        <div class="case-collage" style="aspect-ratio: 1072 / 3218; margin-top: 15px;">
           <div style="left:0.000%;top:6.432%;width:100.000%;height:20.510%;"><img src="assets/cchb/cchb-26.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:0.000%;top:28.807%;width:80.093%;height:17.778%;"><img src="assets/cchb/cchb-27.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:48.358%;top:45.163%;width:51.642%;height:10.752%;"><img src="assets/cchb/cchb-28.webp" alt="" loading="lazy" decoding="async"></div>
@@ -317,7 +337,7 @@
           <div style="left:16.161%;top:66.925%;width:83.464%;height:18.180%;"><img src="assets/cchb/cchb-30.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:0.000%;top:83.026%;width:50.588%;height:10.532%;"><img src="assets/cchb/cchb-31.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:0.000%;top:92.727%;width:4.944%;height:3.310%;"><img src="assets/cchb/cchb-pixels-3.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:31.271%;top:92.076%;width:36.713%;height:7.936%;"><img src="assets/cchb/cchb-32.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:31.271%;top:92.076%;width:36.713%;height:7.92%;"><img src="assets/cchb/cchb-32.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:80.094%;top:26.652%;width:15.438%;height:11.046%;"><img src="assets/cchb/cchb-pixels-1.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:8.049%;top:52.280%;width:16.231%;height:14.884%;"><img src="assets/cchb/cchb-pixels-2.webp" alt="" loading="lazy" decoding="async"></div>
         </div>
@@ -376,10 +396,21 @@
           <h2 class="t-h2 t-stroke case-section__title" data-text="Яндекс Дача">Яндекс Дача</h2>
           <p class="t-body-1 case-section__text">Событие в поддержку конкурсно-выставочного проекта restore:digital art, главными партнёрами которого выступали «Яндекс Плюс» и «Яндекс Пэй». Мероприятие призвано продемонстрировать, как современные технологии стирают границы между различными видами медиа</p>
         </div>
+        <!-- Отступы здесь — 13px везде (картинка-картинка), а не стандартные
+             .case-row { gap: 20px } / .case-section { gap: 45px } — сверено
+             с Figma (цчб-42 заканчивается на y=715.75, следующий ряд
+             начинается на y=728.75; цчб-44 и цчб-45 в паре справа — тот же
+             13px). Колонки ряда не поровну: слева цчб-43 (65.66% ширины),
+             справа пара помельче (33.07%) — раньше обе были flex: 1 (50/50),
+             из-за чего цчб-43 растягивался по высоте под более высокую пару
+             картинок справа (flex по умолчанию — align-items: stretch) и
+             казался неестественно вытянутым; теперь ширины колонок берут её
+             собственное соотношение сторон, а пара справа подстраивается
+             под получившуюся высоту. -->
         <div class="case-media" style="aspect-ratio: 2141 / 1432;"><img src="assets/cchb/cchb-42.webp" alt="" loading="lazy" decoding="async"></div>
-        <div class="case-row">
-          <div class="case-media" style="aspect-ratio: 1406 / 1234;"><img src="assets/cchb/cchb-43.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="flex:1; display:flex; flex-direction:column; gap:20px;">
+        <div class="case-row" style="gap: 13px; margin-top: -32px;">
+          <div class="case-media" style="aspect-ratio: 702.765 / 617.343; flex: 0 0 65.66%;"><img src="assets/cchb/cchb-43.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="flex: 0 0 33.07%; display:flex; flex-direction:column; gap:13px;">
             <div class="case-media" style="aspect-ratio: 708 / 604;"><img src="assets/cchb/cchb-44.webp" alt="" loading="lazy" decoding="async"></div>
             <div class="case-media" style="aspect-ratio: 708 / 604;"><img src="assets/cchb/cchb-45.webp" alt="" loading="lazy" decoding="async"></div>
           </div>
@@ -412,29 +443,43 @@
         </div>
       </section>
 
-      <!-- Результаты Яндекс Дача -->
+      <!-- Результаты Яндекс Дача: на десктопе картинка с числами и текст
+           стоят в один ряд, на одном уровне (в Figma оба у верхнего края
+           общей строки) — раньше картинка шла отдельным блоком НАД всей
+           head-секцией, и всё съезжало в вертикальный стек. На мобилке в
+           Figma другой порядок (сначала текст, картинка ниже) — вместо
+           двух версий разметки текст и картинка идут в DOM в мобильном
+           порядке, а на десктопе картинка визуально встаёт первой через
+           order. -->
       <section class="case-section case-section--tight">
-        <div class="case-media" style="aspect-ratio: 983 / 224; max-width: 491px;">
-          <img src="assets/cchb/cchb-numbers-2.webp" alt="" loading="lazy" decoding="async">
-        </div>
-        <div class="case-section__head">
-          <span></span>
-          <div class="case-section__text">
+        <div class="case-yandex-results-row">
+          <div class="case-section__text case-yandex-results-row__text">
             <h2 class="t-h2 t-stroke" data-text="Результаты ивента Яндекс Дача" style="margin-bottom:12px;">Результаты ивента Яндекс Дача</h2>
             <p class="t-body-1">Программа вызвала широкий интерес в медиа, обеспечив большие охваты, а насыщенная цифровая атмосфера и активное участие посетителей сделали событие ярким и запоминающимся</p>
+          </div>
+          <div class="case-media case-yandex-results-row__media" style="aspect-ratio: 983 / 224; max-width: 491px;">
+            <img src="assets/cchb/cchb-numbers-2.webp" alt="" loading="lazy" decoding="async">
           </div>
         </div>
         <div class="case-media" style="aspect-ratio: 2140 / 1322;"><img src="assets/cchb/cchb-54.webp" alt="" loading="lazy" decoding="async"></div>
       </section>
 
-      <!-- Финал -->
+      <!-- Финал: кадр видео в Figma (1072×713.33) заметно ниже, чем даёт
+           собственное соотношение сторон ролика (2144×1306 = те же
+           пропорции, что раньше стояли в aspect-ratio) — то есть видео не
+           вписано в рамку целиком, а обрезано по бокам, чтобы заполнить её
+           по высоте (object-fit: cover), а не наоборот, как было
+           (height: auto оставлял видео в его родном, более широком кадре).
+           Ниже — тоже не вертикальный стек: «Дизайн команда» и три колонки
+           команды в Figma стоят в один ряд, как в остальных секциях
+           (заголовок слева, контент справа), а не заголовком сверху. -->
       <section class="case-section case-section--tight">
-        <div class="case-media" style="aspect-ratio: 2144 / 1306;">
+        <div class="case-media case-media--fill" style="aspect-ratio: 1072 / 713.328;">
           <video src="assets/cchb/video/cchb-final.mp4" poster="assets/posters/cchb-final.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Финальное видео"></video>
           <div class="video-shield" aria-hidden="true"></div>
         </div>
         <div class="case-team">
-          <h2 class="t-h2 t-stroke" data-text="Дизайн команда">Дизайн команда</h2>
+          <h2 class="t-h2 t-stroke case-team__title" data-text="Дизайн команда">Дизайн команда</h2>
           <div class="case-team__row">
             <div>
               <p class="t-body-1 case-team__role">Арт-директор</p>

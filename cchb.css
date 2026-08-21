@@ -122,19 +122,25 @@
   background: var(--pink-200);
 }
 
+/* Стеклянная плашка — как в Figma (rgba(255,255,255,0.12), Shadow -
+   Container), а не сплошной белый фон: карточка на чёрной странице, а не
+   на розовой, как «Домой»/«Назад», для неё оставили белую заливку. Текст —
+   белый, наследуется от .case-page-body по умолчанию, отдельно красить
+   не нужно (обратный черный оставался тут ещё с прошлой правки под
+   сплошной белый фон). */
 .case-next {
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: 12px;
-  border-radius: var(--radius-24);
-  background: var(--white);
-  color: var(--black);
+  border-radius: var(--radius-20);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: var(--shadow-container);
   transition: background 0.2s ease;
 }
 
 .case-next:hover {
-  background: var(--pink-200);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .case-next__top {
@@ -150,7 +156,11 @@
   object-fit: cover;
 }
 
+/* Стрелка со скрещиванием в бейдж с обводкой при наведении — тот же
+   компонент, что и .case__corner-arrow на главной (см. styles.css):
+   готовые ассеты, а не рисованная SVG-стрелка, которая тут стояла раньше. */
 .case-next__arrow {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,8 +168,38 @@
   height: 32px;
 }
 
+.case-next__arrow-default,
+.case-next__arrow-hover {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  transition: opacity 0.3s ease;
+}
+
+.case-next__arrow-default {
+  width: 10px;
+  height: 10px;
+  opacity: 1;
+}
+
+.case-next__arrow-hover {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .case-next:hover .case-next__arrow-default {
+    opacity: 0;
+  }
+
+  .case-next:hover .case-next__arrow-hover {
+    opacity: 1;
+  }
+}
+
 .case-next__label {
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.4);
 }
 
 /* ---------- Топ-бар кейса: RU справа, как на главной ---------- */
@@ -253,12 +293,52 @@
 
 .case-hero__title {
   max-width: 601px;
-  /* Заголовок переносится на 2-3 строки — у .t-stroke белая обводка
-     выходит на 10px за пределы букв, а базовый line-height 0.9 (плотный,
-     рассчитан на однострочные заголовки) сближает строки настолько, что
-     обводки соседних строк наезжают друг на друга и превращаются в кашу.
-     Увеличиваем интервал только здесь, не трогая .t-h2 в целом. */
-  line-height: 1.25;
+}
+
+/* Заголовок переносится на 2-3 строки. line-height у .t-h2 — 90%, как в
+   Figma UI kit, трогать его нельзя — а стандартная 10px-обводка .t-stroke
+   (см. styles.css, откалибрована под 56px Promo на главной) при таком
+   плотном интервале у 28px-заголовка наезжает на соседнюю строку. Вместо
+   того чтобы раздвигать строки, уменьшаем саму обводку пропорционально
+   размеру шрифта (28/56 от 10px ≈ 5px) — those же 34 точки по кругу,
+   просто с меньшим радиусом; ::before не переопределяет ничего, кроме
+   text-shadow. */
+.case-hero__title.t-stroke::before {
+  text-shadow:
+    5px 0px 0 var(--white),
+    4.91px 0.92px 0 var(--white),
+    4.66px 1.81px 0 var(--white),
+    4.25px 2.63px 0 var(--white),
+    3.7px 3.37px 0 var(--white),
+    3.01px 3.99px 0 var(--white),
+    2.23px 4.48px 0 var(--white),
+    1.37px 4.81px 0 var(--white),
+    0.46px 4.98px 0 var(--white),
+    -0.46px 4.98px 0 var(--white),
+    -1.37px 4.81px 0 var(--white),
+    -2.23px 4.48px 0 var(--white),
+    -3.01px 3.99px 0 var(--white),
+    -3.7px 3.37px 0 var(--white),
+    -4.25px 2.63px 0 var(--white),
+    -4.66px 1.81px 0 var(--white),
+    -4.91px 0.92px 0 var(--white),
+    -5px 0px 0 var(--white),
+    -4.91px -0.92px 0 var(--white),
+    -4.66px -1.81px 0 var(--white),
+    -4.25px -2.63px 0 var(--white),
+    -3.7px -3.37px 0 var(--white),
+    -3.01px -3.99px 0 var(--white),
+    -2.23px -4.48px 0 var(--white),
+    -1.37px -4.81px 0 var(--white),
+    -0.46px -4.98px 0 var(--white),
+    0.46px -4.98px 0 var(--white),
+    1.37px -4.81px 0 var(--white),
+    2.23px -4.48px 0 var(--white),
+    3.01px -3.99px 0 var(--white),
+    3.7px -3.37px 0 var(--white),
+    4.25px -2.63px 0 var(--white),
+    4.66px -1.81px 0 var(--white),
+    4.91px -0.92px 0 var(--white);
 }
 
 .case-hero__chips {
@@ -308,10 +388,44 @@
 }
 
 /* «Контекст и задача» — единственный заголовок на странице с ручным
-   переносом строки (см. #context в разметке) — тот же наезд обводок
-   соседних строк, что и у заголовка кейса (.case-hero__title) выше. */
-#context .case-section__title {
-  line-height: 1.3;
+   переносом строки (см. #context в разметке) — та же уменьшенная обводка,
+   что у .case-hero__title выше, и по той же причине. */
+#context .case-section__title .t-stroke::before {
+  text-shadow:
+    5px 0px 0 var(--white),
+    4.91px 0.92px 0 var(--white),
+    4.66px 1.81px 0 var(--white),
+    4.25px 2.63px 0 var(--white),
+    3.7px 3.37px 0 var(--white),
+    3.01px 3.99px 0 var(--white),
+    2.23px 4.48px 0 var(--white),
+    1.37px 4.81px 0 var(--white),
+    0.46px 4.98px 0 var(--white),
+    -0.46px 4.98px 0 var(--white),
+    -1.37px 4.81px 0 var(--white),
+    -2.23px 4.48px 0 var(--white),
+    -3.01px 3.99px 0 var(--white),
+    -3.7px 3.37px 0 var(--white),
+    -4.25px 2.63px 0 var(--white),
+    -4.66px 1.81px 0 var(--white),
+    -4.91px 0.92px 0 var(--white),
+    -5px 0px 0 var(--white),
+    -4.91px -0.92px 0 var(--white),
+    -4.66px -1.81px 0 var(--white),
+    -4.25px -2.63px 0 var(--white),
+    -3.7px -3.37px 0 var(--white),
+    -3.01px -3.99px 0 var(--white),
+    -2.23px -4.48px 0 var(--white),
+    -1.37px -4.81px 0 var(--white),
+    -0.46px -4.98px 0 var(--white),
+    0.46px -4.98px 0 var(--white),
+    1.37px -4.81px 0 var(--white),
+    2.23px -4.48px 0 var(--white),
+    3.01px -3.99px 0 var(--white),
+    3.7px -3.37px 0 var(--white),
+    4.25px -2.63px 0 var(--white),
+    4.66px -1.81px 0 var(--white),
+    4.91px -0.92px 0 var(--white);
 }
 
 .case-section__text {
@@ -339,6 +453,17 @@
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* Финальное видео (цчб-финал): кадр в Figma заметно ниже (1072×713.33),
+   чем даёт собственное соотношение сторон ролика (2144×1306 — те же
+   пропорции), то есть видео обрезано по бокам, чтобы заполнить рамку по
+   высоте, а не вписано в неё целиком. height: auto (как у остальных
+   .case-media) оставляло бы ролик в его родном, более широком кадре —
+   здесь высота и cover нужны явно. */
+.case-media--fill video {
+  height: 100%;
+  object-fit: cover;
 }
 
 /* цчб-13 существует в двух кропах — десктопном и мобильном (цчб-13 mobile
@@ -369,9 +494,29 @@
 }
 
 .case-logo-panel__logo img,
-.case-logo-panel__strip img,
 .case-logo-panel__font img {
   display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* .case-logo-panel__strip держит и десктопный, и мобильный кроп цчб-13 —
+   видимость переключает .case-only-desktop/.case-only-mobile (см. ниже).
+   Раньше здесь стоял общий с .case-logo-panel__logo/__font селектор
+   ".case-logo-panel__strip img { display: block; ... }" — он специфичнее
+   (класс + тег), чем ".case-only-mobile { display: none; }" (один класс),
+   и перебивал скрытие: на десктопе под цчб-13.webp сквозь неё просвечивала
+   ещё и cchb-13-mobile.webp, растянутая под ней в потоке. position: absolute
+   убирает картинку из потока независимо от display, поэтому display здесь
+   больше не задаём вовсе — им целиком управляют .case-only-* */
+.case-logo-panel__strip {
+  position: relative;
+}
+
+.case-logo-panel__strip img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -485,6 +630,37 @@
   object-fit: cover;
 }
 
+/* «Результаты ивента Яндекс Дача»: картинка с цифрами и текст лежат в один
+   ряд, на одном уровне (в Figma оба у верхнего края общей строки) — раньше
+   картинка шла отдельным блоком НАД всей head-секцией. На мобилке в Figma
+   другой порядок (сначала текст, картинка ниже) — вместо двух версий
+   разметки текст и картинка идут в DOM в мобильном порядке, а на десктопе
+   картинка визуально встаёт первой через order. */
+.case-yandex-results-row {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@media (min-width: 1081px) {
+  .case-yandex-results-row {
+    flex-direction: row;
+    align-items: flex-start;
+    /* в Figma между картинкой (491.5px) и текстом (424px) — 132px */
+    gap: 132px;
+  }
+
+  .case-yandex-results-row__media {
+    flex: 0 0 491px;
+    order: -1;
+  }
+
+  .case-yandex-results-row__text {
+    flex: 1;
+    min-width: 260px;
+  }
+}
+
 /* произвольный коллаж — контейнер с фиксированным соотношением сторон,
    дети позиционируются в процентах от его размера (точные координаты
    из Figma переведены в %, чтобы раскладка тянулась вместе с шириной
@@ -576,6 +752,10 @@
 
 /* ---------- Финал: команда ---------- */
 
+/* В Figma «Дизайн команда» и три колонки с именами стоят в один ряд
+   (заголовок слева, как и везде на странице, состав — справа), а не
+   заголовком сверху над рядом — так было раньше. На мобилке в ряд не
+   уложить, там всё равно стек. */
 .case-team {
   display: flex;
   flex-direction: column;
@@ -584,8 +764,27 @@
 
 .case-team__row {
   display: flex;
-  gap: 40px;
+  /* 40px были взяты с потолка — в Figma между колонками команды ровно
+     ~19.5px (114.45 − 95 = 19.45, 282.91 − 263.45 = 19.45) */
+  gap: 20px;
   flex-wrap: wrap;
+}
+
+@media (min-width: 1081px) {
+  .case-team {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .case-team__title {
+    /* до начала колонок с именами в Figma 639px от левого края ряда */
+    flex: 0 0 639px;
+  }
+
+  .case-team__row {
+    flex: 1;
+  }
 }
 
 .case-team__role {
@@ -708,10 +907,46 @@
      под ним не нужна), пусть переносится как обычный текст. */
   .case-section__title {
     white-space: normal;
-    /* если из-за переноса получилось 2+ строк — тот же зазор, что и у
-       .case-hero__title/#context выше, иначе белые обводки строк наедут
-       друг на друга */
-    line-height: 1.3;
+  }
+
+  /* если из-за переноса получилось 2+ строк — та же уменьшенная обводка,
+     что у .case-hero__title/#context выше (см. там подробный комментарий) */
+  .case-section__title.t-stroke::before {
+    text-shadow:
+      5px 0px 0 var(--white),
+      4.91px 0.92px 0 var(--white),
+      4.66px 1.81px 0 var(--white),
+      4.25px 2.63px 0 var(--white),
+      3.7px 3.37px 0 var(--white),
+      3.01px 3.99px 0 var(--white),
+      2.23px 4.48px 0 var(--white),
+      1.37px 4.81px 0 var(--white),
+      0.46px 4.98px 0 var(--white),
+      -0.46px 4.98px 0 var(--white),
+      -1.37px 4.81px 0 var(--white),
+      -2.23px 4.48px 0 var(--white),
+      -3.01px 3.99px 0 var(--white),
+      -3.7px 3.37px 0 var(--white),
+      -4.25px 2.63px 0 var(--white),
+      -4.66px 1.81px 0 var(--white),
+      -4.91px 0.92px 0 var(--white),
+      -5px 0px 0 var(--white),
+      -4.91px -0.92px 0 var(--white),
+      -4.66px -1.81px 0 var(--white),
+      -4.25px -2.63px 0 var(--white),
+      -3.7px -3.37px 0 var(--white),
+      -3.01px -3.99px 0 var(--white),
+      -2.23px -4.48px 0 var(--white),
+      -1.37px -4.81px 0 var(--white),
+      -0.46px -4.98px 0 var(--white),
+      0.46px -4.98px 0 var(--white),
+      1.37px -4.81px 0 var(--white),
+      2.23px -4.48px 0 var(--white),
+      3.01px -3.99px 0 var(--white),
+      3.7px -3.37px 0 var(--white),
+      4.25px -2.63px 0 var(--white),
+      4.66px -1.81px 0 var(--white),
+      4.91px -0.92px 0 var(--white);
   }
 
   /* сами пустые заглушки на мобилке не нужны вовсе — там текст и так один
