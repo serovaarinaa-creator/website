@@ -110,7 +110,7 @@
           </div>
           <div>
             <p class="t-body-1 case-next__label">Следующий кейс</p>
-            <p class="t-body-2">NEURO CAMP</p>
+            <p class="t-body-1">NEURO CAMP</p>
           </div>
         </a>
       </div>
@@ -357,18 +357,25 @@
              margin-top: 15px — расстояние до этого блока от заголовка с
              текстом было 45px (общий .case-section { gap: 45px }), в Figma
              же 60px (head-фрейм высотой 147, цчб-26 начинается на y=207) —
-             15px добавкой поверх базовых 45px закрывают разницу. -->
-        <div class="case-collage" style="aspect-ratio: 1072 / 3218; margin-top: 15px;">
-          <div style="left:0.000%;top:6.432%;width:100.000%;height:20.510%;"><img src="assets/cchb/cchb-26.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:0.000%;top:28.807%;width:80.093%;height:17.778%;"><img src="assets/cchb/cchb-27.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:48.358%;top:45.163%;width:51.642%;height:10.752%;"><img src="assets/cchb/cchb-28.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:22.295%;top:54.796%;width:39.767%;height:7.398%;"><img src="assets/cchb/cchb-29.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:16.161%;top:66.925%;width:83.464%;height:18.180%;"><img src="assets/cchb/cchb-30.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:0.000%;top:83.026%;width:50.588%;height:10.532%;"><img src="assets/cchb/cchb-31.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:0.000%;top:92.727%;width:4.944%;height:3.310%;"><img src="assets/cchb/cchb-pixels-3.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:31.271%;top:92.076%;width:36.713%;height:7.92%;"><img src="assets/cchb/cchb-32.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:80.094%;top:26.652%;width:15.438%;height:11.046%;"><img src="assets/cchb/cchb-pixels-1.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:8.049%;top:52.280%;width:16.231%;height:14.884%;"><img src="assets/cchb/cchb-pixels-2.webp" alt="" loading="lazy" decoding="async"></div>
+             15px добавкой поверх базовых 45px закрывают разницу.
+
+             Координаты детей коллажа пересчитаны от y=207 (верх цчб-26), а
+             не от y=0 всего фрейма «Выставка» в Figma — раньше высота
+             коллажа (3218) и проценты включали в себя ещё и зону заголовка
+             (207px), из-за чего перед первой картинкой внутри коллажа
+             оставался лишний пустой отступ поверх margin-top: 15px, и
+             видимый зазор до текста был не 60px, а 60+207≈267px. -->
+        <div class="case-collage" style="aspect-ratio: 1072 / 3011; margin-top: 15px;">
+          <div style="left:0.000%;top:0.000%;width:100.000%;height:21.924%;"><img src="assets/cchb/cchb-26.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:0.000%;top:23.912%;width:80.093%;height:19.000%;"><img src="assets/cchb/cchb-27.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:48.358%;top:41.391%;width:51.642%;height:11.491%;"><img src="assets/cchb/cchb-28.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:22.295%;top:51.687%;width:39.767%;height:7.909%;"><img src="assets/cchb/cchb-29.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:16.161%;top:64.649%;width:83.464%;height:19.425%;"><img src="assets/cchb/cchb-30.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:0.000%;top:81.860%;width:50.588%;height:11.256%;"><img src="assets/cchb/cchb-31.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__pixel" style="left:0.000%;top:92.229%;width:4.944%;height:3.537%;"><img src="assets/cchb/cchb-pixels-3.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:31.271%;top:91.532%;width:36.713%;height:8.466%;"><img src="assets/cchb/cchb-32.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__pixel" style="left:80.094%;top:21.611%;width:15.438%;height:11.807%;"><img src="assets/cchb/cchb-pixels-1.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__pixel" style="left:8.049%;top:49.000%;width:16.231%;height:15.909%;"><img src="assets/cchb/cchb-pixels-2.webp" alt="" loading="lazy" decoding="async"></div>
         </div>
       </section>
 
@@ -384,12 +391,12 @@
         </div>
       </section>
 
-      <!-- Референсы -->
+      <!-- Референсы: в Figma заголовок и текст — не отдельная "голова" секции
+           сверху, а собственный элемент ВНУТРИ коллажа (Frame 2087329742,
+           x=0.4, y=511.32 из 632 общей высоты — то есть в нижней трети,
+           слева), и без обводки — это просто белый текст, как обычный текст
+           страницы, а не .t-stroke заголовок. -->
       <section class="case-section case-section--tight">
-        <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Референсы">Референсы</h2>
-          <p class="t-body-1 case-section__text">В данный проект хотелось интегрировать пиксельную графику конкурса, фирменные графические формы бренда restore;, а также мерцающие силуэты фигур</p>
-        </div>
         <div class="case-collage" style="aspect-ratio: 1072 / 632;">
           <div style="left:5.114%;top:3.103%;width:18.850%;height:39.456%;"><img src="assets/cchb/cchb-33.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:0.000%;top:44.693%;width:23.964%;height:32.199%;"><img src="assets/cchb/cchb-34.webp" alt="" loading="lazy" decoding="async"></div>
@@ -398,19 +405,25 @@
           <div style="left:55.245%;top:54.918%;width:23.255%;height:38.682%;"><img src="assets/cchb/cchb-37.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:79.719%;top:5.429%;width:18.130%;height:39.084%;"><img src="assets/cchb/cchb-38.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:79.717%;top:46.492%;width:20.283%;height:36.968%;"><img src="assets/cchb/cchb-39.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__text" style="left:0.038%;top:80.911%;width:40.338%;">
+            <h2 class="t-h2" style="margin-bottom:12px;">Референсы</h2>
+            <p class="t-body-1">В данный проект хотелось интегрировать пиксельную графику конкурса, фирменные графические формы бренда restore;, а также мерцающие силуэты фигур</p>
+          </div>
         </div>
       </section>
 
-      <!-- Эскизы -->
+      <!-- Эскизы: тот же случай — заголовок и текст лежат ВНУТРИ коллажа,
+           справа от первой картинки (Frame 2087329742, x=800.28, y=0 из
+           1072 общей ширины), без обводки. -->
       <section class="case-section case-section--tight">
-        <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Эскизы">Эскизы</h2>
-          <p class="t-body-1 case-section__text">Для этого были проведены измерения помещения, в котором будут располагаться формы для 3D-маппинга, и по предварительным эскизам сделали визуализацию 3D-пространства со световой схемой</p>
-        </div>
         <div class="case-collage" style="aspect-ratio: 1072 / 1108;">
           <div style="left:0.000%;top:0.000%;width:64.858%;height:58.702%;"><img src="assets/cchb/cchb-40.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:0.000%;top:56.904%;width:100.000%;height:44.720%;"><img src="assets/cchb/cchb-41.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:69.312%;top:29.351%;width:19.916%;height:31.814%;"><img src="assets/cchb/cchb-pixels-4.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__pixel" style="left:69.312%;top:29.351%;width:19.916%;height:31.814%;"><img src="assets/cchb/cchb-pixels-4.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__text" style="left:74.654%;top:0.000%;width:25.280%;">
+            <h2 class="t-h2" style="margin-bottom:12px;">Эскизы</h2>
+            <p class="t-body-1">Для этого были проведены измерения помещения, в котором будут располагаться формы для 3D-маппинга, и по предварительным эскизам сделали визуализацию 3D-пространства со световой схемой</p>
+          </div>
         </div>
       </section>
 
@@ -521,15 +534,15 @@
           <div class="case-team__row">
             <div>
               <p class="t-body-1 case-team__role">Арт-директор</p>
-              <div class="case-team__names"><p class="t-body-2">Егор Гализдра</p></div>
+              <div class="case-team__names"><p class="t-body-1">Егор Гализдра</p></div>
             </div>
             <div>
               <p class="t-body-1 case-team__role">Ведущие дизайнеры</p>
-              <div class="case-team__names"><p class="t-body-2">Николай Маковский</p><p class="t-body-2">Светлана Питимирова</p></div>
+              <div class="case-team__names"><p class="t-body-1">Николай Маковский</p><p class="t-body-1">Светлана Питимирова</p></div>
             </div>
             <div>
               <p class="t-body-1 case-team__role">Дизайнеры</p>
-              <div class="case-team__names"><p class="t-body-2">Анна Белихова</p><p class="t-body-2">Софья Загуменкова</p><p class="t-body-2">Арина Серова</p></div>
+              <div class="case-team__names"><p class="t-body-1">Анна Белихова</p><p class="t-body-1">Софья Загуменкова</p><p class="t-body-1">Арина Серова</p></div>
             </div>
           </div>
         </div>
