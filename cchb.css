@@ -269,10 +269,10 @@
 .case-hero__text {
   display: flex;
   flex-direction: column;
-  /* Заголовок ниже — .t-stroke: белая обводка выходит на 10px за пределы
-     самих букв, а строка над ним стоит совсем близко (плотный line-height
-     0.9) — 12px тут не хватало, обводка наезжала на подпись «Описание». */
-  gap: 34px;
+  /* В Figma между подписью «Описание» и заголовком 15px — заголовок
+     больше не в обводке (см. .case-hero__title ниже), так что прежний
+     увеличенный зазор (34px, под старую обводку) больше не нужен. */
+  gap: 15px;
 }
 
 /* В Figma подпись и заголовок над видео залиты почти белым (#ededf4) —
@@ -366,41 +366,73 @@
   z-index: -1;
   color: transparent;
   pointer-events: none;
+  /* Тот же полный радиус 10px и то же 60-точечное кольцо, что и в общем
+     .t-stroke::before (styles.css) — раньше здесь стоял уменьшенный 5px,
+     из-за чего обводка «Контекст и задача» выглядела заметно тоньше, чем
+     у всех остальных (однострочных) заголовков страницы; парный слой уже
+     сам по себе решает проблему наложения строк (см. комментарий выше),
+     уменьшать радиус ради неё не нужно. */
   text-shadow:
-    5px 0px 0 var(--white),
-    4.91px 0.92px 0 var(--white),
-    4.66px 1.81px 0 var(--white),
-    4.25px 2.63px 0 var(--white),
-    3.7px 3.37px 0 var(--white),
-    3.01px 3.99px 0 var(--white),
-    2.23px 4.48px 0 var(--white),
-    1.37px 4.81px 0 var(--white),
-    0.46px 4.98px 0 var(--white),
-    -0.46px 4.98px 0 var(--white),
-    -1.37px 4.81px 0 var(--white),
-    -2.23px 4.48px 0 var(--white),
-    -3.01px 3.99px 0 var(--white),
-    -3.7px 3.37px 0 var(--white),
-    -4.25px 2.63px 0 var(--white),
-    -4.66px 1.81px 0 var(--white),
-    -4.91px 0.92px 0 var(--white),
-    -5px 0px 0 var(--white),
-    -4.91px -0.92px 0 var(--white),
-    -4.66px -1.81px 0 var(--white),
-    -4.25px -2.63px 0 var(--white),
-    -3.7px -3.37px 0 var(--white),
-    -3.01px -3.99px 0 var(--white),
-    -2.23px -4.48px 0 var(--white),
-    -1.37px -4.81px 0 var(--white),
-    -0.46px -4.98px 0 var(--white),
-    0.46px -4.98px 0 var(--white),
-    1.37px -4.81px 0 var(--white),
-    2.23px -4.48px 0 var(--white),
-    3.01px -3.99px 0 var(--white),
-    3.7px -3.37px 0 var(--white),
-    4.25px -2.63px 0 var(--white),
-    4.66px -1.81px 0 var(--white),
-    4.91px -0.92px 0 var(--white);
+    10px 0px 0 var(--white),
+    9.95px 1.05px 0 var(--white),
+    9.78px 2.08px 0 var(--white),
+    9.51px 3.09px 0 var(--white),
+    9.14px 4.07px 0 var(--white),
+    8.66px 5px 0 var(--white),
+    8.09px 5.88px 0 var(--white),
+    7.43px 6.69px 0 var(--white),
+    6.69px 7.43px 0 var(--white),
+    5.88px 8.09px 0 var(--white),
+    5px 8.66px 0 var(--white),
+    4.07px 9.14px 0 var(--white),
+    3.09px 9.51px 0 var(--white),
+    2.08px 9.78px 0 var(--white),
+    1.05px 9.95px 0 var(--white),
+    0px 10px 0 var(--white),
+    -1.05px 9.95px 0 var(--white),
+    -2.08px 9.78px 0 var(--white),
+    -3.09px 9.51px 0 var(--white),
+    -4.07px 9.14px 0 var(--white),
+    -5px 8.66px 0 var(--white),
+    -5.88px 8.09px 0 var(--white),
+    -6.69px 7.43px 0 var(--white),
+    -7.43px 6.69px 0 var(--white),
+    -8.09px 5.88px 0 var(--white),
+    -8.66px 5px 0 var(--white),
+    -9.14px 4.07px 0 var(--white),
+    -9.51px 3.09px 0 var(--white),
+    -9.78px 2.08px 0 var(--white),
+    -9.95px 1.05px 0 var(--white),
+    -10px 0px 0 var(--white),
+    -9.95px -1.05px 0 var(--white),
+    -9.78px -2.08px 0 var(--white),
+    -9.51px -3.09px 0 var(--white),
+    -9.14px -4.07px 0 var(--white),
+    -8.66px -5px 0 var(--white),
+    -8.09px -5.88px 0 var(--white),
+    -7.43px -6.69px 0 var(--white),
+    -6.69px -7.43px 0 var(--white),
+    -5.88px -8.09px 0 var(--white),
+    -5px -8.66px 0 var(--white),
+    -4.07px -9.14px 0 var(--white),
+    -3.09px -9.51px 0 var(--white),
+    -2.08px -9.78px 0 var(--white),
+    -1.05px -9.95px 0 var(--white),
+    0px -10px 0 var(--white),
+    1.05px -9.95px 0 var(--white),
+    2.08px -9.78px 0 var(--white),
+    3.09px -9.51px 0 var(--white),
+    4.07px -9.14px 0 var(--white),
+    5px -8.66px 0 var(--white),
+    5.88px -8.09px 0 var(--white),
+    6.69px -7.43px 0 var(--white),
+    7.43px -6.69px 0 var(--white),
+    8.09px -5.88px 0 var(--white),
+    8.66px -5px 0 var(--white),
+    9.14px -4.07px 0 var(--white),
+    9.51px -3.09px 0 var(--white),
+    9.78px -2.08px 0 var(--white),
+    9.95px -1.05px 0 var(--white);
 }
 
 .case-stroke-multiline__fg {
@@ -440,8 +472,23 @@
    пропорции), то есть видео обрезано по бокам, чтобы заполнить рамку по
    высоте, а не вписано в неё целиком. height: auto (как у остальных
    .case-media) оставляло бы ролик в его родном, более широком кадре —
-   здесь высота и cover нужны явно. */
+   здесь высота и cover нужны явно.
+
+   position: absolute + inset: 0 (а не просто height: 100% в потоке, как
+   было раньше) — тот же приём, что и у .case-hero__media video выше: с
+   процентной высотой в потоке ролик заполнял рамку не везде одинаково
+   надёжно (высота у .case-media только из aspect-ratio, без явного
+   height, — на видео-заменяемом элементе это не все браузеры считают
+   «определённой» высотой для height: 100% ребёнка). Абсолютное
+   позиционирование задаёт размер рамки напрямую, а не через проценты. */
+.case-media--fill {
+  position: relative;
+}
+
 .case-media--fill video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
   height: 100%;
   object-fit: cover;
 }
@@ -620,49 +667,6 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-}
-
-/* «Результаты ивента Яндекс Дача» — заголовок в узкой колонке (min-width:
-   260px), поэтому тоже переносится на 2 строки, как «Контекст и задача»
-   и заголовок в hero — тот же уменьшенный радиус обводки, иначе полная
-   10px-обводка .t-stroke внизу заходит на текст под заголовком (margin-bottom
-   тут всего 12px) */
-.case-yandex-results-row__text h2.t-stroke::before {
-  text-shadow:
-    5px 0px 0 var(--white),
-    4.91px 0.92px 0 var(--white),
-    4.66px 1.81px 0 var(--white),
-    4.25px 2.63px 0 var(--white),
-    3.7px 3.37px 0 var(--white),
-    3.01px 3.99px 0 var(--white),
-    2.23px 4.48px 0 var(--white),
-    1.37px 4.81px 0 var(--white),
-    0.46px 4.98px 0 var(--white),
-    -0.46px 4.98px 0 var(--white),
-    -1.37px 4.81px 0 var(--white),
-    -2.23px 4.48px 0 var(--white),
-    -3.01px 3.99px 0 var(--white),
-    -3.7px 3.37px 0 var(--white),
-    -4.25px 2.63px 0 var(--white),
-    -4.66px 1.81px 0 var(--white),
-    -4.91px 0.92px 0 var(--white),
-    -5px 0px 0 var(--white),
-    -4.91px -0.92px 0 var(--white),
-    -4.66px -1.81px 0 var(--white),
-    -4.25px -2.63px 0 var(--white),
-    -3.7px -3.37px 0 var(--white),
-    -3.01px -3.99px 0 var(--white),
-    -2.23px -4.48px 0 var(--white),
-    -1.37px -4.81px 0 var(--white),
-    -0.46px -4.98px 0 var(--white),
-    0.46px -4.98px 0 var(--white),
-    1.37px -4.81px 0 var(--white),
-    2.23px -4.48px 0 var(--white),
-    3.01px -3.99px 0 var(--white),
-    3.7px -3.37px 0 var(--white),
-    4.25px -2.63px 0 var(--white),
-    4.66px -1.81px 0 var(--white),
-    4.91px -0.92px 0 var(--white);
 }
 
 @media (min-width: 1081px) {
@@ -948,43 +952,72 @@
   }
 
   /* если из-за переноса получилось 2+ строк — та же уменьшенная обводка,
-     что у .case-hero__title/#context выше (см. там подробный комментарий) */
+     что у .case-hero__title/#context выше (см. там подробный комментарий);
+     60 точек по кругу вместо 34 — то же сглаживание зубчатого края, что и
+     в базовом .t-stroke::before (styles.css) и в .case-stroke-multiline__bg
+     выше, только на уменьшенном 5px радиусе. */
   .case-section__title.t-stroke::before {
     text-shadow:
       5px 0px 0 var(--white),
-      4.91px 0.92px 0 var(--white),
-      4.66px 1.81px 0 var(--white),
-      4.25px 2.63px 0 var(--white),
-      3.7px 3.37px 0 var(--white),
-      3.01px 3.99px 0 var(--white),
-      2.23px 4.48px 0 var(--white),
-      1.37px 4.81px 0 var(--white),
-      0.46px 4.98px 0 var(--white),
-      -0.46px 4.98px 0 var(--white),
-      -1.37px 4.81px 0 var(--white),
-      -2.23px 4.48px 0 var(--white),
-      -3.01px 3.99px 0 var(--white),
-      -3.7px 3.37px 0 var(--white),
-      -4.25px 2.63px 0 var(--white),
-      -4.66px 1.81px 0 var(--white),
-      -4.91px 0.92px 0 var(--white),
+      4.97px 0.52px 0 var(--white),
+      4.89px 1.04px 0 var(--white),
+      4.76px 1.55px 0 var(--white),
+      4.57px 2.03px 0 var(--white),
+      4.33px 2.5px 0 var(--white),
+      4.05px 2.94px 0 var(--white),
+      3.72px 3.35px 0 var(--white),
+      3.35px 3.72px 0 var(--white),
+      2.94px 4.05px 0 var(--white),
+      2.5px 4.33px 0 var(--white),
+      2.03px 4.57px 0 var(--white),
+      1.55px 4.76px 0 var(--white),
+      1.04px 4.89px 0 var(--white),
+      0.52px 4.97px 0 var(--white),
+      0px 5px 0 var(--white),
+      -0.52px 4.97px 0 var(--white),
+      -1.04px 4.89px 0 var(--white),
+      -1.55px 4.76px 0 var(--white),
+      -2.03px 4.57px 0 var(--white),
+      -2.5px 4.33px 0 var(--white),
+      -2.94px 4.05px 0 var(--white),
+      -3.35px 3.72px 0 var(--white),
+      -3.72px 3.35px 0 var(--white),
+      -4.05px 2.94px 0 var(--white),
+      -4.33px 2.5px 0 var(--white),
+      -4.57px 2.03px 0 var(--white),
+      -4.76px 1.55px 0 var(--white),
+      -4.89px 1.04px 0 var(--white),
+      -4.97px 0.52px 0 var(--white),
       -5px 0px 0 var(--white),
-      -4.91px -0.92px 0 var(--white),
-      -4.66px -1.81px 0 var(--white),
-      -4.25px -2.63px 0 var(--white),
-      -3.7px -3.37px 0 var(--white),
-      -3.01px -3.99px 0 var(--white),
-      -2.23px -4.48px 0 var(--white),
-      -1.37px -4.81px 0 var(--white),
-      -0.46px -4.98px 0 var(--white),
-      0.46px -4.98px 0 var(--white),
-      1.37px -4.81px 0 var(--white),
-      2.23px -4.48px 0 var(--white),
-      3.01px -3.99px 0 var(--white),
-      3.7px -3.37px 0 var(--white),
-      4.25px -2.63px 0 var(--white),
-      4.66px -1.81px 0 var(--white),
-      4.91px -0.92px 0 var(--white);
+      -4.97px -0.52px 0 var(--white),
+      -4.89px -1.04px 0 var(--white),
+      -4.76px -1.55px 0 var(--white),
+      -4.57px -2.03px 0 var(--white),
+      -4.33px -2.5px 0 var(--white),
+      -4.05px -2.94px 0 var(--white),
+      -3.72px -3.35px 0 var(--white),
+      -3.35px -3.72px 0 var(--white),
+      -2.94px -4.05px 0 var(--white),
+      -2.5px -4.33px 0 var(--white),
+      -2.03px -4.57px 0 var(--white),
+      -1.55px -4.76px 0 var(--white),
+      -1.04px -4.89px 0 var(--white),
+      -0.52px -4.97px 0 var(--white),
+      0px -5px 0 var(--white),
+      0.52px -4.97px 0 var(--white),
+      1.04px -4.89px 0 var(--white),
+      1.55px -4.76px 0 var(--white),
+      2.03px -4.57px 0 var(--white),
+      2.5px -4.33px 0 var(--white),
+      2.94px -4.05px 0 var(--white),
+      3.35px -3.72px 0 var(--white),
+      3.72px -3.35px 0 var(--white),
+      4.05px -2.94px 0 var(--white),
+      4.33px -2.5px 0 var(--white),
+      4.57px -2.03px 0 var(--white),
+      4.76px -1.55px 0 var(--white),
+      4.89px -1.04px 0 var(--white),
+      4.97px -0.52px 0 var(--white);
   }
 
   /* сами пустые заглушки на мобилке не нужны вовсе — там текст и так один
