@@ -128,7 +128,7 @@
         <div class="case-hero__text">
           <p class="t-body-1 case-hero__label">Описание</p>
           <div class="case-hero__row">
-            <h1 class="t-h2 t-stroke case-hero__title" data-text="Айдентика для restore:digital art — ежегодного конкурса цифрового искусства">Айдентика для restore:digital art — ежегодного конкурса цифрового искусства</h1>
+            <h1 class="t-h2 case-hero__title">Айдентика для restore:digital art — <br>ежегодного конкурса цифрового искусства</h1>
             <div class="case-hero__chips chips">
               <span class="chip t-body-2">Брендинг</span>
               <span class="chip t-body-2">Веб-сайт</span>
@@ -141,7 +141,10 @@
       <!-- Контекст и задача -->
       <section class="case-section" id="context">
         <div class="case-section__head">
-          <h2 class="t-h2 case-section__title"><span class="t-stroke" data-text="Контекст">Контекст</span><br><span class="t-stroke" data-text="и задача">и задача</span></h2>
+          <h2 class="t-h2 case-section__title case-stroke-multiline">
+            <span class="case-stroke-multiline__bg" aria-hidden="true">Контекст<br>и задача</span>
+            <span class="case-stroke-multiline__fg">Контекст<br>и задача</span>
+          </h2>
           <p class="t-body-1 case-section__text">Задача проекта — разработать визуальный стиль конкурса современного цифрового искусства restore:digital art для широкой аудитории, вовлечённой в актуальный художественный и интеллектуальный контекст<br><br>Важно было создать узнаваемую айдентику, работающую в медиа и PR, и одновременно усиливающую присутствие бренда restore: — крупнейшей сети премиум техники в России<br><br>Проект нацелен на укрепление позиционирования бренда через выразительное раскрытие темы конкурса этого года «Цветное vs чёрно-белое»: столкновение контрастов</p>
         </div>
         <div class="case-media" style="aspect-ratio: 2144 / 1270;">
@@ -173,7 +176,9 @@
              (мобильный макет — другая, компактная раскладка коллажа, а не
              масштабированная десктопная), там подпись остаётся обычным
              блоком после коллажа, как раньше. -->
-        <div class="case-concept-collage-wrap">
+        <!-- margin-top: 15px — добавка поверх базовых 45px .case-section
+             (в Figma от головы секции до коллажа 60px, не 45) -->
+        <div class="case-concept-collage-wrap" style="margin-top: 15px;">
           <div class="case-collage" style="aspect-ratio: 1072 / 906;">
             <div style="left:0.00%;top:0.01%;width:35.82%;height:60.04%;"><img src="assets/cchb/cchb-4.webp" alt="" loading="lazy" decoding="async"></div>
             <div style="left:36.75%;top:22.20%;width:22.68%;height:37.97%;"><img src="assets/cchb/cchb-7.webp" alt="" loading="lazy" decoding="async"></div>
@@ -227,7 +232,9 @@
           <span></span>
           <p class="t-body-1 case-section__text">Композиция макетов строится как наложение трёх слоёв реальности: размытый фон, отсылающий к неопределённости прошлого и будущего; чёткий слой настоящего, находящийся в фокусе, и поверх — флюидная цифровая среда. Верхний слой символизирует постоянное присутствие технологий, влияющих на восприятие и искажающих реальность</p>
         </div>
-        <div class="case-media" style="aspect-ratio: 2144 / 1270;"><img src="assets/cchb/cchb-14.webp" alt="" loading="lazy" decoding="async"></div>
+        <!-- margin-top: 36px — добавка поверх базовых 24px .case-section--tight
+             (в Figma от текста до цчб-14 60px, не 24) -->
+        <div class="case-media" style="aspect-ratio: 2144 / 1270; margin-top: 36px;"><img src="assets/cchb/cchb-14.webp" alt="" loading="lazy" decoding="async"></div>
       </section>
 
       <!-- Анимация логотипа -->
@@ -236,7 +243,9 @@
           <span></span>
           <p class="t-body-1 case-section__text">В анимации логотип становится частью цифровой среды с пиксельной графикой: он постепенно проявляется из набора пикселей, усиливая ощущение цифровой среды. restore:digital art раскрывается через фирменный переход restore:, подчёркивая принадлежность конкурса к бренду и его визуальной системе</p>
         </div>
-        <div class="case-media" style="aspect-ratio: 2144 / 1206;">
+        <!-- margin-top: -9px — вычет из базовых 24px .case-section--tight
+             (в Figma от текста до видео всего 15px, не 24) -->
+        <div class="case-media" style="aspect-ratio: 2144 / 1206; margin-top: -9px;">
           <video src="assets/cchb/video/cchb-logo-animation.mp4" poster="assets/posters/cchb-logo-animation.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Анимация логотипа"></video>
           <div class="video-shield" aria-hidden="true"></div>
         </div>
@@ -248,16 +257,27 @@
           <span></span>
           <p class="t-body-1 case-section__text">В фотостиле используются размытые, нечеткие изображения, символизирующие воспоминания прошлого и неопределённость будущего. Такой подход гармонирует с фирменной айдентикой restore:, создавая узнаваемость бренда в стилистике конкурса</p>
         </div>
-        <div class="case-row">
-          <div class="case-media" style="aspect-ratio: 1293 / 939;"><img src="assets/cchb/cchb-15.webp" alt="" loading="lazy" decoding="async"></div>
-          <div class="case-media" style="aspect-ratio: 809 / 939;"><img src="assets/cchb/cchb-16.webp" alt="" loading="lazy" decoding="async"></div>
-          <div class="case-media" style="aspect-ratio: 2140 / 1427;"><img src="assets/cchb/cchb-17.webp" alt="" loading="lazy" decoding="async"></div>
+        <!-- цчб-15 и цчб-16 в Figma — не равная 3-колоночная сетка, а
+             пара одной высоты (939), где каждая картинка занимает ширину
+             по своим собственным пропорциям (1293:939 и 809:939 ≈
+             61.44%/38.56%); цчб-17 — отдельный полноширинный блок ПОД этой
+             парой (Frame 2087329759 высотой 469.341, «Image» с цчб-17 ниже
+             начинается на y=488.795 — разница ≈19-20px, тот же зазор, что
+             и внутри самой пары), а не третья колонка в том же ряду.
+             margin-top: 36px — добавка поверх базовых 24px .case-section--tight
+             (в Figma от текста до цчб-15/16 60px, не 24) -->
+        <div class="case-row" style="margin-top: 36px;">
+          <div class="case-media" style="aspect-ratio: 1293 / 939; flex: 0 0 61.44%;"><img src="assets/cchb/cchb-15.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-media" style="aspect-ratio: 809 / 939; flex: 0 0 38.56%;"><img src="assets/cchb/cchb-16.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+        <div class="case-media" style="aspect-ratio: 2140 / 1427; margin-top: -4px;">
+          <img src="assets/cchb/cchb-17.webp" alt="" loading="lazy" decoding="async">
         </div>
         <!-- 120px до этого блока — как между обычными секциями (Figma: цчб-17
              заканчивается на y=1202.13, следующая группа начинается на
              y=1322.13, разница ровно 120px), а не стандартные 45px
              .case-section--tight — «Сеть магазинов» и мастер-классы ниже
-             визуально отдельная группа от ряда с цчб-15/16/17 */
+             визуально отдельная группа от ряда с цчб-15/16/17 -->
         <div class="case-media" style="max-width: 340px; aspect-ratio: 680 / 152; margin-top: 120px;">
           <img src="assets/cchb/cchb-stores.webp" alt="" loading="lazy" decoding="async">
         </div>
@@ -277,7 +297,10 @@
           <h2 class="t-h2 t-stroke case-section__title" data-text="Мерч">Мерч</h2>
           <p class="t-body-1 case-section__text">Стилистика конкурса проявляется и в материальных объектах через контраст цифровой графики с натуральными материалами: полупрозрачный пластик соседствуют с бумагой, картоном и тканями, создавая ощущение наложения слоёв и продолжая визуальную концепцию конкурса</p>
         </div>
-        <div class="case-merch">
+        <!-- margin-top: 36px — добавка поверх базовых 24px .case-section--tight
+             (в Figma от головы секции до сетки Мерч 60px, а не стандартные
+             для этой секции 24px) -->
+        <div class="case-merch" style="margin-top: 36px;">
           <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-19.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-20.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-21.webp" alt="" loading="lazy" decoding="async"></div>
@@ -297,15 +320,21 @@
         </div>
       </section>
 
-      <!-- Галерея работ -->
+      <!-- Галерея работ: в Figma это не «текст сверху над рядом из двух
+           картинок», а два столбца одинаковой ширины (~49% каждый) — слева
+           просто цчб-24 от самого верха, справа текст, а под ним, с
+           отступом, цчб-25 — оба фото при этом одной высоты, и правая
+           картинка из-за текста над ней сдвинута вниз относительно левой
+           (Group 66: Frame 3/цчб-24 y=0..675.517; Text y=0..84; Frame
+           4/цчб-25 y=109.078..784.595 — отступ текст→картинка справа
+           109.078-84≈25px). -->
       <section class="case-section case-section--tight">
-        <div class="case-section__head">
-          <span></span>
-          <p class="t-body-1 case-section__text">Галерея работ на сайте включает разные форматы: статичные изображения, видео и аудио материалы. Работы структурированы по категориям, что позволяет быстро находить интересующие проекты и оценивать их в контексте конкурса</p>
-        </div>
-        <div class="case-row">
+        <div class="case-row" style="align-items: flex-start;">
           <div class="case-media" style="aspect-ratio: 1051 / 1359;"><img src="assets/cchb/cchb-24.webp" alt="" loading="lazy" decoding="async"></div>
-          <div class="case-media" style="aspect-ratio: 1051 / 1352;"><img src="assets/cchb/cchb-25.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 25px; border-radius: 0; overflow: visible;">
+            <p class="t-body-1">Галерея работ на сайте включает разные форматы: статичные изображения, видео и аудио материалы. Работы структурированы по категориям, что позволяет быстро находить интересующие проекты и оценивать их в контексте конкурса</p>
+            <div class="case-media" style="aspect-ratio: 1051 / 1352;"><img src="assets/cchb/cchb-25.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
         </div>
       </section>
 
@@ -417,12 +446,21 @@
         </div>
       </section>
 
-      <!-- Программа -->
+      <!-- Программа: в Figma это не строка «текст + два кадра в ряд», а
+           свободная раскладка — текст узкой колонкой слева, цчб-46 крупным
+           кадром справа на той же высоте, а цчб-47 отдельно ниже и левее,
+           частично заходя под нижний край цчб-46 (не вторая колонка в
+           общем ряду с ним). Координаты — из Figma (цчб-46: x=319.734,
+           y=0, 752.266×486.903; цчб-47: x=53.4375, y=375.016,
+           454.443×301.88; общая высота блока — по нижнему краю цчб-47,
+           676.896), переведены в % от ширины/высоты контейнера. -->
       <section class="case-section case-section--tight">
-        <p class="t-body-1 case-section__text" style="max-width: 269px;">Программа включала публичные обсуждения, показ фильма, а также мультимедийное и саунд-арт выступление, погружающее гостей в цифровое искусство</p>
-        <div class="case-row">
-          <div class="case-media" style="aspect-ratio: 1505 / 974;"><img src="assets/cchb/cchb-46.webp" alt="" loading="lazy" decoding="async"></div>
-          <div class="case-media" style="aspect-ratio: 909 / 604; max-width: 34%;"><img src="assets/cchb/cchb-47.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-collage" style="aspect-ratio: 1072 / 676.896;">
+          <div class="case-collage__text" style="left:0%;top:0%;width:25.09%;">
+            <p class="t-body-1">Программа включала публичные обсуждения, показ фильма, а также мультимедийное и саунд-арт выступление, погружающее гостей в цифровое искусство</p>
+          </div>
+          <div style="left:29.83%;top:0%;width:70.17%;height:71.94%;"><img src="assets/cchb/cchb-46.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:4.99%;top:55.41%;width:42.39%;height:44.60%;"><img src="assets/cchb/cchb-47.webp" alt="" loading="lazy" decoding="async"></div>
         </div>
       </section>
 
