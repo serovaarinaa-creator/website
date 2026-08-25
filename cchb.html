@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20260825b">
-  <link rel="stylesheet" href="cchb.css?v=20260825b">
+  <link rel="stylesheet" href="cchb.css?v=20260825c">
 </head>
 <body class="case-page-body">
 
@@ -168,9 +168,11 @@
           </h2>
           <p class="t-body-1 case-section__text">Конкурс обращается к широкой аудитории, интересующихся современным искусством и стремящихся осмыслить текущую реальность через визуальный язык<br><br>Анализ конкурентов (open call-проектов с выставками и образовательными программами) выявил перенасыщенность визуальной среды и потребность в чётком, концептуально выстроенном высказывании<br><br>Дизайн-решение опирается на запрос аудитории на рефлексию, формируя бренд как проводника в актуальный художественный контекст и платформу для новых авторов</p>
         </div>
-        <div class="case-row">
-          <div class="case-media" style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-2.webp" alt="" loading="lazy" decoding="async"></div>
-          <div class="case-media" style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-3.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-carousel-wrap">
+          <div class="case-row case-carousel">
+            <div class="case-media" style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-2.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-3.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
         </div>
       </section>
 
@@ -191,7 +193,7 @@
              блоком после коллажа, как раньше. -->
         <!-- margin-top: 15px — добавка поверх базовых 45px .case-section
              (в Figma от головы секции до коллажа 60px, не 45) -->
-        <div class="case-concept-collage-wrap" style="margin-top: 15px;">
+        <div class="case-concept-collage-wrap case-only-desktop" style="margin-top: 15px;">
           <div class="case-collage" style="aspect-ratio: 1072 / 906;">
             <div style="left:0.00%;top:0.01%;width:35.82%;height:60.04%;"><img src="assets/cchb/cchb-4.webp" alt="" loading="lazy" decoding="async"></div>
             <div style="left:36.75%;top:22.20%;width:22.68%;height:37.97%;"><img src="assets/cchb/cchb-7.webp" alt="" loading="lazy" decoding="async"></div>
@@ -210,6 +212,30 @@
             </div>
           </div>
           <p class="t-body-1 case-collage__eye-caption" style="max-width: 486px;">Важно было создать динамичную, флюидную стилистику с возможностью интеграции видео и анимации, чтобы графика ощущалась живой, изменчивой и постоянно находящейся в движении</p>
+        </div>
+        <!-- Мобильная раскладка коллажа — отдельная, не масштабированная
+             десктопная (в Figma «ЦЧБ - Mobile» это другая, более компактная
+             компоновка тех же 9 картинок/видео, координаты переведены в %
+             от 372.03×758.67 — см. узел Group 2131332562). -->
+        <div class="case-only-mobile" style="margin-top: 15px;">
+          <div class="case-collage" style="aspect-ratio: 372.03 / 758.67;">
+            <div style="left:0.00%;top:0.00%;width:49.69%;height:34.54%;"><img src="assets/cchb/cchb-4.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:51.01%;top:0.00%;width:49.01%;height:12.01%;"><img src="assets/cchb/cchb-5.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:51.01%;top:12.76%;width:31.47%;height:21.83%;"><img src="assets/cchb/cchb-7.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:83.96%;top:12.70%;width:16.01%;height:21.90%;"><img src="assets/cchb/cchb-8.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:0.00%;top:35.51%;width:49.69%;height:12.19%;"><img src="assets/cchb/cchb-9.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:51.01%;top:35.51%;width:48.98%;height:32.72%;"><img src="assets/cchb/cchb-6.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:0.00%;top:48.60%;width:49.69%;height:19.62%;">
+              <video src="assets/cchb/video/cchb-flower.mp4" poster="assets/posters/cchb-flower.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Видео «цветок»"></video>
+              <div class="video-shield" aria-hidden="true"></div>
+            </div>
+            <div style="left:51.61%;top:69.26%;width:48.38%;height:13.31%; background:#171717;">
+              <video src="assets/cchb/video/cchb-eye.mp4" poster="assets/posters/cchb-eye.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Видео «глаз»"></video>
+              <div class="video-shield" aria-hidden="true"></div>
+            </div>
+            <div style="left:0.00%;top:70.08%;width:49.69%;height:29.92%;"><img src="assets/cchb/cchb-10.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
+          <p class="t-body-1" style="margin-top: 24px;">Важно было создать динамичную, флюидную стилистику с возможностью интеграции видео и анимации, чтобы графика ощущалась живой, изменчивой и постоянно находящейся в движении</p>
         </div>
       </section>
 
@@ -250,7 +276,7 @@
         </div>
         <!-- margin-top: 36px — добавка поверх базовых 24px .case-section--tight
              (в Figma от текста до цчб-14 60px, не 24) -->
-        <div class="case-media" style="aspect-ratio: 2144 / 1270; margin-top: 36px;"><img src="assets/cchb/cchb-14.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-media case-media--comp" style="aspect-ratio: 2144 / 1270; margin-top: 36px;"><img src="assets/cchb/cchb-14.webp" alt="" loading="lazy" decoding="async"></div>
       </section>
 
       <!-- Анимация логотипа -->
@@ -282,12 +308,25 @@
              и внутри самой пары), а не третья колонка в том же ряду.
              margin-top: 36px — добавка поверх базовых 24px .case-section--tight
              (в Figma от текста до цчб-15/16 60px, не 24) -->
-        <div class="case-row" style="margin-top: 36px;">
-          <div class="case-media" style="aspect-ratio: 1293 / 939; flex: 0 0 61.44%;"><img src="assets/cchb/cchb-15.webp" alt="" loading="lazy" decoding="async"></div>
-          <div class="case-media" style="aspect-ratio: 809 / 939; flex: 0 0 38.56%;"><img src="assets/cchb/cchb-16.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-only-desktop" style="margin-top: 36px;">
+          <div class="case-row">
+            <div class="case-media" style="aspect-ratio: 1293 / 939; flex: 0 0 61.44%;"><img src="assets/cchb/cchb-15.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 809 / 939; flex: 0 0 38.56%;"><img src="assets/cchb/cchb-16.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
+          <div class="case-media" style="aspect-ratio: 2140 / 1427; margin-top: -4px;">
+            <img src="assets/cchb/cchb-17.webp" alt="" loading="lazy" decoding="async">
+          </div>
         </div>
-        <div class="case-media" style="aspect-ratio: 2140 / 1427; margin-top: -4px;">
-          <img src="assets/cchb/cchb-17.webp" alt="" loading="lazy" decoding="async">
+        <!-- Мобильная раскладка — не 2-колоночная пара + отдельная плашка,
+             как на десктопе, а единая лента-карусель из всех трёх картинок
+             в их собственных пропорциях при общей высоте (Figma: Frame
+             2131333162, 254.918px высотой). -->
+        <div class="case-only-mobile case-carousel-wrap" style="margin-top: 36px;">
+          <div class="case-carousel case-carousel--film" style="aspect-ratio: 372 / 254.918;">
+            <div class="case-media" style="aspect-ratio: 1293 / 939;"><img src="assets/cchb/cchb-15.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 809 / 939;"><img src="assets/cchb/cchb-16.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 2140 / 1427;"><img src="assets/cchb/cchb-17.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
         </div>
         <!-- 120px до этого блока — как между обычными секциями (Figma: цчб-17
              заканчивается на y=1202.13, следующая группа начинается на
@@ -297,10 +336,12 @@
         <div class="case-media" style="max-width: 340px; aspect-ratio: 680 / 152; margin-top: 120px;">
           <img src="assets/cchb/cchb-stores.webp" alt="" loading="lazy" decoding="async">
         </div>
-        <div class="case-masterclass">
-          <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-1.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-2.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-3.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-carousel-wrap">
+          <div class="case-masterclass">
+            <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-1.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-2.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-3.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
         </div>
       </section>
 
@@ -319,11 +360,13 @@
         <!-- margin-top: 36px — добавка поверх базовых 24px .case-section--tight
              (в Figma от головы секции до сетки Мерч 60px, а не стандартные
              для этой секции 24px) -->
-        <div class="case-merch" style="margin-top: 36px;">
-          <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-19.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-20.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-21.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-22.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-carousel-wrap" style="margin-top: 36px;">
+          <div class="case-merch">
+            <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-19.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-20.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-21.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-22.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
         </div>
       </section>
 

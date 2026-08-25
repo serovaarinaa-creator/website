@@ -777,11 +777,12 @@
   display: none;
 }
 
-/* Мобильные пилюли (топ-бар, оверлей меню) остаются розовыми независимо от
-   общего чёрного фона кейса — это плавающий UI-хром, не контент страницы,
-   и текст на них по-прежнему должен быть чёрным, а не унаследованным белым
-   от .case-page-body. */
-.case-topbar-mobile,
+/* Мобильное меню-оверлей остаётся розовым независимо от общего чёрного
+   фона кейса — это плавающий UI-хром, не контент страницы, и текст на нём
+   по-прежнему должен быть чёрным, а не унаследованным белым от
+   .case-page-body. Мобильная шапка (.case-topbar-mobile), в отличие от
+   меню, теперь сама чёрная (см. ниже) — там, наоборот, нужен унаследованный
+   белый. */
 .case-menu-overlay {
   color: var(--black);
 }
@@ -805,6 +806,9 @@
     display: none;
   }
 
+  /* Чёрная шапка (не розовая, как на главной) — страница кейса тёмная.
+     Лого+название лежат на отдельной стеклянной плашке (Figma: «Content»,
+     rgba(255,255,255,0.12), radius 10), а не прямо на фоне шапки. */
   .case-topbar-mobile {
     display: flex;
     align-items: center;
@@ -812,14 +816,21 @@
     position: sticky;
     top: 0;
     z-index: 30;
-    background: var(--pink-100);
+    background: #000;
     padding: 15px var(--gutter);
   }
 
   .case-topbar-mobile__brand {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 15px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+  }
+
+  .case-topbar-mobile__brand .t-body-2 {
+    font-size: 12px;
   }
 
   .case-topbar-mobile__logo {
@@ -992,18 +1003,138 @@
     flex-direction: column;
   }
 
+  /* Скругления везде на мобилке — 14px (в Figma «ЦЧБ - Mobile»), а не
+     десктопные 24px. */
+  .case-media,
+  .case-hero__media,
+  .case-row > *,
+  .case-collage > *,
+  .case-masterclass > *,
+  .case-merch > *,
+  .case-carousel > * {
+    border-radius: 14px;
+  }
+
+  /* ---------- Ленты-карусели со свайпом (Figma: ряды картинок шире
+     экрана — цчб-2/3, цчб-15/16/17, мастер-классы, Мерч — не столбиком
+     друг под другом, а горизонтальная лента с проскроллом пальцем). ---- */
+  .case-carousel-wrap {
+    position: relative;
+  }
+
+  /* Затемнение справа — намёк на следующую картинку в ленте, не сплошной
+     край. Только у самого проскролливаемого элемента (case-carousel-wrap
+     может также содержать что-то ещё, но пока используется только для
+     карусели) — поверх картинок, но не перехватывает тач. */
+  .case-carousel-wrap::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 56px;
+    background: linear-gradient(to right, transparent, #000);
+    pointer-events: none;
+  }
+
+  .case-carousel,
   .case-masterclass,
   .case-merch {
     display: flex;
+    /* .case-row (у Исследования .case-carousel сидит вместе с .case-row)
+       на мобилке выше выставляет flex-direction: column — тут явно
+       возвращаем row, иначе лента складывается в столбик и overflow-x не
+       возникает вовсе. */
+    flex-direction: row;
     overflow-x: auto;
-    gap: 12px;
     scroll-snap-type: x proximity;
+    scrollbar-width: none;
   }
 
+  .case-carousel::-webkit-scrollbar,
+  .case-masterclass::-webkit-scrollbar,
+  .case-merch::-webkit-scrollbar {
+    display: none;
+  }
+
+  .case-carousel > *,
   .case-masterclass > *,
   .case-merch > * {
-    flex: 0 0 80%;
+    flex: 0 0 auto;
     scroll-snap-align: start;
+  }
+
+  /* Тип «почти во весь экран, один кадр за раз» — цчб-2/3, мастер-классы,
+     Мерч: каждая картинка своей собственной пропорцией задаёт высоту
+     (aspect-ratio уже на .case-media/детях), в ширину — почти вся лента,
+     с небольшим отступом до следующего кадра (в Figma доля кадра от
+     ширины экрана и зазор у каждой ленты чуть разные — посчитано отдельно
+     под каждую). */
+  .case-carousel {
+    gap: 13px;
+  }
+
+  .case-carousel > * {
+    flex-basis: 93.3%;
+  }
+
+  .case-masterclass {
+    gap: 13px;
+  }
+
+  .case-masterclass > * {
+    flex-basis: 94.3%;
+  }
+
+  .case-merch {
+    gap: 9px;
+  }
+
+  .case-merch > * {
+    flex-basis: 94.5%;
+  }
+
+  /* Тип «плёнка»: у Фотостиля (цчб-15/16/17) в Figma не одинаковая ширина
+     кадра, а общая ВЫСОТА ряда — ширина каждого кадра берётся из его
+     собственного aspect-ratio (тот же приём, что и в десктопной паре
+     цчб-15/16, просто теперь в 3 кадра и со скроллом). aspect-ratio на
+     самой ленте — с 372px точки Figma, высота считается от реальной
+     (гибкой) ширины экрана. */
+  .case-carousel--film {
+    gap: 13px;
+    aspect-ratio: 372 / 254.918;
+  }
+
+  /* height: 100% + собственный aspect-ratio (уже задан инлайн-стилем на
+     каждом .case-media) — браузер сам считает ширину кадра из высоты
+     ленты и его пропорций, ничего в самом aspect-ratio трогать не нужно. */
+  .case-carousel--film > * {
+    flex-basis: auto;
+    height: 100%;
+    width: auto;
+  }
+
+  .case-carousel--film > * img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  /* Композиция макетов (цчб-14): в Figma мобильный кроп заметно выше
+     десктопного (372×268.668 ≈ 1.385, а не десктопные 2144×1270 ≈ 1.688) —
+     без своего aspect-ratio картинка вписывалась в более широкую/низкую
+     десктопную рамку и казалась мельче, чем в макете. Пропорции рамки и
+     картинки теперь разные — обычного width:100%;height:auto (как у
+     остальных .case-media img) не хватает, картинка не дотягивалась по
+     высоте до низа рамки, чернильный фон .case-media снизу торчал пустым
+     полем; height:100% + cover обрезают лишнее по бокам как в макете. */
+  .case-media--comp {
+    aspect-ratio: 372 / 268.668 !important;
+  }
+
+  .case-media--comp img {
+    height: 100%;
+    object-fit: cover;
   }
 
   .case-team__row {
