@@ -21,25 +21,32 @@
 <body class="case-page-body">
 
   <!-- Скруглённая белая обводка вокруг текста (.t-stroke, см. styles.css) —
-       SVG-фильтр вместо кольца из text-shadow копий: размывает альфа-канал
-       текста по Гауссу и обрезает его по порогу, получая ровный контур,
-       нарастающий во все стороны с одинаковым (изотропным) радиусом — как
-       родная обводка в Figma. Кольцо из совпадающих смещений давало
-       заметную ступенчатость на изгибах букв даже при большом числе точек. -->
+       SVG-фильтр вместо кольца из text-shadow копий. Сначала feMorphology
+       честно «наращивает» альфу текста на фиксированный радиус во все
+       стороны (в отличие от Гаусса — без накопления там, где соседние
+       штрихи буквы близко: чистый blur+порог в этих местах раздувал контур
+       в бесформенное облако, а не повторял форму букв, как в Figma).
+       У feMorphology в браузерах прямоугольное ядро — сама по себе она даёт
+       острые/квадратные углы, поэтому следом идёт лёгкое Гауссово
+       размытие и порог ровно на 50% — оно не двигает границу дальше
+       наружу (симметричный блюр порогуется точно там же, где было ребро
+       до него), а лишь скругляет эти углы. -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <defs>
       <filter id="t-stroke-dilate-10" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
-        <feComponentTransfer in="blur" result="thresh">
-          <feFuncA type="linear" slope="200" intercept="-11"/>
+        <feMorphology in="SourceAlpha" operator="dilate" radius="8" result="dilated"/>
+        <feGaussianBlur in="dilated" stdDeviation="4" result="blurred"/>
+        <feComponentTransfer in="blurred" result="thresh">
+          <feFuncA type="linear" slope="200" intercept="-100"/>
         </feComponentTransfer>
         <feFlood flood-color="#fff" result="white"/>
         <feComposite in="white" in2="thresh" operator="in"/>
       </filter>
       <filter id="t-stroke-dilate-5" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
-        <feComponentTransfer in="blur" result="thresh">
-          <feFuncA type="linear" slope="200" intercept="-11"/>
+        <feMorphology in="SourceAlpha" operator="dilate" radius="4" result="dilated"/>
+        <feGaussianBlur in="dilated" stdDeviation="2" result="blurred"/>
+        <feComponentTransfer in="blurred" result="thresh">
+          <feFuncA type="linear" slope="200" intercept="-100"/>
         </feComponentTransfer>
         <feFlood flood-color="#fff" result="white"/>
         <feComposite in="white" in2="thresh" operator="in"/>
