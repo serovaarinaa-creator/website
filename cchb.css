@@ -775,8 +775,7 @@
 
 /* ---------- Мобильное меню-бургер ---------- */
 
-.case-burger,
-.case-menu-close {
+.case-burger {
   display: none;
 }
 
@@ -847,7 +846,20 @@
     object-fit: cover;
   }
 
+  /* position: fixed, а не в потоке шапки — .case-menu-overlay открывается
+     поверх всего (z-index: 100) и перекрывала бы кнопку внутри
+     .case-topbar-mobile (z-index: 30) собственным контентом (пилюли
+     «Домой»/RU в панели меню того же угла экрана), из-за чего бургер
+     переставал ловить клики, пока меню открыто. Фиксированная позиция +
+     свой z-index выше оверлея держат кнопку кликабельной поверх панели —
+     как и плавающий крестик в макете Figma. Координаты совпадают с тем,
+     где кнопка была в потоке (padding шапки — 15px var(--gutter)), так
+     что визуально ничего не сдвинулось. */
   .case-burger {
+    position: fixed;
+    top: 15px;
+    right: var(--gutter);
+    z-index: 101;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -857,6 +869,20 @@
     background: none;
     padding: 0;
     cursor: pointer;
+  }
+
+  /* Отдельной кнопки закрытия в макете нет — сам бургер меняет иконку на
+     крестик, пока меню открыто (см. .is-open, переключается в cchb.js). */
+  .case-burger__icon-close {
+    display: none;
+  }
+
+  .case-burger.is-open .case-burger__icon-open {
+    display: none;
+  }
+
+  .case-burger.is-open .case-burger__icon-close {
+    display: block;
   }
 
   .case-content {
@@ -1175,7 +1201,11 @@
   }
 }
 
-/* ---------- Оверлей мобильного меню ---------- */
+/* ---------- Оверлей мобильного меню ----------
+   Точная копия мобильного макета Figma (node 500:15201): плашка целиком
+   розовая (не тёмный фон + отдельная карточка), пункты оглавления — не
+   плоские ссылки, а пилюли, профиль — не строка «аватар + текст», а две
+   колонки (аватар+имя слева, био+пилюли справа). */
 
 .case-menu-overlay {
   position: fixed;
@@ -1190,17 +1220,20 @@
   display: block;
 }
 
+.case-menu-overlay__panel {
+  padding: 15px var(--gutter) 32px;
+}
+
 .case-menu-overlay__top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px var(--gutter);
 }
 
 .case-menu-overlay__brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 15px;
 }
 
 .case-menu-overlay__logo {
@@ -1210,30 +1243,50 @@
   object-fit: cover;
 }
 
-.case-menu-close {
+.case-menu-overlay__actions {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 46px;
-  height: 30px;
-  border: none;
-  background: none;
-  padding: 0;
-  cursor: pointer;
+  gap: 7px;
 }
 
-.case-menu-overlay.is-open .case-menu-close {
+/* Белый (не в цвет плашки, как в экспорте из Figma — там кнопка того же
+   розового, что и сама плашка, и на ней буквально не видна) — тот же
+   приём, что и у .case-home в сайдбаре десктопа: контрастный кружок с
+   иконкой поверх розового фона. */
+.case-menu-overlay__home {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-absolute);
+  background: var(--white);
+  transition: background 0.2s ease;
+}
+
+.case-menu-overlay__home:hover {
+  background: var(--pink-200);
+}
+
+.case-menu-overlay__actions .lang {
+  position: static;
+  height: 30px;
 }
 
 .case-menu-overlay__toc {
   display: flex;
   flex-direction: column;
-  padding: 16px var(--gutter) 0;
+  gap: 7px;
+  margin-top: 16px;
 }
 
 .case-menu-overlay__toc a {
+  /* Body 2 Mobile — 12px, а не базовые 14px у .t-body-2 (тот размер для
+     десктопа/названия кейса в шапке этого же меню). */
+  font-size: 12px;
   padding: 12px;
-  border-radius: var(--radius-20);
+  border-radius: var(--radius-absolute);
+  background: #ffc2e8;
   transition: background 0.2s ease;
 }
 
@@ -1244,17 +1297,24 @@
 
 .case-menu-overlay__profile {
   display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: 18px;
+}
+
+.case-menu-overlay__person {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 24px var(--gutter);
+  gap: 15px;
+  flex-shrink: 0;
 }
 
 .case-menu-overlay__avatar {
-  width: 64px;
-  height: 64px;
+  width: 94px;
+  height: 94px;
   border-radius: var(--radius-absolute);
   overflow: hidden;
-  flex-shrink: 0;
 }
 
 .case-menu-overlay__avatar img {
@@ -1264,24 +1324,38 @@
   object-fit: cover;
 }
 
-.case-menu-overlay__bio {
+/* Headline 2 Mobile — тот же стиль, что и у заголовков секций
+   (.case-section__title на мобилке), без обводки — просто чёрный текст. */
+.case-menu-overlay__name {
+  font: 800 21px/0.9 var(--font-display);
+  letter-spacing: -0.04em;
+  text-align: center;
+  margin: 0;
+}
+
+.case-menu-overlay__about {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
+  padding-top: 15px;
 }
 
-.case-menu-overlay__bottom {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 var(--gutter) 32px;
+.case-menu-overlay__about .pill-row {
+  height: 48px;
 }
 
-/* .lang (см. styles.css) на главной — position: absolute, стоит одна в углу
-   топбара. Здесь она встроена в обычный ряд кнопок внутри мобильного меню,
-   поэтому нужно вернуть её в поток. */
-.case-menu-overlay__bottom .lang {
-  position: static;
+.case-menu-overlay__about .pill {
+  /* flex: 1 0 0 (базовое у .pill) делит ряд поровну — на широком
+     футере/сайдбаре это то, что нужно, но в узкой колонке меню (~220px)
+     «LinkedIn» при таком же делении, что у короткого «CV», не помещается
+     и обрезается. Тут каждая пилюля — по своему контенту. */
+  flex: 0 0 auto;
+  font-size: 12px;
+}
+
+.case-menu-overlay__bio {
+  /* Body 1 Mobile — 12px, а не базовые 14px у .t-body-1. */
+  font-size: 12px;
 }
 
 @media (prefers-reduced-motion: no-preference) {

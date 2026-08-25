@@ -15,62 +15,71 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260825k">
-  <link rel="stylesheet" href="cchb.css?v=20260825k">
+  <link rel="stylesheet" href="styles.css?v=20260825l">
+  <link rel="stylesheet" href="cchb.css?v=20260825l">
 </head>
 <body class="case-page-body">
 
   <!-- ---------- Мобильный топ-бар: лого + бургер ---------- -->
+  <!-- .case-burger вынесена из .case-topbar-mobile отдельным элементом
+       (не вложена внутрь): у шапки свой z-index (создаёт контекст
+       наложения), и z-index кнопки внутри неё сравнивался бы только с
+       соседями по шапке, а не с открытым .case-menu-overlay напрямую —
+       кнопка визуально пропадала бы под ним и переставала ловить клики. -->
   <div class="case-topbar-mobile">
     <a class="case-topbar-mobile__brand" href="index.html">
       <img class="case-topbar-mobile__logo" src="assets/logos/restore.png" alt="" width="32" height="32">
       <span class="t-body-2">Цветное vs. Чёрно-белое</span>
     </a>
-    <button class="case-burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="case-menu">
-      <img src="assets/icons/burger.svg" alt="" width="18" height="13">
-    </button>
+  </div>
+  <button class="case-burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="case-menu">
+    <img class="case-burger__icon-open" src="assets/icons/burger.svg" alt="" width="18" height="13">
+    <img class="case-burger__icon-close" src="assets/icons/cross.svg" alt="" width="16" height="16">
+  </button>
   </div>
 
   <!-- ---------- Мобильное меню (оверлей) ---------- -->
   <div class="case-menu-overlay" id="case-menu">
-    <div class="case-menu-overlay__top">
-      <a class="case-menu-overlay__brand" href="index.html">
-        <img class="case-menu-overlay__logo" src="assets/logos/restore.png" alt="" width="32" height="32">
-        <span class="t-body-2">Цветное vs. Чёрно-белое</span>
-      </a>
-      <button class="case-menu-close" type="button" aria-label="Закрыть меню">
-        <img src="assets/icons/cross.svg" alt="" width="16" height="16">
-      </button>
-    </div>
-    <nav class="case-menu-overlay__toc" aria-label="Оглавление кейса">
-      <a class="t-body-2" href="#context">Контекст и задача</a>
-      <a class="t-body-2" href="#research">Исследование</a>
-      <a class="t-body-2" href="#concept">Концепция</a>
-      <a class="t-body-2" href="#logo">Лого и графические элементы</a>
-      <a class="t-body-2" href="#site">Сайт</a>
-      <a class="t-body-2" href="#exhibition">Выставка</a>
-      <a class="t-body-2" href="#mapping">3D-маппинг</a>
-      <a class="t-body-2" href="#yandex">Яндекс дача</a>
-      <a class="t-body-2" href="#results">Результаты</a>
-    </nav>
-    <div class="case-menu-overlay__profile">
-      <div class="case-menu-overlay__avatar">
-        <img src="assets/avatar.webp" alt="Арина Серова" width="64" height="64">
+    <div class="case-menu-overlay__panel">
+      <div class="case-menu-overlay__top">
+        <a class="case-menu-overlay__brand" href="index.html">
+          <img class="case-menu-overlay__logo" src="assets/logos/restore.png" alt="" width="32" height="32">
+          <span class="t-body-2">Цветное vs. Чёрно-белое</span>
+        </a>
+        <div class="case-menu-overlay__actions">
+          <a class="case-menu-overlay__home" href="index.html" aria-label="На главную">
+            <img src="assets/icons/home.svg" alt="" width="20" height="20">
+          </a>
+          <button class="lang t-body-2" type="button" aria-label="Сменить язык">RU&nbsp;🇷🇺</button>
+        </div>
       </div>
-      <div class="case-menu-overlay__bio">
-        <p class="t-body-1">Графический дизайнер 5+ лет в брендинге и креативных коммуникациях</p>
+      <nav class="case-menu-overlay__toc" aria-label="Оглавление кейса">
+        <a class="t-body-2" href="#context">Контекст и задача</a>
+        <a class="t-body-2" href="#research">Исследование</a>
+        <a class="t-body-2" href="#concept">Концепция</a>
+        <a class="t-body-2" href="#logo">Лого и графические элементы</a>
+        <a class="t-body-2" href="#site">Сайт</a>
+        <a class="t-body-2" href="#exhibition">Выставка</a>
+        <a class="t-body-2" href="#mapping">3D-маппинг</a>
+        <a class="t-body-2" href="#yandex">Яндекс дача</a>
+        <a class="t-body-2" href="#results">Результаты</a>
+      </nav>
+      <div class="case-menu-overlay__profile">
+        <div class="case-menu-overlay__person">
+          <div class="case-menu-overlay__avatar">
+            <img src="assets/avatar.webp" alt="" width="94" height="94">
+          </div>
+          <p class="case-menu-overlay__name">Арина Серова</p>
+        </div>
+        <div class="case-menu-overlay__about">
+          <p class="t-body-1 case-menu-overlay__bio">Графический дизайнер 5+ лет в брендинге и креативных коммуникациях</p>
+          <div class="pill-row">
+            <a class="pill t-body-2" href="https://hirehi.ru/resume/XbLth3skez" target="_blank" rel="noopener">CV</a>
+            <a class="pill t-body-2" href="https://www.linkedin.com/in/arina-serova-61530b253/" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="pill t-body-2" href="https://www.behance.net/greisolar" target="_blank" rel="noopener">Behance</a>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="pill-row" style="padding: 0 18px 24px;">
-      <a class="pill t-body-2" href="https://hirehi.ru/resume/XbLth3skez" target="_blank" rel="noopener">CV</a>
-      <a class="pill t-body-2" href="https://www.linkedin.com/in/arina-serova-61530b253/" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="pill t-body-2" href="https://www.behance.net/greisolar" target="_blank" rel="noopener">Behance</a>
-    </div>
-    <div class="case-menu-overlay__bottom">
-      <a class="case-home" href="index.html" aria-label="На главную">
-        <img src="assets/icons/home.svg" alt="" width="20" height="20">
-      </a>
-      <button class="lang t-body-2" type="button" aria-label="Сменить язык">RU&nbsp;🇷🇺</button>
     </div>
   </div>
 
@@ -661,6 +670,6 @@
   <div class="lang-transition" aria-hidden="true"></div>
 
   <script src="script.js?v=20260825h"></script>
-  <script src="cchb.js?v=20260821"></script>
+  <script src="cchb.js?v=20260825l"></script>
 </body>
 </html>
