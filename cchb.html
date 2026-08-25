@@ -15,8 +15,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260825n">
-  <link rel="stylesheet" href="cchb.css?v=20260825n">
+  <link rel="stylesheet" href="styles.css?v=20260825o">
+  <link rel="stylesheet" href="cchb.css?v=20260825o">
 </head>
 <body class="case-page-body">
 
@@ -582,12 +582,25 @@
              казался неестественно вытянутым; теперь ширины колонок берут её
              собственное соотношение сторон, а пара справа подстраивается
              под получившуюся высоту. -->
-        <div class="case-media" style="aspect-ratio: 2141 / 1432;"><img src="assets/cchb/cchb-42.webp" alt="" loading="lazy" decoding="async"></div>
-        <div class="case-row" style="gap: 13px; margin-top: -32px;">
-          <div class="case-media" style="aspect-ratio: 702.765 / 617.343; flex: 0 0 65.66%;"><img src="assets/cchb/cchb-43.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="flex: 0 0 33.07%; display:flex; flex-direction:column; gap:13px;">
-            <div class="case-media" style="aspect-ratio: 708 / 604;"><img src="assets/cchb/cchb-44.webp" alt="" loading="lazy" decoding="async"></div>
-            <div class="case-media" style="aspect-ratio: 708 / 604;"><img src="assets/cchb/cchb-45.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-only-desktop">
+          <div class="case-media" style="aspect-ratio: 2141 / 1432;"><img src="assets/cchb/cchb-42.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-row" style="gap: 13px; margin-top: -32px;">
+            <div class="case-media" style="aspect-ratio: 702.765 / 617.343; flex: 0 0 65.66%;"><img src="assets/cchb/cchb-43.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="flex: 0 0 33.07%; display:flex; flex-direction:column; gap:13px;">
+              <div class="case-media" style="aspect-ratio: 708 / 604;"><img src="assets/cchb/cchb-44.webp" alt="" loading="lazy" decoding="async"></div>
+              <div class="case-media" style="aspect-ratio: 708 / 604;"><img src="assets/cchb/cchb-45.webp" alt="" loading="lazy" decoding="async"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Мобилка: та же свайп-лента, что у остальных широких рядов
+             (Исследование и т. п.) — в мобильном фрейме Figma этот ряд из
+             4 картинок тоже шире контейнера (1357.69px против 372px). -->
+        <div class="case-only-mobile case-carousel-wrap">
+          <div class="case-row case-carousel">
+            <div class="case-media" style="aspect-ratio: 342.8 / 229.226;"><img src="assets/cchb/cchb-42.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 326.545 / 286.853;"><img src="assets/cchb/cchb-43.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 326.545 / 278.578;"><img src="assets/cchb/cchb-44.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 326.545 / 277.969;"><img src="assets/cchb/cchb-45.webp" alt="" loading="lazy" decoding="async"></div>
           </div>
         </div>
       </section>
@@ -601,12 +614,23 @@
            454.443×301.88; общая высота блока — по нижнему краю цчб-47,
            676.896), переведены в % от ширины/высоты контейнера. -->
       <section class="case-section case-section--tight">
-        <div class="case-collage" style="aspect-ratio: 1072 / 676.896;">
+        <div class="case-only-desktop case-collage" style="aspect-ratio: 1072 / 676.896;">
           <div class="case-collage__text" style="left:0%;top:0%;width:25.09%;">
             <p class="t-body-1">Программа включала публичные обсуждения, показ фильма, а также мультимедийное и саунд-арт выступление, погружающее гостей в цифровое искусство</p>
           </div>
           <div style="left:29.83%;top:0%;width:70.17%;height:71.94%;"><img src="assets/cchb/cchb-46.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:4.99%;top:55.41%;width:42.39%;height:44.60%;"><img src="assets/cchb/cchb-47.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+        <!-- Мобилка: текст обычным блоком сверху, картинки — свайп-лента
+             (в Figma-мобилке ряд из цчб-46/47 тоже шире контейнера). -->
+        <div class="case-only-mobile">
+          <p class="t-body-1">Программа включала публичные обсуждения, показ фильма, а также мультимедийное и саунд-арт выступление, погружающее гостей в цифровое искусство</p>
+          <div class="case-carousel-wrap" style="margin-top: 25px;">
+            <div class="case-row case-carousel">
+              <div class="case-media" style="aspect-ratio: 350.439 / 226.821;"><img src="assets/cchb/cchb-46.webp" alt="" loading="lazy" decoding="async"></div>
+              <div class="case-media" style="aspect-ratio: 341.454 / 226.821;"><img src="assets/cchb/cchb-47.webp" alt="" loading="lazy" decoding="async"></div>
+            </div>
+          </div>
         </div>
       </section>
 
