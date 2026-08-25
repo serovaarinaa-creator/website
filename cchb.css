@@ -1311,6 +1311,8 @@
 .case-menu-overlay__actions .lang {
   position: static;
   height: 30px;
+  /* 14px везде в меню — а не глобальные мобильные 12px у .t-body-2. */
+  font-size: 14px;
 }
 
 .case-menu-overlay__toc {
@@ -1321,9 +1323,7 @@
 }
 
 .case-menu-overlay__toc a {
-  /* Body 2 Mobile — 12px, а не базовые 14px у .t-body-2 (тот размер для
-     десктопа/названия кейса в шапке этого же меню). */
-  font-size: 12px;
+  font-size: 14px;
   padding: 12px;
   border-radius: var(--radius-absolute);
   background: #ffc2e8;
@@ -1396,20 +1396,22 @@
 }
 
 .case-menu-overlay__about .pill {
-  /* Как у .pill в мобильном сайдбаре на главной (styles.css) — базовое
-     flex: 1 0 0 делит ряд поровну, а узкий паддинг вместо десктопных 15px
-     даёт словам вроде «LinkedIn» поместиться в узкой колонке меню. */
-  font-size: 12px;
+  /* При 14px тексте деление поровну (базовое flex: 1 0 0) обрезает длинные
+     слова вроде «LinkedIn» — здесь ширина по содержимому, короткая «CV»
+     не отъедает место у соседей. Тонкая рамка вместо десктопных 5px —
+     тоже ради места в узкой колонке меню. */
+  flex: 0 0 auto;
+  font-size: 14px;
   padding: 5px 8px;
+  border-width: 2px;
 }
 
 .case-menu-overlay__about .pill + .pill {
-  margin-left: -12px;
+  margin-left: -8px;
 }
 
 .case-menu-overlay__bio {
-  /* Body 1 Mobile — 12px, а не базовые 14px у .t-body-1. */
-  font-size: 12px;
+  font-size: 14px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
