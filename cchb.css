@@ -844,8 +844,9 @@
   .case-topbar-mobile__logo {
     width: 32px;
     height: 32px;
-    border-radius: var(--radius-absolute);
-    object-fit: cover;
+    /* Сама картинка restore.png — уже скруглённый квадрат, круглый
+       border-radius тут лишний и обрезал её в кружок. */
+    object-fit: contain;
   }
 
   /* position: fixed, а не в потоке шапки — .case-menu-overlay открывается
@@ -1222,16 +1223,28 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  /* Тёмный фон-подложка, а не сплошной розовый на весь экран — сама
-     плашка меню плавает над ним с отступами (см. .case-menu-overlay__panel),
-     как в макете, а не растягивается на весь экран. */
-  background: #000;
+  /* Полупрозрачная тёмная подложка — страница под меню остаётся видна,
+     просто притемняется, а не закрашивается сплошным чёрным. */
+  background: rgba(0, 0, 0, 0.45);
   overflow-y: auto;
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
 
 .case-menu-overlay.is-open {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease, visibility 0s linear 0s;
+}
+
+.case-menu-overlay__panel {
+  transform: translateY(10px);
+  transition: transform 0.25s ease;
+}
+
+.case-menu-overlay.is-open .case-menu-overlay__panel {
+  transform: translateY(0);
 }
 
 /* margin-top: 55px — крестик-переключатель (.case-burger, position: fixed,
@@ -1267,8 +1280,9 @@
 .case-menu-overlay__logo {
   width: 32px;
   height: 32px;
-  border-radius: var(--radius-absolute);
-  object-fit: cover;
+  /* Сама картинка restore.png — уже скруглённый квадрат ("re:"), круглый
+     border-radius тут лишний и обрезал её в кружок. */
+  object-fit: contain;
 }
 
 .case-menu-overlay__actions {
@@ -1277,23 +1291,21 @@
   gap: 7px;
 }
 
-/* Белый (не в цвет плашки, как в экспорте из Figma — там кнопка того же
-   розового, что и сама плашка, и на ней буквально не видна) — тот же
-   приём, что и у .case-home в сайдбаре десктопа: контрастный кружок с
-   иконкой поверх розового фона. */
+/* Как в Figma: широкая плашка в цвет меню (var(--pink-100), тот же приём,
+   что и у .lang рядом), а не узкий белый кружок. */
 .case-menu-overlay__home {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
   height: 30px;
+  padding: 0 15px;
   border-radius: var(--radius-absolute);
-  background: var(--white);
+  background: var(--pink-100);
   transition: background 0.2s ease;
 }
 
 .case-menu-overlay__home:hover {
-  background: var(--pink-200);
+  background: var(--white);
 }
 
 .case-menu-overlay__actions .lang {
@@ -1325,8 +1337,10 @@
 
 .case-menu-overlay__profile {
   display: flex;
-  align-items: flex-start;
-  gap: 9px;
+  /* По нижнему краю — колонка био+кнопки в Figma заканчивается вровень
+     с низом имени, а не вровень с верхом фото. */
+  align-items: flex-end;
+  gap: 14px;
   margin-top: 18px;
 }
 
@@ -1360,7 +1374,7 @@
   letter-spacing: -0.04em;
   width: 111px;
   margin: -22px 0 0;
-  text-align: center;
+  text-align: left;
 }
 
 .case-menu-overlay__about {
