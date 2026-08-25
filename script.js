@@ -217,18 +217,11 @@ document.addEventListener("DOMContentLoaded", () => {
        AbortError — и ролик навсегда оставался картинкой, хотя браузер ничего
        не запрещал. Ошибки загрузки тоже лечит следующий canplay, а не подмена.
        Пока данных нет, на месте видео и так стоит кадр из атрибута poster. */
-    /* err.name === "NotAllowedError" раньше был единственным поводом для
-       подмены — уже, чем нужно. AbortError (наш же pause() оборвал ещё не
-       решившийся промис) по-прежнему пропускаем: тут браузер ничего не
-       запрещал. А вот остальные отказы (например NotSupportedError или
-       ошибка декодера) тоже должны уходить в постер — иначе ролик
-       остаётся в DOM на паузе, и Safari рисует поверх него свою кнопку
-       play, хотя мы её как раз пытаемся не допустить. */
     const scriptedPlay = (video) => {
       const play = video.play();
       if (!play) return;
       play.catch((err) => {
-        if (err && err.name !== "AbortError") toPoster(video);
+        if (err && err.name === "NotAllowedError") toPoster(video);
       });
     };
 
@@ -270,23 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
         video,
         setTimeout(() => {
           retries.delete(video);
-          if (!(video.paused && onScreen(video))) return;
-          scriptedPlay(video);
-
-          /* Перегрузка аппаратных декодеров (несколько тяжёлых роликов
-             разом) может застопорить play() вообще без отказа промиса —
-             ролик просто бесконечно стоит на паузе, ничего не бросая в
-             catch выше. Раз уж свой шанс он получил и не воспользовался —
-             подстраховка: если через ещё немного времени всё так же на
-             паузе, подменяем постером тем же путём, что и явный отказ. */
-          clearTimeout(retries.get(video));
-          retries.set(
-            video,
-            setTimeout(() => {
-              retries.delete(video);
-              if (video.paused && onScreen(video)) toPoster(video);
-            }, 1500)
-          );
+          if (video.paused && onScreen(video)) scriptedPlay(video);
         }, 1500)
       );
     };
