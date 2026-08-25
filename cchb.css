@@ -830,13 +830,15 @@
     display: flex;
     align-items: center;
     gap: 15px;
-    padding: 10px;
+    padding: 35px;
     background: rgba(255, 255, 255, 0.12);
     border-radius: 10px;
   }
 
+  /* Body 2 Desktop — базовые 14px у .t-body-2, а не уменьшенный вариант,
+     который тут стоял раньше. */
   .case-topbar-mobile__brand .t-body-2 {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .case-topbar-mobile__logo {
@@ -872,7 +874,15 @@
   }
 
   /* Отдельной кнопки закрытия в макете нет — сам бургер меняет иконку на
-     крестик, пока меню открыто (см. .is-open, переключается в cchb.js). */
+     крестик, пока меню открыто (см. .is-open, переключается в cchb.js).
+     У самого бургера в закрытом состоянии фона нет (лежит прямо на чёрной
+     шапке) — а крестик в макете на отдельном белом кружке, иначе на чёрной
+     подложке под шапкой он был бы не виден вовсе. */
+  .case-burger.is-open {
+    background: var(--white);
+    border-radius: var(--radius-absolute);
+  }
+
   .case-burger__icon-close {
     display: none;
   }
@@ -1211,7 +1221,10 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: var(--pink-100);
+  /* Тёмный фон-подложка, а не сплошной розовый на весь экран — сама
+     плашка меню плавает над ним с отступами (см. .case-menu-overlay__panel),
+     как в макете, а не растягивается на весь экран. */
+  background: #000;
   overflow-y: auto;
   display: none;
 }
@@ -1220,8 +1233,19 @@
   display: block;
 }
 
+/* margin-top: 35px — крестик-переключатель (.case-burger, position: fixed,
+   top: 15px, height: 30px, то есть занимает 15-45px) стоит НАД плашкой,
+   а не встроен в неё: у него самого нет своего розового фона, и без этой
+   плашки под ним он просто висел бы в воздухе на чёрном фоне. Соответственно
+   плашка должна начинаться чуть раньше, чем заканчивается крестик — тогда
+   её скруглённый верхний правый угол «выглядывает» из-под него, как в
+   макете, а не соприкасается впритык. */
 .case-menu-overlay__panel {
+  margin: 35px 15px 15px;
   padding: 15px var(--gutter) 32px;
+  background: var(--pink-100);
+  border-radius: var(--radius-24);
+  box-shadow: var(--shadow-container);
 }
 
 .case-menu-overlay__top {
@@ -1302,15 +1326,16 @@
   margin-top: 18px;
 }
 
+/* Тот же приём, что у .sidebar__avatar/.sidebar__name на главной (круглое
+   фото, а под ним имя своим белым контуром наезжает на низ фото), просто
+   в уменьшенном под меню масштабе — тем же соотношением, что у мобильной
+   версии сайдбара (128px фото → -26px нахлёст, т.е. ≈20% высоты фото). */
 .case-menu-overlay__person {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
   flex-shrink: 0;
 }
 
 .case-menu-overlay__avatar {
+  position: relative;
   width: 94px;
   height: 94px;
   border-radius: var(--radius-absolute);
@@ -1324,24 +1349,32 @@
   object-fit: cover;
 }
 
-/* Headline 2 Mobile — тот же стиль, что и у заголовков секций
-   (.case-section__title на мобилке), без обводки — просто чёрный текст. */
+/* .t-stroke (см. styles.css) уже даёт position: relative и isolation:
+   isolate под белую обводку — тут только шрифт, ширина и нахлёст на фото. */
 .case-menu-overlay__name {
-  font: 800 21px/0.9 var(--font-display);
+  font: 800 16px/0.95 var(--font-display);
   letter-spacing: -0.04em;
+  width: 94px;
+  margin: -19px 0 0;
   text-align: center;
-  margin: 0;
 }
 
 .case-menu-overlay__about {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  padding-top: 15px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Ширина под ровно 3 строки текста био на 12px — подобрано вживую под
+   сам текст, а не круглое число. */
+.case-menu-overlay__about .t-body-1 {
+  max-width: 195px;
 }
 
 .case-menu-overlay__about .pill-row {
-  height: 48px;
+  height: 56px;
 }
 
 .case-menu-overlay__about .pill {
