@@ -166,8 +166,7 @@
 .case-next__logo {
   width: 32px;
   height: 32px;
-  border-radius: var(--radius-absolute);
-  object-fit: cover;
+  object-fit: contain;
 }
 
 /* Стрелка со скрещиванием в бейдж с обводкой при наведении — тот же
@@ -413,7 +412,15 @@
   position: relative;
 }
 
-.case-media--fill video {
+/* video, img — не только видео: script.js при отказе автовоспроизведения
+   подменяет <video> на <img> тем же кадром (poster), оставляя родителя
+   как есть (.case-media--fill не уходит никуда). Без второго селектора
+   картинка-замена не находила это правило (оно было только под тегом
+   video) и заполнение рамки визуально «сбрасывалось» обратно к обычному
+   height: auto из .case-media img выше, стоило автовоспроизведению
+   споткнуться. */
+.case-media--fill video,
+.case-media--fill img {
   position: absolute;
   inset: 0;
   width: 100%;
