@@ -1326,7 +1326,7 @@
 .case-menu-overlay__profile {
   display: flex;
   align-items: flex-start;
-  gap: 20px;
+  gap: 9px;
   margin-top: 18px;
 }
 
@@ -1340,8 +1340,8 @@
 
 .case-menu-overlay__avatar {
   position: relative;
-  width: 94px;
-  height: 94px;
+  width: 111px;
+  height: 111px;
   border-radius: var(--radius-absolute);
   overflow: hidden;
 }
@@ -1356,10 +1356,10 @@
 /* .t-stroke (см. styles.css) уже даёт position: relative и isolation:
    isolate под белую обводку — тут только шрифт, ширина и нахлёст на фото. */
 .case-menu-overlay__name {
-  font: 800 16px/0.95 var(--font-display);
+  font: 800 21px/0.95 var(--font-display);
   letter-spacing: -0.04em;
-  width: 94px;
-  margin: -19px 0 0;
+  width: 111px;
+  margin: -22px 0 0;
   text-align: center;
 }
 
@@ -1382,12 +1382,15 @@
 }
 
 .case-menu-overlay__about .pill {
-  /* flex: 1 0 0 (базовое у .pill) делит ряд поровну — на широком
-     футере/сайдбаре это то, что нужно, но в узкой колонке меню (~220px)
-     «LinkedIn» при таком же делении, что у короткого «CV», не помещается
-     и обрезается. Тут каждая пилюля — по своему контенту. */
-  flex: 0 0 auto;
+  /* Как у .pill в мобильном сайдбаре на главной (styles.css) — базовое
+     flex: 1 0 0 делит ряд поровну, а узкий паддинг вместо десктопных 15px
+     даёт словам вроде «LinkedIn» поместиться в узкой колонке меню. */
   font-size: 12px;
+  padding: 5px 8px;
+}
+
+.case-menu-overlay__about .pill + .pill {
+  margin-left: -12px;
 }
 
 .case-menu-overlay__bio {
