@@ -877,7 +877,7 @@
 
   .case-section__head {
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
     padding: 0;
   }
 
@@ -886,6 +886,13 @@
   .case-section__title,
   .case-section__head > span {
     flex: 0 0 auto;
+  }
+
+  /* Headline 2 Mobile из Ui-kit re: — 21px вместо десктопных 28px
+     (letter-spacing в em, поэтому масштабируется сам, менять не нужно). */
+  .case-section__title,
+  .case-team__title {
+    font-size: 21px;
   }
 
   /* «Лого и графические элементы» — самый длинный заголовок на странице —
