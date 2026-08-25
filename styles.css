@@ -461,7 +461,12 @@ a {
 
   .t-outline__svg text {
     font: inherit;
-    letter-spacing: inherit;
+    /* letter-spacing: inherit ломается в Safari на SVG <text> — буквы
+       наезжают друг на друга (собственный баг WebKit с наследованием
+       letter-spacing внутри SVG). У .t-h2 и .t-promo-1 (все заголовки,
+       использующие .t-outline) одно и то же значение -0.04em, поэтому
+       прописываем его явным литералом вместо inherit. */
+    letter-spacing: -0.04em;
     fill: var(--black);
     stroke: var(--white);
     stroke-width: 20px;
