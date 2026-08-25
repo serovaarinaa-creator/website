@@ -208,104 +208,14 @@ a {
   position: absolute;
   inset: 0;
   z-index: -1;
-  color: transparent;
+  /* SourceAlpha в фильтре смотрит только на альфа-канал глифов, не на их
+     цвет — но альфа должна быть непрозрачной (color: transparent обнулял
+     бы и её, оставляя фильтру пустое место); реальный видимый цвет тут
+     ни на что не влияет, потому что filter полностью заменяет то, что
+     будет отрисовано. */
+  color: #000;
   pointer-events: none;
-  /* 90 точек по кругу (было 36, затем 60) — на радиусе 10px даже 6° шаг
-     ещё оставлял заметную ступенчатость на некоторых движках (WebKit
-     рисует стопку из многих text-shadow жёстче, чем Chromium — грани
-     между соседними копиями глифа не сглаживаются так же чисто); 4° шаг
-     почти вдвое плотнее предыдущего кольца. */
-  text-shadow:
-    10px 0px 0 var(--white),
-    9.98px 0.7px 0 var(--white),
-    9.9px 1.39px 0 var(--white),
-    9.78px 2.08px 0 var(--white),
-    9.61px 2.76px 0 var(--white),
-    9.4px 3.42px 0 var(--white),
-    9.14px 4.07px 0 var(--white),
-    8.83px 4.69px 0 var(--white),
-    8.48px 5.3px 0 var(--white),
-    8.09px 5.88px 0 var(--white),
-    7.66px 6.43px 0 var(--white),
-    7.19px 6.95px 0 var(--white),
-    6.69px 7.43px 0 var(--white),
-    6.16px 7.88px 0 var(--white),
-    5.59px 8.29px 0 var(--white),
-    5px 8.66px 0 var(--white),
-    4.38px 8.99px 0 var(--white),
-    3.75px 9.27px 0 var(--white),
-    3.09px 9.51px 0 var(--white),
-    2.42px 9.7px 0 var(--white),
-    1.74px 9.85px 0 var(--white),
-    1.05px 9.95px 0 var(--white),
-    0.35px 9.99px 0 var(--white),
-    -0.35px 9.99px 0 var(--white),
-    -1.05px 9.95px 0 var(--white),
-    -1.74px 9.85px 0 var(--white),
-    -2.42px 9.7px 0 var(--white),
-    -3.09px 9.51px 0 var(--white),
-    -3.75px 9.27px 0 var(--white),
-    -4.38px 8.99px 0 var(--white),
-    -5px 8.66px 0 var(--white),
-    -5.59px 8.29px 0 var(--white),
-    -6.16px 7.88px 0 var(--white),
-    -6.69px 7.43px 0 var(--white),
-    -7.19px 6.95px 0 var(--white),
-    -7.66px 6.43px 0 var(--white),
-    -8.09px 5.88px 0 var(--white),
-    -8.48px 5.3px 0 var(--white),
-    -8.83px 4.69px 0 var(--white),
-    -9.14px 4.07px 0 var(--white),
-    -9.4px 3.42px 0 var(--white),
-    -9.61px 2.76px 0 var(--white),
-    -9.78px 2.08px 0 var(--white),
-    -9.9px 1.39px 0 var(--white),
-    -9.98px 0.7px 0 var(--white),
-    -10px 0px 0 var(--white),
-    -9.98px -0.7px 0 var(--white),
-    -9.9px -1.39px 0 var(--white),
-    -9.78px -2.08px 0 var(--white),
-    -9.61px -2.76px 0 var(--white),
-    -9.4px -3.42px 0 var(--white),
-    -9.14px -4.07px 0 var(--white),
-    -8.83px -4.69px 0 var(--white),
-    -8.48px -5.3px 0 var(--white),
-    -8.09px -5.88px 0 var(--white),
-    -7.66px -6.43px 0 var(--white),
-    -7.19px -6.95px 0 var(--white),
-    -6.69px -7.43px 0 var(--white),
-    -6.16px -7.88px 0 var(--white),
-    -5.59px -8.29px 0 var(--white),
-    -5px -8.66px 0 var(--white),
-    -4.38px -8.99px 0 var(--white),
-    -3.75px -9.27px 0 var(--white),
-    -3.09px -9.51px 0 var(--white),
-    -2.42px -9.7px 0 var(--white),
-    -1.74px -9.85px 0 var(--white),
-    -1.05px -9.95px 0 var(--white),
-    -0.35px -9.99px 0 var(--white),
-    0.35px -9.99px 0 var(--white),
-    1.05px -9.95px 0 var(--white),
-    1.74px -9.85px 0 var(--white),
-    2.42px -9.7px 0 var(--white),
-    3.09px -9.51px 0 var(--white),
-    3.75px -9.27px 0 var(--white),
-    4.38px -8.99px 0 var(--white),
-    5px -8.66px 0 var(--white),
-    5.59px -8.29px 0 var(--white),
-    6.16px -7.88px 0 var(--white),
-    6.69px -7.43px 0 var(--white),
-    7.19px -6.95px 0 var(--white),
-    7.66px -6.43px 0 var(--white),
-    8.09px -5.88px 0 var(--white),
-    8.48px -5.3px 0 var(--white),
-    8.83px -4.69px 0 var(--white),
-    9.14px -4.07px 0 var(--white),
-    9.4px -3.42px 0 var(--white),
-    9.61px -2.76px 0 var(--white),
-    9.78px -2.08px 0 var(--white),
-    9.9px -1.39px 0 var(--white),
-    9.98px -0.7px 0 var(--white);
+  filter: url(#t-stroke-dilate-10);
 }
 
 /* ---------- Каркас страницы ---------- */

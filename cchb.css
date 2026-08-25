@@ -107,12 +107,14 @@
   gap: 10px;
 }
 
+/* Вытянутая пилюля (64×30 в Figma: узел «Buttons»), а не круглая кнопка
+   44×44, как было раньше — иконка домика лежит по центру той же пилюли. */
 .case-home {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 64px;
+  height: 30px;
   border-radius: var(--radius-absolute);
   background: var(--white);
   transition: background 0.2s ease;
@@ -147,6 +149,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+/* Пара логотипов кейса Neuro Camp (restore: x scholotch) — как на плашке
+   этого кейса на главной (.case__logos), только в масштабе виджета
+   «Следующий кейс» (32px вместо 64px, отступ пропорционально меньше). */
+.case-next__logos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .case-next__logo {
@@ -364,107 +375,15 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  color: transparent;
+  /* Тот же общий фильтр-обводка (10px), что и в .t-stroke::before выше —
+     раньше здесь была отдельная копия кольца из text-shadow на
+     уменьшенном 5px радиусе; фильтр общий для всей страницы, дублировать
+     его с другим радиусом ради этого заголовка больше не нужно (парный
+     слой уже сам по себе решает проблему наложения строк, см. выше). */
+  color: #000;
   pointer-events: none;
-  /* Тот же полный радиус 10px и то же 90-точечное кольцо, что и в общем
-     .t-stroke::before (styles.css) — раньше здесь стоял уменьшенный 5px,
-     из-за чего обводка «Контекст и задача» выглядела заметно тоньше, чем
-     у всех остальных (однострочных) заголовков страницы; парный слой уже
-     сам по себе решает проблему наложения строк (см. комментарий выше),
-     уменьшать радиус ради неё не нужно. */
-  text-shadow:
-    10px 0px 0 var(--white),
-    9.98px 0.7px 0 var(--white),
-    9.9px 1.39px 0 var(--white),
-    9.78px 2.08px 0 var(--white),
-    9.61px 2.76px 0 var(--white),
-    9.4px 3.42px 0 var(--white),
-    9.14px 4.07px 0 var(--white),
-    8.83px 4.69px 0 var(--white),
-    8.48px 5.3px 0 var(--white),
-    8.09px 5.88px 0 var(--white),
-    7.66px 6.43px 0 var(--white),
-    7.19px 6.95px 0 var(--white),
-    6.69px 7.43px 0 var(--white),
-    6.16px 7.88px 0 var(--white),
-    5.59px 8.29px 0 var(--white),
-    5px 8.66px 0 var(--white),
-    4.38px 8.99px 0 var(--white),
-    3.75px 9.27px 0 var(--white),
-    3.09px 9.51px 0 var(--white),
-    2.42px 9.7px 0 var(--white),
-    1.74px 9.85px 0 var(--white),
-    1.05px 9.95px 0 var(--white),
-    0.35px 9.99px 0 var(--white),
-    -0.35px 9.99px 0 var(--white),
-    -1.05px 9.95px 0 var(--white),
-    -1.74px 9.85px 0 var(--white),
-    -2.42px 9.7px 0 var(--white),
-    -3.09px 9.51px 0 var(--white),
-    -3.75px 9.27px 0 var(--white),
-    -4.38px 8.99px 0 var(--white),
-    -5px 8.66px 0 var(--white),
-    -5.59px 8.29px 0 var(--white),
-    -6.16px 7.88px 0 var(--white),
-    -6.69px 7.43px 0 var(--white),
-    -7.19px 6.95px 0 var(--white),
-    -7.66px 6.43px 0 var(--white),
-    -8.09px 5.88px 0 var(--white),
-    -8.48px 5.3px 0 var(--white),
-    -8.83px 4.69px 0 var(--white),
-    -9.14px 4.07px 0 var(--white),
-    -9.4px 3.42px 0 var(--white),
-    -9.61px 2.76px 0 var(--white),
-    -9.78px 2.08px 0 var(--white),
-    -9.9px 1.39px 0 var(--white),
-    -9.98px 0.7px 0 var(--white),
-    -10px 0px 0 var(--white),
-    -9.98px -0.7px 0 var(--white),
-    -9.9px -1.39px 0 var(--white),
-    -9.78px -2.08px 0 var(--white),
-    -9.61px -2.76px 0 var(--white),
-    -9.4px -3.42px 0 var(--white),
-    -9.14px -4.07px 0 var(--white),
-    -8.83px -4.69px 0 var(--white),
-    -8.48px -5.3px 0 var(--white),
-    -8.09px -5.88px 0 var(--white),
-    -7.66px -6.43px 0 var(--white),
-    -7.19px -6.95px 0 var(--white),
-    -6.69px -7.43px 0 var(--white),
-    -6.16px -7.88px 0 var(--white),
-    -5.59px -8.29px 0 var(--white),
-    -5px -8.66px 0 var(--white),
-    -4.38px -8.99px 0 var(--white),
-    -3.75px -9.27px 0 var(--white),
-    -3.09px -9.51px 0 var(--white),
-    -2.42px -9.7px 0 var(--white),
-    -1.74px -9.85px 0 var(--white),
-    -1.05px -9.95px 0 var(--white),
-    -0.35px -9.99px 0 var(--white),
-    0.35px -9.99px 0 var(--white),
-    1.05px -9.95px 0 var(--white),
-    1.74px -9.85px 0 var(--white),
-    2.42px -9.7px 0 var(--white),
-    3.09px -9.51px 0 var(--white),
-    3.75px -9.27px 0 var(--white),
-    4.38px -8.99px 0 var(--white),
-    5px -8.66px 0 var(--white),
-    5.59px -8.29px 0 var(--white),
-    6.16px -7.88px 0 var(--white),
-    6.69px -7.43px 0 var(--white),
-    7.19px -6.95px 0 var(--white),
-    7.66px -6.43px 0 var(--white),
-    8.09px -5.88px 0 var(--white),
-    8.48px -5.3px 0 var(--white),
-    8.83px -4.69px 0 var(--white),
-    9.14px -4.07px 0 var(--white),
-    9.4px -3.42px 0 var(--white),
-    9.61px -2.76px 0 var(--white),
-    9.78px -2.08px 0 var(--white),
-    9.9px -1.39px 0 var(--white),
-    9.98px -0.7px 0 var(--white);
+  filter: url(#t-stroke-dilate-10);
 }
-
 .case-stroke-multiline__fg {
   display: block;
   color: var(--black);
@@ -987,97 +906,8 @@
      .t-stroke::before (styles.css) и в .case-stroke-multiline__bg выше,
      только на уменьшенном 5px радиусе. */
   .case-section__title.t-stroke::before {
-    text-shadow:
-      5px 0px 0 var(--white),
-      4.99px 0.35px 0 var(--white),
-      4.95px 0.7px 0 var(--white),
-      4.89px 1.04px 0 var(--white),
-      4.81px 1.38px 0 var(--white),
-      4.7px 1.71px 0 var(--white),
-      4.57px 2.03px 0 var(--white),
-      4.41px 2.35px 0 var(--white),
-      4.24px 2.65px 0 var(--white),
-      4.05px 2.94px 0 var(--white),
-      3.83px 3.21px 0 var(--white),
-      3.6px 3.47px 0 var(--white),
-      3.35px 3.72px 0 var(--white),
-      3.08px 3.94px 0 var(--white),
-      2.8px 4.15px 0 var(--white),
-      2.5px 4.33px 0 var(--white),
-      2.19px 4.49px 0 var(--white),
-      1.87px 4.64px 0 var(--white),
-      1.55px 4.76px 0 var(--white),
-      1.21px 4.85px 0 var(--white),
-      0.87px 4.92px 0 var(--white),
-      0.52px 4.97px 0 var(--white),
-      0.17px 5px 0 var(--white),
-      -0.17px 5px 0 var(--white),
-      -0.52px 4.97px 0 var(--white),
-      -0.87px 4.92px 0 var(--white),
-      -1.21px 4.85px 0 var(--white),
-      -1.55px 4.76px 0 var(--white),
-      -1.87px 4.64px 0 var(--white),
-      -2.19px 4.49px 0 var(--white),
-      -2.5px 4.33px 0 var(--white),
-      -2.8px 4.15px 0 var(--white),
-      -3.08px 3.94px 0 var(--white),
-      -3.35px 3.72px 0 var(--white),
-      -3.6px 3.47px 0 var(--white),
-      -3.83px 3.21px 0 var(--white),
-      -4.05px 2.94px 0 var(--white),
-      -4.24px 2.65px 0 var(--white),
-      -4.41px 2.35px 0 var(--white),
-      -4.57px 2.03px 0 var(--white),
-      -4.7px 1.71px 0 var(--white),
-      -4.81px 1.38px 0 var(--white),
-      -4.89px 1.04px 0 var(--white),
-      -4.95px 0.7px 0 var(--white),
-      -4.99px 0.35px 0 var(--white),
-      -5px 0px 0 var(--white),
-      -4.99px -0.35px 0 var(--white),
-      -4.95px -0.7px 0 var(--white),
-      -4.89px -1.04px 0 var(--white),
-      -4.81px -1.38px 0 var(--white),
-      -4.7px -1.71px 0 var(--white),
-      -4.57px -2.03px 0 var(--white),
-      -4.41px -2.35px 0 var(--white),
-      -4.24px -2.65px 0 var(--white),
-      -4.05px -2.94px 0 var(--white),
-      -3.83px -3.21px 0 var(--white),
-      -3.6px -3.47px 0 var(--white),
-      -3.35px -3.72px 0 var(--white),
-      -3.08px -3.94px 0 var(--white),
-      -2.8px -4.15px 0 var(--white),
-      -2.5px -4.33px 0 var(--white),
-      -2.19px -4.49px 0 var(--white),
-      -1.87px -4.64px 0 var(--white),
-      -1.55px -4.76px 0 var(--white),
-      -1.21px -4.85px 0 var(--white),
-      -0.87px -4.92px 0 var(--white),
-      -0.52px -4.97px 0 var(--white),
-      -0.17px -5px 0 var(--white),
-      0.17px -5px 0 var(--white),
-      0.52px -4.97px 0 var(--white),
-      0.87px -4.92px 0 var(--white),
-      1.21px -4.85px 0 var(--white),
-      1.55px -4.76px 0 var(--white),
-      1.87px -4.64px 0 var(--white),
-      2.19px -4.49px 0 var(--white),
-      2.5px -4.33px 0 var(--white),
-      2.8px -4.15px 0 var(--white),
-      3.08px -3.94px 0 var(--white),
-      3.35px -3.72px 0 var(--white),
-      3.6px -3.47px 0 var(--white),
-      3.83px -3.21px 0 var(--white),
-      4.05px -2.94px 0 var(--white),
-      4.24px -2.65px 0 var(--white),
-      4.41px -2.35px 0 var(--white),
-      4.57px -2.03px 0 var(--white),
-      4.7px -1.71px 0 var(--white),
-      4.81px -1.38px 0 var(--white),
-      4.89px -1.04px 0 var(--white),
-      4.95px -0.7px 0 var(--white),
-      4.99px -0.35px 0 var(--white);
+    color: #000;
+    filter: url(#t-stroke-dilate-5);
   }
 
   /* сами пустые заглушки на мобилке не нужны вовсе — там текст и так один

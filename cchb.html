@@ -15,10 +15,37 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260824">
-  <link rel="stylesheet" href="cchb.css?v=20260824">
+  <link rel="stylesheet" href="styles.css?v=20260825">
+  <link rel="stylesheet" href="cchb.css?v=20260825">
 </head>
 <body class="case-page-body">
+
+  <!-- Скруглённая белая обводка вокруг текста (.t-stroke, см. styles.css) —
+       SVG-фильтр вместо кольца из text-shadow копий: размывает альфа-канал
+       текста по Гауссу и обрезает его по порогу, получая ровный контур,
+       нарастающий во все стороны с одинаковым (изотропным) радиусом — как
+       родная обводка в Figma. Кольцо из совпадающих смещений давало
+       заметную ступенчатость на изгибах букв даже при большом числе точек. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="t-stroke-dilate-10" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+        <feComponentTransfer in="blur" result="thresh">
+          <feFuncA type="linear" slope="20" intercept="-0.6"/>
+        </feComponentTransfer>
+        <feFlood flood-color="#fff" result="white"/>
+        <feComposite in="white" in2="thresh" operator="in"/>
+      </filter>
+      <filter id="t-stroke-dilate-5" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+        <feComponentTransfer in="blur" result="thresh">
+          <feFuncA type="linear" slope="20" intercept="-0.6"/>
+        </feComponentTransfer>
+        <feFlood flood-color="#fff" result="white"/>
+        <feComposite in="white" in2="thresh" operator="in"/>
+      </filter>
+    </defs>
+  </svg>
 
   <!-- ---------- Мобильный топ-бар: лого + бургер ---------- -->
   <div class="case-topbar-mobile">
@@ -102,7 +129,11 @@
         </a>
         <a class="case-next" href="index.html#case-neurocamp">
           <div class="case-next__top">
-            <img class="case-next__logo" src="assets/logos/restore.png" alt="restore:" width="32" height="32">
+            <div class="case-next__logos">
+              <img class="case-next__logo" src="assets/logos/restore-black.png" alt="restore:" width="32" height="32">
+              <span class="t-body-1">х</span>
+              <img class="case-next__logo" src="assets/logos/scholotch.png" alt="scholotch" width="32" height="32">
+            </div>
             <span class="case-next__arrow" aria-hidden="true">
               <img class="case-next__arrow-default" src="assets/icons/case-arrow-white.svg" alt="" width="10" height="10">
               <img class="case-next__arrow-hover" src="assets/icons/case-arrow-hover.svg" alt="" width="32" height="32">
@@ -110,7 +141,7 @@
           </div>
           <div>
             <p class="t-body-1 case-next__label">Следующий кейс</p>
-            <p class="t-body-1">NEURO CAMP</p>
+            <p class="t-body-2">NEURO CAMP</p>
           </div>
         </a>
       </div>

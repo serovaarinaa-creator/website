@@ -16,9 +16,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260824">
+  <link rel="stylesheet" href="styles.css?v=20260825">
 </head>
 <body>
+  <!-- Скруглённая белая обводка вокруг текста (.t-stroke, см. styles.css) —
+       SVG-фильтр вместо кольца из text-shadow копий, см. подробный
+       комментарий в cchb.html (там же общий .t-stroke используется чаще). -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="t-stroke-dilate-10" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+        <feComponentTransfer in="blur" result="thresh">
+          <feFuncA type="linear" slope="20" intercept="-0.6"/>
+        </feComponentTransfer>
+        <feFlood flood-color="#fff" result="white"/>
+        <feComposite in="white" in2="thresh" operator="in"/>
+      </filter>
+    </defs>
+  </svg>
+
   <div class="topbar">
     <nav class="menu" aria-label="Основная навигация">
       <a class="menu__btn is-active" href="#top" aria-label="В начало" data-label-en="Home">
