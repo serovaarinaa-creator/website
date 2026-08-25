@@ -130,11 +130,14 @@
    белый, наследуется от .case-page-body по умолчанию, отдельно красить
    не нужно (обратный черный оставался тут ещё с прошлой правки под
    сплошной белый фон). */
+/* padding-bottom увеличен против верхнего (12px) — низ карточки должен
+   совпадать с нижним краем заглавного видео (см. .case-sidebar__bottom
+   ниже); подобрано через getBoundingClientRect на живой странице. */
 .case-next {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 12px;
+  padding: 12px 12px 21px;
   border-radius: var(--radius-20);
   background: rgba(255, 255, 255, 0.12);
   box-shadow: var(--shadow-container);
@@ -209,12 +212,20 @@
   }
 }
 
+.case-next__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .case-next__label {
   color: rgba(255, 255, 255, 0.4);
 }
 
 /* ---------- Топ-бар кейса: RU справа, как на главной ---------- */
 
+/* В цвет фона страницы (чёрный) — не розовая пилюля, как на главной,
+   страница кейса тёмная. */
 .case-lang {
   position: fixed;
   top: 12px;
@@ -224,18 +235,19 @@
   display: flex;
   align-items: center;
   padding: 0 13px;
-  background: var(--pink-100);
+  background: #000;
   border: none;
   border-radius: var(--radius-absolute);
   appearance: none;
   -webkit-appearance: none;
-  color: var(--black);
+  color: var(--white);
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .case-lang:hover {
   background: var(--white);
+  color: var(--black);
 }
 
 /* ---------- Контент кейса ---------- */

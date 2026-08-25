@@ -31,7 +31,7 @@
       <filter id="t-stroke-dilate-10" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
         <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
         <feComponentTransfer in="blur" result="thresh">
-          <feFuncA type="linear" slope="20" intercept="-0.6"/>
+          <feFuncA type="linear" slope="200" intercept="-11"/>
         </feComponentTransfer>
         <feFlood flood-color="#fff" result="white"/>
         <feComposite in="white" in2="thresh" operator="in"/>
@@ -39,7 +39,7 @@
       <filter id="t-stroke-dilate-5" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
         <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
         <feComponentTransfer in="blur" result="thresh">
-          <feFuncA type="linear" slope="20" intercept="-0.6"/>
+          <feFuncA type="linear" slope="200" intercept="-11"/>
         </feComponentTransfer>
         <feFlood flood-color="#fff" result="white"/>
         <feComposite in="white" in2="thresh" operator="in"/>
@@ -139,7 +139,7 @@
               <img class="case-next__arrow-hover" src="assets/icons/case-arrow-hover.svg" alt="" width="32" height="32">
             </span>
           </div>
-          <div>
+          <div class="case-next__bottom">
             <p class="t-body-1 case-next__label">Следующий кейс</p>
             <p class="t-body-2">NEURO CAMP</p>
           </div>
