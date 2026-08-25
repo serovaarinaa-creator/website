@@ -15,44 +15,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260825">
-  <link rel="stylesheet" href="cchb.css?v=20260825">
+  <link rel="stylesheet" href="styles.css?v=20260825b">
+  <link rel="stylesheet" href="cchb.css?v=20260825b">
 </head>
 <body class="case-page-body">
-
-  <!-- Скруглённая белая обводка вокруг текста (.t-stroke, см. styles.css) —
-       SVG-фильтр вместо кольца из text-shadow копий. Сначала feMorphology
-       честно «наращивает» альфу текста на фиксированный радиус во все
-       стороны (в отличие от Гаусса — без накопления там, где соседние
-       штрихи буквы близко: чистый blur+порог в этих местах раздувал контур
-       в бесформенное облако, а не повторял форму букв, как в Figma).
-       У feMorphology в браузерах прямоугольное ядро — сама по себе она даёт
-       острые/квадратные углы, поэтому следом идёт лёгкое Гауссово
-       размытие и порог ровно на 50% — оно не двигает границу дальше
-       наружу (симметричный блюр порогуется точно там же, где было ребро
-       до него), а лишь скругляет эти углы. -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <defs>
-      <filter id="t-stroke-dilate-10" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
-        <feMorphology in="SourceAlpha" operator="dilate" radius="8" result="dilated"/>
-        <feGaussianBlur in="dilated" stdDeviation="4" result="blurred"/>
-        <feComponentTransfer in="blurred" result="thresh">
-          <feFuncA type="linear" slope="200" intercept="-100"/>
-        </feComponentTransfer>
-        <feFlood flood-color="#fff" result="white"/>
-        <feComposite in="white" in2="thresh" operator="in"/>
-      </filter>
-      <filter id="t-stroke-dilate-5" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
-        <feMorphology in="SourceAlpha" operator="dilate" radius="4" result="dilated"/>
-        <feGaussianBlur in="dilated" stdDeviation="2" result="blurred"/>
-        <feComponentTransfer in="blurred" result="thresh">
-          <feFuncA type="linear" slope="200" intercept="-100"/>
-        </feComponentTransfer>
-        <feFlood flood-color="#fff" result="white"/>
-        <feComposite in="white" in2="thresh" operator="in"/>
-      </filter>
-    </defs>
-  </svg>
 
   <!-- ---------- Мобильный топ-бар: лого + бургер ---------- -->
   <div class="case-topbar-mobile">
@@ -179,9 +145,12 @@
       <!-- Контекст и задача -->
       <section class="case-section" id="context">
         <div class="case-section__head">
-          <h2 class="t-h2 case-section__title case-stroke-multiline">
-            <span class="case-stroke-multiline__bg" aria-hidden="true">Контекст<br>и задача</span>
-            <span class="case-stroke-multiline__fg">Контекст<br>и задача</span>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg t-outline__svg--2" aria-hidden="true" focusable="false">
+              <text x="0" y="0">Контекст</text>
+              <text x="0" y="25.2">и задача</text>
+            </svg>
+            <span class="t-outline__fallback" data-text="Контекст и задача">Контекст и задача</span>
           </h2>
           <p class="t-body-1 case-section__text">Задача проекта — разработать визуальный стиль конкурса современного цифрового искусства restore:digital art для широкой аудитории, вовлечённой в актуальный художественный и интеллектуальный контекст<br><br>Важно было создать узнаваемую айдентику, работающую в медиа и PR, и одновременно усиливающую присутствие бренда restore: — крупнейшей сети премиум техники в России<br><br>Проект нацелен на укрепление позиционирования бренда через выразительное раскрытие темы конкурса этого года «Цветное vs чёрно-белое»: столкновение контрастов</p>
         </div>
@@ -193,7 +162,10 @@
       <!-- Исследование -->
       <section class="case-section" id="research">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Исследование">Исследование</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text x="0" y="0">Исследование</text></svg>
+            <span class="t-outline__fallback" data-text="Исследование">Исследование</span>
+          </h2>
           <p class="t-body-1 case-section__text">Конкурс обращается к широкой аудитории, интересующихся современным искусством и стремящихся осмыслить текущую реальность через визуальный язык<br><br>Анализ конкурентов (open call-проектов с выставками и образовательными программами) выявил перенасыщенность визуальной среды и потребность в чётком, концептуально выстроенном высказывании<br><br>Дизайн-решение опирается на запрос аудитории на рефлексию, формируя бренд как проводника в актуальный художественный контекст и платформу для новых авторов</p>
         </div>
         <div class="case-row">
@@ -205,7 +177,10 @@
       <!-- Концепция -->
       <section class="case-section" id="concept">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Концепция">Концепция</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text x="0" y="0">Концепция</text></svg>
+            <span class="t-outline__fallback" data-text="Концепция">Концепция</span>
+          </h2>
           <p class="t-body-1 case-section__text">Концепция строится на восприятии реальности в нескольких слоях одновременно. Мы показываем пересечение живого опыта и технологической среды, создавая визуальный диалог и подчёркивая тему конкурса как метафору разных способов видеть мир</p>
         </div>
         <!-- В Figma подпись лежит внутри коллажа, в 20px под видео «глаз» —
@@ -241,7 +216,10 @@
       <!-- Лого и графические элементы -->
       <section class="case-section" id="logo">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Лого и графические элементы">Лого и графические элементы</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text x="0" y="0">Лого и графические элементы</text></svg>
+            <span class="t-outline__fallback" data-text="Лого и графические элементы">Лого и графические элементы</span>
+          </h2>
         </div>
         <!-- Единая чёрная панель без скруглений — в Figma цчб-11, обе подписи,
              цчб-13 и цчб-12 лежат на одном общем чёрном холсте, а не в
@@ -332,7 +310,10 @@
            case-section--tight с ручным margin-top -->
       <section class="case-section case-section--tight">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Мерч">Мерч</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text x="0" y="0">Мерч</text></svg>
+            <span class="t-outline__fallback" data-text="Мерч">Мерч</span>
+          </h2>
           <p class="t-body-1 case-section__text">Стилистика конкурса проявляется и в материальных объектах через контраст цифровой графики с натуральными материалами: полупрозрачный пластик соседствуют с бумагой, картоном и тканями, создавая ощущение наложения слоёв и продолжая визуальную концепцию конкурса</p>
         </div>
         <!-- margin-top: 36px — добавка поверх базовых 24px .case-section--tight
@@ -349,7 +330,10 @@
       <!-- Сайт -->
       <section class="case-section" id="site">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Сайт">Сайт</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text x="0" y="0">Сайт</text></svg>
+            <span class="t-outline__fallback" data-text="Сайт">Сайт</span>
+          </h2>
           <p class="t-body-1 case-section__text">Для проекта был разработан многостраничный сайт с продуманной структурой: разделы о проекте, жюри, галерея работ и программа мероприятий. Облегчили восприятие сайта благодаря строгой стилистике и акценте на работах участников</p>
         </div>
         <div class="case-media" style="aspect-ratio: 2112 / 1188;">
@@ -379,7 +363,10 @@
       <!-- Выставка -->
       <section class="case-section" id="exhibition">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Выставка">Выставка</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text x="0" y="0">Выставка</text></svg>
+            <span class="t-outline__fallback" data-text="Выставка">Выставка</span>
+          </h2>
           <p class="t-body-1 case-section__text">Итогом конкурса стала выставка лучших работ участников в галерее RuArts в Москве. Экспозиция перенесла визуальный язык конкурса в пространство галереи: неоновые цвета, градиенты и пиксельная графика создавали эффект цифрового слоя поверх реальности. Такой приём позволял зрителю ощутить переплетение работ участников с окружающим пространством, продолжая концепцию айдентики и подчеркивая взаимодействие искусства и технологий</p>
         </div>
         <!-- overflow-x: hidden раньше стоял тут на случай, если какая-то из
@@ -420,7 +407,10 @@
       <!-- 3D-маппинг -->
       <section class="case-section" id="mapping">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="3D-маппинг">3D-маппинг</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text x="0" y="0">3D-маппинг</text></svg>
+            <span class="t-outline__fallback" data-text="3D-маппинг">3D-маппинг</span>
+          </h2>
           <p class="t-body-1 case-section__text">Для фотозоны выставки была разработана площадка с 3D-маппингом — технологией проекции видео на объёмные объекты, создающей иллюзию изменения формы, текстуры и «оживления» поверхности</p>
         </div>
         <div class="case-media" style="aspect-ratio: 2144 / 1206;">
@@ -473,7 +463,10 @@
       <!-- Яндекс дача -->
       <section class="case-section" id="yandex">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Яндекс Дача">Яндекс Дача</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text x="0" y="0">Яндекс Дача</text></svg>
+            <span class="t-outline__fallback" data-text="Яндекс Дача">Яндекс Дача</span>
+          </h2>
           <p class="t-body-1 case-section__text">Событие в поддержку конкурсно-выставочного проекта restore:digital art, главными партнёрами которого выступали «Яндекс Плюс» и «Яндекс Пэй». Мероприятие призвано продемонстрировать, как современные технологии стирают границы между различными видами медиа</p>
         </div>
         <!-- Отступы здесь — 13px везде (картинка-картинка), а не стандартные
@@ -518,7 +511,10 @@
       <!-- Результаты -->
       <section class="case-section" id="results">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Результаты">Результаты</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text x="0" y="0">Результаты</text></svg>
+            <span class="t-outline__fallback" data-text="Результаты">Результаты</span>
+          </h2>
           <p class="t-body-1 case-section__text">Для бренда restore: проект прошел на совершенно новом уровне — так как удалось не только усовершенствовать проект, расширить его (параллельная программа, еще больше номинаций), но и привлечь партнеров. Открытие выставки посетило 800 гостей, что было рекордным для проекта</p>
         </div>
         <div class="case-media" style="aspect-ratio: 2144 / 266;"><img src="assets/cchb/cchb-numbers-1-desktop.webp" alt="" loading="lazy" decoding="async"></div>
@@ -570,7 +566,10 @@
           <div class="video-shield" aria-hidden="true"></div>
         </div>
         <div class="case-team">
-          <h2 class="t-h2 t-stroke case-team__title" data-text="Дизайн команда">Дизайн команда</h2>
+          <h2 class="t-h2 t-outline case-team__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text x="0" y="0">Дизайн команда</text></svg>
+            <span class="t-outline__fallback" data-text="Дизайн команда">Дизайн команда</span>
+          </h2>
           <div class="case-team__row">
             <div>
               <p class="t-body-1 case-team__role">Арт-директор</p>
@@ -599,7 +598,10 @@
       <div class="footer__circle">
         <img src="assets/about/medor-footer.webp" alt="Французский бульдог Медор" width="640" height="640" loading="lazy" decoding="async">
       </div>
-      <p class="t-promo-1 t-stroke footer__title" data-text="Let&rsquo;s go!">Let&rsquo;s go!</p>
+      <p class="t-promo-1 t-outline footer__title">
+        <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text x="0" y="0">Let&#8217;s go!</text></svg>
+        <span class="t-outline__fallback" data-text="Let&rsquo;s go!">Let&rsquo;s go!</span>
+      </p>
     </div>
     <div class="footer__pills">
       <a class="pill t-body-2" href="https://hirehi.ru/resume/XbLth3skez" target="_blank" rel="noopener">CV</a>

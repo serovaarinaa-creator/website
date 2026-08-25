@@ -368,39 +368,6 @@
   white-space: nowrap;
 }
 
-/* «Контекст и задача» — единственный заголовок на странице с ручным
-   переносом строки (см. .case-stroke-multiline в разметке). Раньше строки
-   были двумя отдельными <span class="t-stroke"> — у каждого свой ::before,
-   и Chrome красит слоями по порядку (подложка1, буквы1, подложка2, буквы2),
-   так что подложка второй строки наезжала поверх букв первой. Здесь вместо
-   этого — ДВЕ полные копии всего текста (с общим <br>) друг под другом:
-   один слой целиком подложка (прозрачный текст + кольцо теней), другой
-   целиком настоящие чёрные буквы — как единый .t-stroke на 2 строки, но
-   с явным переносом там, где его не даст естественный word-wrap. */
-.case-stroke-multiline {
-  position: relative;
-  isolation: isolate;
-  display: block;
-}
-
-.case-stroke-multiline__bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  /* Тот же общий фильтр-обводка (10px), что и в .t-stroke::before выше —
-     раньше здесь была отдельная копия кольца из text-shadow на
-     уменьшенном 5px радиусе; фильтр общий для всей страницы, дублировать
-     его с другим радиусом ради этого заголовка больше не нужно (парный
-     слой уже сам по себе решает проблему наложения строк, см. выше). */
-  color: #000;
-  pointer-events: none;
-  filter: url(#t-stroke-dilate-10);
-}
-.case-stroke-multiline__fg {
-  display: block;
-  color: var(--black);
-}
-
 .case-section__text {
   max-width: 503px;
   flex: 1;
@@ -912,14 +879,103 @@
     white-space: normal;
   }
 
-  /* если из-за переноса получилось 2+ строк — та же уменьшенная обводка,
-     что у .case-hero__title/#context выше (см. там подробный комментарий);
-     90 точек по кругу — то же сглаживание зубчатого края, что и в базовом
-     .t-stroke::before (styles.css) и в .case-stroke-multiline__bg выше,
-     только на уменьшенном 5px радиусе. */
-  .case-section__title.t-stroke::before {
-    color: #000;
-    filter: url(#t-stroke-dilate-5);
+  /* На мобилке действует запасной приём из styles.css (.t-outline__fallback —
+     подложка-кольцо из text-shadow, а не векторный SVG, см. комментарий
+     там). Если из-за переноса получилось 2+ строк, полный 10px радиус
+     кольца (как у однострочных заголовков) начинает заходить на соседнюю
+     строку — тут те же 90 точек, но на уменьшенном 5px радиусе. */
+  .case-section__title .t-outline__fallback::before {
+    text-shadow:
+      5px 0px 0 var(--white),
+      4.99px 0.35px 0 var(--white),
+      4.95px 0.7px 0 var(--white),
+      4.89px 1.04px 0 var(--white),
+      4.81px 1.38px 0 var(--white),
+      4.7px 1.71px 0 var(--white),
+      4.57px 2.03px 0 var(--white),
+      4.41px 2.35px 0 var(--white),
+      4.24px 2.65px 0 var(--white),
+      4.05px 2.94px 0 var(--white),
+      3.83px 3.21px 0 var(--white),
+      3.6px 3.47px 0 var(--white),
+      3.35px 3.72px 0 var(--white),
+      3.08px 3.94px 0 var(--white),
+      2.8px 4.15px 0 var(--white),
+      2.5px 4.33px 0 var(--white),
+      2.19px 4.49px 0 var(--white),
+      1.87px 4.64px 0 var(--white),
+      1.55px 4.76px 0 var(--white),
+      1.21px 4.85px 0 var(--white),
+      0.87px 4.92px 0 var(--white),
+      0.52px 4.97px 0 var(--white),
+      0.17px 5px 0 var(--white),
+      -0.17px 5px 0 var(--white),
+      -0.52px 4.97px 0 var(--white),
+      -0.87px 4.92px 0 var(--white),
+      -1.21px 4.85px 0 var(--white),
+      -1.55px 4.76px 0 var(--white),
+      -1.87px 4.64px 0 var(--white),
+      -2.19px 4.49px 0 var(--white),
+      -2.5px 4.33px 0 var(--white),
+      -2.8px 4.15px 0 var(--white),
+      -3.08px 3.94px 0 var(--white),
+      -3.35px 3.72px 0 var(--white),
+      -3.6px 3.47px 0 var(--white),
+      -3.83px 3.21px 0 var(--white),
+      -4.05px 2.94px 0 var(--white),
+      -4.24px 2.65px 0 var(--white),
+      -4.41px 2.35px 0 var(--white),
+      -4.57px 2.03px 0 var(--white),
+      -4.7px 1.71px 0 var(--white),
+      -4.81px 1.38px 0 var(--white),
+      -4.89px 1.04px 0 var(--white),
+      -4.95px 0.7px 0 var(--white),
+      -4.99px 0.35px 0 var(--white),
+      -5px 0px 0 var(--white),
+      -4.99px -0.35px 0 var(--white),
+      -4.95px -0.7px 0 var(--white),
+      -4.89px -1.04px 0 var(--white),
+      -4.81px -1.38px 0 var(--white),
+      -4.7px -1.71px 0 var(--white),
+      -4.57px -2.03px 0 var(--white),
+      -4.41px -2.35px 0 var(--white),
+      -4.24px -2.65px 0 var(--white),
+      -4.05px -2.94px 0 var(--white),
+      -3.83px -3.21px 0 var(--white),
+      -3.6px -3.47px 0 var(--white),
+      -3.35px -3.72px 0 var(--white),
+      -3.08px -3.94px 0 var(--white),
+      -2.8px -4.15px 0 var(--white),
+      -2.5px -4.33px 0 var(--white),
+      -2.19px -4.49px 0 var(--white),
+      -1.87px -4.64px 0 var(--white),
+      -1.55px -4.76px 0 var(--white),
+      -1.21px -4.85px 0 var(--white),
+      -0.87px -4.92px 0 var(--white),
+      -0.52px -4.97px 0 var(--white),
+      -0.17px -5px 0 var(--white),
+      0.17px -5px 0 var(--white),
+      0.52px -4.97px 0 var(--white),
+      0.87px -4.92px 0 var(--white),
+      1.21px -4.85px 0 var(--white),
+      1.55px -4.76px 0 var(--white),
+      1.87px -4.64px 0 var(--white),
+      2.19px -4.49px 0 var(--white),
+      2.5px -4.33px 0 var(--white),
+      2.8px -4.15px 0 var(--white),
+      3.08px -3.94px 0 var(--white),
+      3.35px -3.72px 0 var(--white),
+      3.6px -3.47px 0 var(--white),
+      3.83px -3.21px 0 var(--white),
+      4.05px -2.94px 0 var(--white),
+      4.24px -2.65px 0 var(--white),
+      4.41px -2.35px 0 var(--white),
+      4.57px -2.03px 0 var(--white),
+      4.7px -1.71px 0 var(--white),
+      4.81px -1.38px 0 var(--white),
+      4.89px -1.04px 0 var(--white),
+      4.95px -0.7px 0 var(--white),
+      4.99px -0.35px 0 var(--white);
   }
 
   /* сами пустые заглушки на мобилке не нужны вовсе — там текст и так один
