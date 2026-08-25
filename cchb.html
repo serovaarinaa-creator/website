@@ -15,8 +15,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260825m">
-  <link rel="stylesheet" href="cchb.css?v=20260825m">
+  <link rel="stylesheet" href="styles.css?v=20260825n">
+  <link rel="stylesheet" href="cchb.css?v=20260825n">
 </head>
 <body class="case-page-body">
 
@@ -493,7 +493,7 @@
            x=0.4, y=511.32 из 632 общей высоты — то есть в нижней трети,
            слева), и без обводки — это просто белый текст, как обычный текст
            страницы, а не .t-stroke заголовок. -->
-      <section class="case-section case-section--tight">
+      <section class="case-section case-section--tight case-only-desktop">
         <div class="case-collage" style="aspect-ratio: 1072 / 632;">
           <div style="left:5.114%;top:3.103%;width:18.850%;height:39.456%;"><img src="assets/cchb/cchb-33.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:0.000%;top:44.693%;width:23.964%;height:32.199%;"><img src="assets/cchb/cchb-34.webp" alt="" loading="lazy" decoding="async"></div>
@@ -509,10 +509,28 @@
         </div>
       </section>
 
+      <!-- Мобилка: в Figma-мобилке это не текст ВНУТРИ коллажа (как на
+           десктопе), а обычный текстовый блок сверху, и коллаж — своя,
+           другая раскладка тех же 7 картинок (Group 2131332565), не
+           десктопные проценты. -->
+      <section class="case-section case-section--tight case-only-mobile">
+        <h2 class="t-h2 case-section__title">Референсы</h2>
+        <p class="t-body-1" style="margin-top: 12px;">В данный проект хотелось интегрировать пиксельную графику конкурса, фирменные графические формы бренда restore;, а также мерцающие силуэты фигур</p>
+        <div class="case-collage" style="aspect-ratio: 372.488 / 336.472; margin-top: 25px;">
+          <div style="left:6.514%;top:2.436%;width:24.012%;height:32.805%;"><img src="assets/cchb/cchb-33.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:0.000%;top:37.011%;width:30.526%;height:26.769%;"><img src="assets/cchb/cchb-34.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:32.079%;top:5.058%;width:36.786%;height:58.727%;"><img src="assets/cchb/cchb-35.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:70.376%;top:0.000%;width:29.624%;height:43.752%;"><img src="assets/cchb/cchb-36.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:70.376%;top:45.510%;width:29.624%;height:32.156%;"><img src="assets/cchb/cchb-37.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:15.297%;top:65.554%;width:24.478%;height:34.437%;"><img src="assets/cchb/cchb-38.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:41.475%;top:65.554%;width:27.386%;height:32.579%;"><img src="assets/cchb/cchb-39.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+      </section>
+
       <!-- Эскизы: тот же случай — заголовок и текст лежат ВНУТРИ коллажа,
            справа от первой картинки (Frame 2087329742, x=800.28, y=0 из
            1072 общей ширины), без обводки. -->
-      <section class="case-section case-section--tight">
+      <section class="case-section case-section--tight case-only-desktop">
         <div class="case-collage" style="aspect-ratio: 1072 / 1108;">
           <div style="left:0.000%;top:0.000%;width:64.858%;height:58.702%;"><img src="assets/cchb/cchb-40.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:0.000%;top:56.904%;width:100.000%;height:44.720%;"><img src="assets/cchb/cchb-41.webp" alt="" loading="lazy" decoding="async"></div>
@@ -521,6 +539,21 @@
             <h2 class="t-h2" style="margin-bottom:12px;">Эскизы</h2>
             <p class="t-body-1">Для этого были проведены измерения помещения, в котором будут располагаться формы для 3D-маппинга, и по предварительным эскизам сделали визуализацию 3D-пространства со световой схемой</p>
           </div>
+        </div>
+      </section>
+
+      <!-- Мобилка: тот же приём — текст сверху обычным блоком, коллаж под
+           ним. Проценты картинок внутри коллажа тут совпадают с десктопными
+           (композиция цчб-40/41/пиксели-4 почти не отличается между
+           брейкпоинтами), меняется только сам факт, что текст больше не
+           лежит внутри коллажа абсолютным блоком в углу. -->
+      <section class="case-section case-section--tight case-only-mobile">
+        <h2 class="t-h2 case-section__title">Эскизы</h2>
+        <p class="t-body-1" style="margin-top: 12px;">Для этого были проведены измерения помещения, в котором будут располагаться формы для 3D-маппинга, и по предварительным эскизам сделали визуализацию 3D-пространства со световой схемой</p>
+        <div class="case-collage" style="aspect-ratio: 372.488 / 384.493; margin-top: 25px;">
+          <div style="left:0.000%;top:0.000%;width:64.858%;height:58.702%;"><img src="assets/cchb/cchb-40.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:0.000%;top:56.904%;width:100.000%;height:44.720%;"><img src="assets/cchb/cchb-41.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__pixel" style="left:69.312%;top:29.351%;width:19.916%;height:31.814%;"><img src="assets/cchb/cchb-pixels-4.webp" alt="" loading="lazy" decoding="async"></div>
         </div>
       </section>
 
