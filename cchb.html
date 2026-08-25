@@ -15,8 +15,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260825g">
-  <link rel="stylesheet" href="cchb.css?v=20260825g">
+  <link rel="stylesheet" href="styles.css?v=20260825h">
+  <link rel="stylesheet" href="cchb.css?v=20260825h">
 </head>
 <body class="case-page-body">
 
@@ -307,15 +307,17 @@
              61.44%/38.56%); цчб-17 — отдельный полноширинный блок ПОД этой
              парой (Frame 2087329759 высотой 469.341, «Image» с цчб-17 ниже
              начинается на y=488.795 — разница ≈19-20px, тот же зазор, что
-             и внутри самой пары), а не третья колонка в том же ряду.
-             margin-top: 36px — добавка поверх базовых 24px .case-section--tight
-             (в Figma от текста до цчб-15/16 60px, не 24) -->
+             и внутри самой пары, то есть те же 20px, что и .case-row
+             { gap: 20px } между цчб-15 и цчб-16), а не третья колонка в
+             том же ряду. margin-top: 36px — добавка поверх базовых 24px
+             .case-section--tight (в Figma от текста до цчб-15/16 60px, не
+             24) -->
         <div class="case-only-desktop" style="margin-top: 36px;">
           <div class="case-row">
             <div class="case-media" style="aspect-ratio: 1293 / 939; flex: 0 0 61.44%;"><img src="assets/cchb/cchb-15.webp" alt="" loading="lazy" decoding="async"></div>
             <div class="case-media" style="aspect-ratio: 809 / 939; flex: 0 0 38.56%;"><img src="assets/cchb/cchb-16.webp" alt="" loading="lazy" decoding="async"></div>
           </div>
-          <div class="case-media" style="aspect-ratio: 2140 / 1427; margin-top: -4px;">
+          <div class="case-media" style="aspect-ratio: 2140 / 1427; margin-top: 20px;">
             <img src="assets/cchb/cchb-17.webp" alt="" loading="lazy" decoding="async">
           </div>
         </div>
