@@ -497,6 +497,12 @@ a {
   .t-outline__fallback {
     display: none;
   }
+
+  /* «Контекст и задача» на десктопе в 2 строки (Figma), на мобилке
+     помещается в одну — см. .case-context-title-mobile ниже. */
+  .case-context-title-mobile {
+    display: none;
+  }
 }
 
 /* Тот же векторный SVG-контур, что и на десктопе выше (см. комментарий
@@ -541,6 +547,13 @@ a {
   }
 
   .t-outline__fallback {
+    display: none;
+  }
+
+  /* На мобилке «Контекст и задача» помещается в одну строку — прячем
+     десктопный 2-строчный вариант и показываем свой одностроч (см.
+     .case-context-title-mobile выше, где вместо этого прячется он). */
+  .case-context-title-desktop {
     display: none;
   }
 }
