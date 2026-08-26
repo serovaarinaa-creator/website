@@ -107,12 +107,14 @@
   gap: 10px;
 }
 
+/* Вытянутая пилюля (64×30 в Figma: узел «Buttons»), а не круглая кнопка
+   44×44, как было раньше — иконка домика лежит по центру той же пилюли. */
 .case-home {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 64px;
+  height: 30px;
   border-radius: var(--radius-absolute);
   background: var(--white);
   transition: background 0.2s ease;
@@ -128,11 +130,14 @@
    белый, наследуется от .case-page-body по умолчанию, отдельно красить
    не нужно (обратный черный оставался тут ещё с прошлой правки под
    сплошной белый фон). */
+/* padding-bottom увеличен против верхнего (12px) — низ карточки должен
+   совпадать с нижним краем заглавного видео (см. .case-sidebar__bottom
+   ниже); подобрано через getBoundingClientRect на живой странице. */
 .case-next {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 12px;
+  padding: 12px 12px 21px;
   border-radius: var(--radius-20);
   background: rgba(255, 255, 255, 0.12);
   box-shadow: var(--shadow-container);
@@ -149,11 +154,19 @@
   justify-content: space-between;
 }
 
+/* Пара логотипов кейса Neuro Camp (restore: x scholotch) — как на плашке
+   этого кейса на главной (.case__logos), только в масштабе виджета
+   «Следующий кейс» (32px вместо 64px, отступ пропорционально меньше). */
+.case-next__logos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .case-next__logo {
   width: 32px;
   height: 32px;
-  border-radius: var(--radius-absolute);
-  object-fit: cover;
+  object-fit: contain;
 }
 
 /* Стрелка со скрещиванием в бейдж с обводкой при наведении — тот же
@@ -198,12 +211,20 @@
   }
 }
 
+.case-next__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .case-next__label {
   color: rgba(255, 255, 255, 0.4);
 }
 
 /* ---------- Топ-бар кейса: RU справа, как на главной ---------- */
 
+/* В цвет фона страницы (чёрный) — не розовая пилюля, как на главной,
+   страница кейса тёмная. */
 .case-lang {
   position: fixed;
   top: 12px;
@@ -213,18 +234,19 @@
   display: flex;
   align-items: center;
   padding: 0 13px;
-  background: var(--pink-100);
+  background: #000;
   border: none;
   border-radius: var(--radius-absolute);
   appearance: none;
   -webkit-appearance: none;
-  color: var(--black);
+  color: var(--white);
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .case-lang:hover {
   background: var(--white);
+  color: var(--black);
 }
 
 /* ---------- Контент кейса ---------- */
@@ -269,10 +291,10 @@
 .case-hero__text {
   display: flex;
   flex-direction: column;
-  /* Заголовок ниже — .t-stroke: белая обводка выходит на 10px за пределы
-     самих букв, а строка над ним стоит совсем близко (плотный line-height
-     0.9) — 12px тут не хватало, обводка наезжала на подпись «Описание». */
-  gap: 34px;
+  /* В Figma между подписью «Описание» и заголовком 15px — заголовок
+     больше не в обводке (см. .case-hero__title ниже), так что прежний
+     увеличенный зазор (34px, под старую обводку) больше не нужен. */
+  gap: 15px;
 }
 
 /* В Figma подпись и заголовок над видео залиты почти белым (#ededf4) —
@@ -291,54 +313,12 @@
   flex-wrap: wrap;
 }
 
+/* В Figma этот заголовок — сплошной почти-белый текст (#ededf4), БЕЗ
+   белой обводки по чёрным буквам (в отличие от заголовков секций ниже
+   вроде «Контекст и задача») — раньше здесь ошибочно висел .t-stroke. */
 .case-hero__title {
   max-width: 601px;
-}
-
-/* Заголовок переносится на 2-3 строки. line-height у .t-h2 — 90%, как в
-   Figma UI kit, трогать его нельзя — а стандартная 10px-обводка .t-stroke
-   (см. styles.css, откалибрована под 56px Promo на главной) при таком
-   плотном интервале у 28px-заголовка наезжает на соседнюю строку. Вместо
-   того чтобы раздвигать строки, уменьшаем саму обводку пропорционально
-   размеру шрифта (28/56 от 10px ≈ 5px) — those же 34 точки по кругу,
-   просто с меньшим радиусом; ::before не переопределяет ничего, кроме
-   text-shadow. */
-.case-hero__title.t-stroke::before {
-  text-shadow:
-    5px 0px 0 var(--white),
-    4.91px 0.92px 0 var(--white),
-    4.66px 1.81px 0 var(--white),
-    4.25px 2.63px 0 var(--white),
-    3.7px 3.37px 0 var(--white),
-    3.01px 3.99px 0 var(--white),
-    2.23px 4.48px 0 var(--white),
-    1.37px 4.81px 0 var(--white),
-    0.46px 4.98px 0 var(--white),
-    -0.46px 4.98px 0 var(--white),
-    -1.37px 4.81px 0 var(--white),
-    -2.23px 4.48px 0 var(--white),
-    -3.01px 3.99px 0 var(--white),
-    -3.7px 3.37px 0 var(--white),
-    -4.25px 2.63px 0 var(--white),
-    -4.66px 1.81px 0 var(--white),
-    -4.91px 0.92px 0 var(--white),
-    -5px 0px 0 var(--white),
-    -4.91px -0.92px 0 var(--white),
-    -4.66px -1.81px 0 var(--white),
-    -4.25px -2.63px 0 var(--white),
-    -3.7px -3.37px 0 var(--white),
-    -3.01px -3.99px 0 var(--white),
-    -2.23px -4.48px 0 var(--white),
-    -1.37px -4.81px 0 var(--white),
-    -0.46px -4.98px 0 var(--white),
-    0.46px -4.98px 0 var(--white),
-    1.37px -4.81px 0 var(--white),
-    2.23px -4.48px 0 var(--white),
-    3.01px -3.99px 0 var(--white),
-    3.7px -3.37px 0 var(--white),
-    4.25px -2.63px 0 var(--white),
-    4.66px -1.81px 0 var(--white),
-    4.91px -0.92px 0 var(--white);
+  color: #ededf4;
 }
 
 .case-hero__chips {
@@ -387,47 +367,6 @@
   white-space: nowrap;
 }
 
-/* «Контекст и задача» — единственный заголовок на странице с ручным
-   переносом строки (см. #context в разметке) — та же уменьшенная обводка,
-   что у .case-hero__title выше, и по той же причине. */
-#context .case-section__title .t-stroke::before {
-  text-shadow:
-    5px 0px 0 var(--white),
-    4.91px 0.92px 0 var(--white),
-    4.66px 1.81px 0 var(--white),
-    4.25px 2.63px 0 var(--white),
-    3.7px 3.37px 0 var(--white),
-    3.01px 3.99px 0 var(--white),
-    2.23px 4.48px 0 var(--white),
-    1.37px 4.81px 0 var(--white),
-    0.46px 4.98px 0 var(--white),
-    -0.46px 4.98px 0 var(--white),
-    -1.37px 4.81px 0 var(--white),
-    -2.23px 4.48px 0 var(--white),
-    -3.01px 3.99px 0 var(--white),
-    -3.7px 3.37px 0 var(--white),
-    -4.25px 2.63px 0 var(--white),
-    -4.66px 1.81px 0 var(--white),
-    -4.91px 0.92px 0 var(--white),
-    -5px 0px 0 var(--white),
-    -4.91px -0.92px 0 var(--white),
-    -4.66px -1.81px 0 var(--white),
-    -4.25px -2.63px 0 var(--white),
-    -3.7px -3.37px 0 var(--white),
-    -3.01px -3.99px 0 var(--white),
-    -2.23px -4.48px 0 var(--white),
-    -1.37px -4.81px 0 var(--white),
-    -0.46px -4.98px 0 var(--white),
-    0.46px -4.98px 0 var(--white),
-    1.37px -4.81px 0 var(--white),
-    2.23px -4.48px 0 var(--white),
-    3.01px -3.99px 0 var(--white),
-    3.7px -3.37px 0 var(--white),
-    4.25px -2.63px 0 var(--white),
-    4.66px -1.81px 0 var(--white),
-    4.91px -0.92px 0 var(--white);
-}
-
 .case-section__text {
   max-width: 503px;
   flex: 1;
@@ -460,8 +399,31 @@
    пропорции), то есть видео обрезано по бокам, чтобы заполнить рамку по
    высоте, а не вписано в неё целиком. height: auto (как у остальных
    .case-media) оставляло бы ролик в его родном, более широком кадре —
-   здесь высота и cover нужны явно. */
-.case-media--fill video {
+   здесь высота и cover нужны явно.
+
+   position: absolute + inset: 0 (а не просто height: 100% в потоке, как
+   было раньше) — тот же приём, что и у .case-hero__media video выше: с
+   процентной высотой в потоке ролик заполнял рамку не везде одинаково
+   надёжно (высота у .case-media только из aspect-ratio, без явного
+   height, — на видео-заменяемом элементе это не все браузеры считают
+   «определённой» высотой для height: 100% ребёнка). Абсолютное
+   позиционирование задаёт размер рамки напрямую, а не через проценты. */
+.case-media--fill {
+  position: relative;
+}
+
+/* video, img — не только видео: script.js при отказе автовоспроизведения
+   подменяет <video> на <img> тем же кадром (poster), оставляя родителя
+   как есть (.case-media--fill не уходит никуда). Без второго селектора
+   картинка-замена не находила это правило (оно было только под тегом
+   video) и заполнение рамки визуально «сбрасывалось» обратно к обычному
+   height: auto из .case-media img выше, стоило автовоспроизведению
+   споткнуться. */
+.case-media--fill video,
+.case-media--fill img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
   height: 100%;
   object-fit: cover;
 }
@@ -470,17 +432,23 @@
    в Figma), показываем нужный через медиа-запрос вместо <picture>: тут это
    ровно один такой случай на всю страницу, не стоит городить отдельный
    механизм переключения. */
+/* !important — эти два класса переключают видимость по брейкпоинту и
+   обязаны побеждать любой другой display на том же элементе. Без него
+   .case-only-desktop.case-row (см. "Галерея работ") на мобилке проигрывал
+   базовому ".case-row { display: flex }" (line 576) — та же специфичность
+   (один класс), но .case-row объявлен позже в файле, и по каскаду его
+   display: flex побеждал .case-only-desktop { display: none }. */
 .case-only-mobile {
-  display: none;
+  display: none !important;
 }
 
 @media (max-width: 1080px) {
   .case-only-desktop {
-    display: none;
+    display: none !important;
   }
 
   .case-only-mobile {
-    display: block;
+    display: block !important;
   }
 }
 
@@ -642,6 +610,10 @@
   gap: 24px;
 }
 
+.case-yandex-results-title {
+  margin-bottom: 12px;
+}
+
 @media (min-width: 1081px) {
   .case-yandex-results-row {
     flex-direction: row;
@@ -670,6 +642,19 @@
   width: 100%;
 }
 
+/* Коллаж секции «Выставка»: на десктопе те же 60px до текста (45px базовый
+   .case-section gap + 15px добавкой, см. комментарий у разметки в
+   cchb.html), на мобилке — отдельные 35px по просьбе. */
+.case-exhibition-collage {
+  margin-top: 15px;
+}
+
+@media (max-width: 1080px) {
+  .case-exhibition-collage {
+    margin-top: -10px;
+  }
+}
+
 .case-collage > * {
   position: absolute;
   border-radius: var(--radius-24);
@@ -682,6 +667,21 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* текстовая ячейка внутри свободного коллажа (см. «Программа» в разметке) —
+   ей не нужны скругление/обрезка фото-детей коллажа, а высота — по своему
+   содержимому, а не растянута на всю высоту контейнера, как у картинок */
+.case-collage > .case-collage__text {
+  border-radius: 0;
+  overflow: visible;
+  height: auto;
+}
+
+/* пиксельная графика («цчб-пиксели») в Figma лежит без скругления углов —
+   в отличие от остальных фото-детей коллажа, у которых общий радиус 24 */
+.case-collage > .case-collage__pixel {
+  border-radius: 0;
 }
 
 /* подпись под видео «глаз» в разделе «Концепция» — в Figma лежит внутри
@@ -798,8 +798,7 @@
 
 /* ---------- Мобильное меню-бургер ---------- */
 
-.case-burger,
-.case-menu-close {
+.case-burger {
   display: none;
 }
 
@@ -807,11 +806,12 @@
   display: none;
 }
 
-/* Мобильные пилюли (топ-бар, оверлей меню) остаются розовыми независимо от
-   общего чёрного фона кейса — это плавающий UI-хром, не контент страницы,
-   и текст на них по-прежнему должен быть чёрным, а не унаследованным белым
-   от .case-page-body. */
-.case-topbar-mobile,
+/* Мобильное меню-оверлей остаётся розовым независимо от общего чёрного
+   фона кейса — это плавающий UI-хром, не контент страницы, и текст на нём
+   по-прежнему должен быть чёрным, а не унаследованным белым от
+   .case-page-body. Мобильная шапка (.case-topbar-mobile), в отличие от
+   меню, теперь сама чёрная (см. ниже) — там, наоборот, нужен унаследованный
+   белый. */
 .case-menu-overlay {
   color: var(--black);
 }
@@ -835,6 +835,9 @@
     display: none;
   }
 
+  /* Чёрная шапка (не розовая, как на главной) — страница кейса тёмная.
+     Лого+название лежат на отдельной стеклянной плашке (Figma: «Content»,
+     rgba(255,255,255,0.12), radius 10), а не прямо на фоне шапки. */
   .case-topbar-mobile {
     display: flex;
     align-items: center;
@@ -842,24 +845,47 @@
     position: sticky;
     top: 0;
     z-index: 30;
-    background: var(--pink-100);
+    background: #000;
     padding: 15px var(--gutter);
   }
 
   .case-topbar-mobile__brand {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 15px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+  }
+
+  /* Body 2 Desktop — базовые 14px у .t-body-2, а не уменьшенный вариант,
+     который тут стоял раньше. */
+  .case-topbar-mobile__brand .t-body-2 {
+    font-size: 14px;
   }
 
   .case-topbar-mobile__logo {
     width: 32px;
     height: 32px;
-    border-radius: var(--radius-absolute);
-    object-fit: cover;
+    /* Сама картинка restore.png — уже скруглённый квадрат, круглый
+       border-radius тут лишний и обрезал её в кружок. */
+    object-fit: contain;
   }
 
+  /* position: fixed, а не в потоке шапки — .case-menu-overlay открывается
+     поверх всего (z-index: 100) и перекрывала бы кнопку внутри
+     .case-topbar-mobile (z-index: 30) собственным контентом (пилюли
+     «Домой»/RU в панели меню того же угла экрана), из-за чего бургер
+     переставал ловить клики, пока меню открыто. Фиксированная позиция +
+     свой z-index выше оверлея держат кнопку кликабельной поверх панели —
+     как и плавающий крестик в макете Figma. Координаты совпадают с тем,
+     где кнопка была в потоке (padding шапки — 15px var(--gutter)), так
+     что визуально ничего не сдвинулось. */
   .case-burger {
+    position: fixed;
+    top: 15px;
+    right: var(--gutter);
+    z-index: 101;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -869,6 +895,29 @@
     background: none;
     padding: 0;
     cursor: pointer;
+  }
+
+  /* Отдельной кнопки закрытия в макете нет — сам бургер меняет иконку на
+     крестик, пока меню открыто (см. .is-open, переключается в cchb.js).
+     У самого бургера в закрытом состоянии фона нет (лежит прямо на чёрной
+     шапке) — а крестик в макете на отдельном кружке в цвет самого меню
+     (не белом), иначе на чёрной подложке под шапкой он был бы не виден
+     вовсе. */
+  .case-burger.is-open {
+    background: var(--pink-100);
+    border-radius: var(--radius-absolute);
+  }
+
+  .case-burger__icon-close {
+    display: none;
+  }
+
+  .case-burger.is-open .case-burger__icon-open {
+    display: none;
+  }
+
+  .case-burger.is-open .case-burger__icon-close {
+    display: block;
   }
 
   .case-content {
@@ -889,7 +938,7 @@
 
   .case-section__head {
     flex-direction: column;
-    gap: 12px;
+    gap: 28px;
     padding: 0;
   }
 
@@ -898,6 +947,27 @@
   .case-section__title,
   .case-section__head > span {
     flex: 0 0 auto;
+  }
+
+  /* Headline 2 Mobile из Ui-kit re: — 21px вместо десктопных 28px
+     (letter-spacing в em, поэтому масштабируется сам, менять не нужно).
+     .case-hero__title (заголовок в самом верху кейса) и заголовок в
+     .case-yandex-results-row__text («Результаты ивента Яндекс Дача») не
+     несут класс .case-section__title (у них другая, не двухколоночная
+     вёрстка), поэтому перечислены отдельно. */
+  .case-section__title,
+  .case-team__title,
+  .case-hero__title,
+  .case-yandex-results-row__text h2 {
+    font-size: 21px;
+  }
+
+  .case-yandex-results-title {
+    margin-bottom: 15px;
+  }
+
+  .case-team__title {
+    margin-left: 15px;
   }
 
   /* «Лого и графические элементы» — самый длинный заголовок на странице —
@@ -909,44 +979,118 @@
     white-space: normal;
   }
 
-  /* если из-за переноса получилось 2+ строк — та же уменьшенная обводка,
-     что у .case-hero__title/#context выше (см. там подробный комментарий) */
-  .case-section__title.t-stroke::before {
+  /* Тот же заголовок — единственный на мобилке, у которого номер строки
+     заранее не известен (перенос зависит от ширины конкретного телефона),
+     поэтому для него, в отличие от всех остальных (см. общее мобильное
+     включение SVG-обводки в styles.css), оставляем запасной вариант на
+     text-shadow вместо статичного SVG-текста. */
+  #logo .t-outline__svg {
+    display: none;
+  }
+
+  #logo .t-outline__fallback {
+    display: block;
+  }
+
+  /* На мобилке действует запасной приём из styles.css (.t-outline__fallback —
+     подложка-кольцо из text-shadow, а не векторный SVG, см. комментарий
+     там) — только у «Лого и графические элементы» (см. #logo ниже), у
+     остальных теперь векторная SVG-обводка. 8px — тот же видимый радиус,
+     что и у SVG-обводки (stroke-width: 16px, из которых видна только
+     половина, см. styles.css), просто тут все 8px рисуются наружу
+     явно, а не половиной from a centered stroke. */
+  .case-section__title .t-outline__fallback::before {
     text-shadow:
-      5px 0px 0 var(--white),
-      4.91px 0.92px 0 var(--white),
-      4.66px 1.81px 0 var(--white),
-      4.25px 2.63px 0 var(--white),
-      3.7px 3.37px 0 var(--white),
-      3.01px 3.99px 0 var(--white),
-      2.23px 4.48px 0 var(--white),
-      1.37px 4.81px 0 var(--white),
-      0.46px 4.98px 0 var(--white),
-      -0.46px 4.98px 0 var(--white),
-      -1.37px 4.81px 0 var(--white),
-      -2.23px 4.48px 0 var(--white),
-      -3.01px 3.99px 0 var(--white),
-      -3.7px 3.37px 0 var(--white),
-      -4.25px 2.63px 0 var(--white),
-      -4.66px 1.81px 0 var(--white),
-      -4.91px 0.92px 0 var(--white),
-      -5px 0px 0 var(--white),
-      -4.91px -0.92px 0 var(--white),
-      -4.66px -1.81px 0 var(--white),
-      -4.25px -2.63px 0 var(--white),
-      -3.7px -3.37px 0 var(--white),
-      -3.01px -3.99px 0 var(--white),
-      -2.23px -4.48px 0 var(--white),
-      -1.37px -4.81px 0 var(--white),
-      -0.46px -4.98px 0 var(--white),
-      0.46px -4.98px 0 var(--white),
-      1.37px -4.81px 0 var(--white),
-      2.23px -4.48px 0 var(--white),
-      3.01px -3.99px 0 var(--white),
-      3.7px -3.37px 0 var(--white),
-      4.25px -2.63px 0 var(--white),
-      4.66px -1.81px 0 var(--white),
-      4.91px -0.92px 0 var(--white);
+      8.00px 0.00px 0 var(--white),
+      7.98px 0.56px 0 var(--white),
+      7.92px 1.11px 0 var(--white),
+      7.83px 1.66px 0 var(--white),
+      7.69px 2.21px 0 var(--white),
+      7.52px 2.74px 0 var(--white),
+      7.31px 3.25px 0 var(--white),
+      7.06px 3.76px 0 var(--white),
+      6.78px 4.24px 0 var(--white),
+      6.47px 4.70px 0 var(--white),
+      6.13px 5.14px 0 var(--white),
+      5.75px 5.56px 0 var(--white),
+      5.35px 5.95px 0 var(--white),
+      4.93px 6.30px 0 var(--white),
+      4.47px 6.63px 0 var(--white),
+      4.00px 6.93px 0 var(--white),
+      3.51px 7.19px 0 var(--white),
+      3.00px 7.42px 0 var(--white),
+      2.47px 7.61px 0 var(--white),
+      1.94px 7.76px 0 var(--white),
+      1.39px 7.88px 0 var(--white),
+      0.84px 7.96px 0 var(--white),
+      0.28px 8.00px 0 var(--white),
+      -0.28px 8.00px 0 var(--white),
+      -0.84px 7.96px 0 var(--white),
+      -1.39px 7.88px 0 var(--white),
+      -1.94px 7.76px 0 var(--white),
+      -2.47px 7.61px 0 var(--white),
+      -3.00px 7.42px 0 var(--white),
+      -3.51px 7.19px 0 var(--white),
+      -4.00px 6.93px 0 var(--white),
+      -4.47px 6.63px 0 var(--white),
+      -4.93px 6.30px 0 var(--white),
+      -5.35px 5.95px 0 var(--white),
+      -5.75px 5.56px 0 var(--white),
+      -6.13px 5.14px 0 var(--white),
+      -6.47px 4.70px 0 var(--white),
+      -6.78px 4.24px 0 var(--white),
+      -7.06px 3.76px 0 var(--white),
+      -7.31px 3.25px 0 var(--white),
+      -7.52px 2.74px 0 var(--white),
+      -7.69px 2.21px 0 var(--white),
+      -7.83px 1.66px 0 var(--white),
+      -7.92px 1.11px 0 var(--white),
+      -7.98px 0.56px 0 var(--white),
+      -8.00px 0.00px 0 var(--white),
+      -7.98px -0.56px 0 var(--white),
+      -7.92px -1.11px 0 var(--white),
+      -7.83px -1.66px 0 var(--white),
+      -7.69px -2.21px 0 var(--white),
+      -7.52px -2.74px 0 var(--white),
+      -7.31px -3.25px 0 var(--white),
+      -7.06px -3.76px 0 var(--white),
+      -6.78px -4.24px 0 var(--white),
+      -6.47px -4.70px 0 var(--white),
+      -6.13px -5.14px 0 var(--white),
+      -5.75px -5.56px 0 var(--white),
+      -5.35px -5.95px 0 var(--white),
+      -4.93px -6.30px 0 var(--white),
+      -4.47px -6.63px 0 var(--white),
+      -4.00px -6.93px 0 var(--white),
+      -3.51px -7.19px 0 var(--white),
+      -3.00px -7.42px 0 var(--white),
+      -2.47px -7.61px 0 var(--white),
+      -1.94px -7.76px 0 var(--white),
+      -1.39px -7.88px 0 var(--white),
+      -0.84px -7.96px 0 var(--white),
+      -0.28px -8.00px 0 var(--white),
+      0.28px -8.00px 0 var(--white),
+      0.84px -7.96px 0 var(--white),
+      1.39px -7.88px 0 var(--white),
+      1.94px -7.76px 0 var(--white),
+      2.47px -7.61px 0 var(--white),
+      3.00px -7.42px 0 var(--white),
+      3.51px -7.19px 0 var(--white),
+      4.00px -6.93px 0 var(--white),
+      4.47px -6.63px 0 var(--white),
+      4.93px -6.30px 0 var(--white),
+      5.35px -5.95px 0 var(--white),
+      5.75px -5.56px 0 var(--white),
+      6.13px -5.14px 0 var(--white),
+      6.47px -4.70px 0 var(--white),
+      6.78px -4.24px 0 var(--white),
+      7.06px -3.76px 0 var(--white),
+      7.31px -3.25px 0 var(--white),
+      7.52px -2.74px 0 var(--white),
+      7.69px -2.21px 0 var(--white),
+      7.83px -1.66px 0 var(--white),
+      7.92px -1.11px 0 var(--white),
+      7.98px -0.56px 0 var(--white);
   }
 
   /* сами пустые заглушки на мобилке не нужны вовсе — там текст и так один
@@ -963,85 +1107,298 @@
     flex-direction: column;
   }
 
+  /* Скругления везде на мобилке — 14px (в Figma «ЦЧБ - Mobile»), а не
+     десктопные 24px. */
+  .case-media,
+  .case-hero__media,
+  .case-row > *,
+  .case-collage > *,
+  .case-masterclass > *,
+  .case-merch > *,
+  .case-carousel > * {
+    border-radius: 14px;
+  }
+
+  /* ---------- Ленты-карусели со свайпом (Figma: ряды картинок шире
+     экрана — цчб-2/3, цчб-15/16/17, мастер-классы, Мерч — не столбиком
+     друг под другом, а горизонтальная лента с проскроллом пальцем). ---- */
+  .case-carousel-wrap {
+    position: relative;
+  }
+
+  /* Затемнение справа — намёк на следующую картинку в ленте, не сплошной
+     край. Только у самого проскролливаемого элемента (case-carousel-wrap
+     может также содержать что-то ещё, но пока используется только для
+     карусели) — поверх картинок, но не перехватывает тач. */
+  .case-carousel-wrap::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    /* Раньше доходил до сплошного #000 — у самого края следующий кадр был
+       не «намёком», а просто не виден, полностью закрашен. Кончаем на
+       полупрозрачном чёрном, чтобы силуэт/цвет следующей картинки
+       угадывался даже в самой тёмной точке. */
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.75));
+    pointer-events: none;
+  }
+
+  .case-carousel,
   .case-masterclass,
   .case-merch {
     display: flex;
+    /* .case-row (у Исследования .case-carousel сидит вместе с .case-row)
+       на мобилке выше выставляет flex-direction: column — тут явно
+       возвращаем row, иначе лента складывается в столбик и overflow-x не
+       возникает вовсе. */
+    flex-direction: row;
     overflow-x: auto;
-    gap: 12px;
     scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    /* Без этого браузер сам решает, куда вести жест по диагонали — свайп
+       мог утащить страницу и по вертикали. pan-x запрещает вертикальную
+       составляющую внутри ленты, оставляя её только странице целиком. */
+    touch-action: pan-x;
   }
 
+  .case-carousel::-webkit-scrollbar,
+  .case-masterclass::-webkit-scrollbar,
+  .case-merch::-webkit-scrollbar {
+    display: none;
+  }
+
+  .case-carousel > *,
   .case-masterclass > *,
   .case-merch > * {
-    flex: 0 0 80%;
+    flex: 0 0 auto;
     scroll-snap-align: start;
   }
 
+  /* Тип «почти во весь экран, один кадр за раз» — цчб-2/3, мастер-классы,
+     Мерч: каждая картинка своей собственной пропорцией задаёт высоту
+     (aspect-ratio уже на .case-media/детях), в ширину — почти вся лента,
+     с небольшим отступом до следующего кадра (в Figma доля кадра от
+     ширины экрана и зазор у каждой ленты чуть разные — посчитано отдельно
+     под каждую). */
+  .case-carousel {
+    gap: 13px;
+  }
+
+  .case-carousel > * {
+    flex-basis: 93.3%;
+  }
+
+  .case-masterclass {
+    gap: 13px;
+  }
+
+  .case-masterclass > * {
+    flex-basis: 94.3%;
+  }
+
+  .case-merch {
+    gap: 9px;
+  }
+
+  .case-merch > * {
+    flex-basis: 94.5%;
+  }
+
+  /* Тип «плёнка»: у Фотостиля (цчб-15/16/17) в Figma не одинаковая ширина
+     кадра, а общая ВЫСОТА ряда — ширина каждого кадра берётся из его
+     собственного aspect-ratio (тот же приём, что и в десктопной паре
+     цчб-15/16, просто теперь в 3 кадра и со скроллом). aspect-ratio на
+     самой ленте — с 372px точки Figma, высота считается от реальной
+     (гибкой) ширины экрана. */
+  .case-carousel--film {
+    gap: 13px;
+    aspect-ratio: 372 / 254.918;
+  }
+
+  /* height: 100% + собственный aspect-ratio (уже задан инлайн-стилем на
+     каждом .case-media) — браузер сам считает ширину кадра из высоты
+     ленты и его пропорций, ничего в самом aspect-ratio трогать не нужно. */
+  .case-carousel--film > * {
+    flex-basis: auto;
+    height: 100%;
+    width: auto;
+  }
+
+  .case-carousel--film > * img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  /* Композиция макетов (цчб-14): в Figma мобильный кроп заметно выше
+     десктопного (372×268.668 ≈ 1.385, а не десктопные 2144×1270 ≈ 1.688) —
+     без своего aspect-ratio картинка вписывалась в более широкую/низкую
+     десктопную рамку и казалась мельче, чем в макете. Пропорции рамки и
+     картинки теперь разные — обычного width:100%;height:auto (как у
+     остальных .case-media img) не хватает, картинка не дотягивалась по
+     высоте до низа рамки, чернильный фон .case-media снизу торчал пустым
+     полем; height:100% + cover обрезают лишнее по бокам как в макете. */
+  .case-media--comp {
+    aspect-ratio: 372 / 268.668 !important;
+  }
+
+  .case-media--comp img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Видео «Сайт» (ЦЧБ-скроллинг сайта): та же история, что и у цчб-14 —
+     в Figma мобильный кадр заметно выше десктопного (372×234 ≈ 1.590,
+     а не десктопные 2112×1188 ≈ 1.778). Разметка одна на оба брейкпоинта
+     (aspect-ratio у .case-media--fill задан инлайн под десктоп), поэтому
+     тут явно переопределяем под мобильные пропорции — сам кроп (cover)
+     уже даёт .case-media--fill выше. */
+  #site .case-media {
+    aspect-ratio: 372 / 234 !important;
+  }
+
+  /* Видео «3D-маппинг» 1 (ЦЧБ-3d mapping 1): рамка в Figma почти той же
+     пропорции, что и десктопная (372.5×233.2 ≈ 1.598 против 1072×672 =
+     1.595), но часть цикла ролика — общий план фотозоны (native 2144×1206,
+     16:9), и по бокам кадра остаются тёмные поля стен — на object-fit: cover
+     содержимое из-за этого читается мелким. transform: scale на самом
+     видео такие поля не убирал (перекрывался родительским overflow не
+     полностью — эффект был почти незаметен на глаз), поэтому вместо этого,
+     как и у «Сайта» выше, сужаем саму рамку — cover тогда обрезает боковые
+     тёмные поля, а не просто масштабирует всё видео целиком. */
+  .case-mapping-video-1 {
+    aspect-ratio: 1072 / 744 !important;
+  }
+
+  /* «Дизайн команда»: значения из мобильного макета Figma — 12px и 15px
+     между колонками. На узких экранах раскладка может переноситься
+     по-другому, это ожидаемо. */
   .case-team__row {
-    flex-direction: column;
-    gap: 24px;
+    gap: 15px;
+  }
+
+  .case-team__role,
+  .case-team__names p {
+    font-size: 12px;
   }
 }
 
-/* ---------- Оверлей мобильного меню ---------- */
+/* ---------- Оверлей мобильного меню ----------
+   Точная копия мобильного макета Figma (node 500:15201): плашка целиком
+   розовая (не тёмный фон + отдельная карточка), пункты оглавления — не
+   плоские ссылки, а пилюли, профиль — не строка «аватар + текст», а две
+   колонки (аватар+имя слева, био+пилюли справа). */
 
 .case-menu-overlay {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: var(--pink-100);
+  /* Полупрозрачная тёмная подложка — страница под меню остаётся видна,
+     просто притемняется, а не закрашивается сплошным чёрным. */
+  background: rgba(0, 0, 0, 0.45);
   overflow-y: auto;
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
 
 .case-menu-overlay.is-open {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease, visibility 0s linear 0s;
+}
+
+.case-menu-overlay__panel {
+  transform: translateY(10px);
+  transition: transform 0.25s ease;
+}
+
+.case-menu-overlay.is-open .case-menu-overlay__panel {
+  transform: translateY(0);
+}
+
+/* margin-top: 55px — крестик-переключатель (.case-burger, position: fixed,
+   top: 15px, height: 30px, то есть занимает 15-45px) стоит НАД плашкой
+   отдельным кружком (см. .case-burger.is-open), а не встроен в неё.
+   Отступ между низом крестика (45px) и плашкой — ровно 10px. */
+.case-menu-overlay__panel {
+  margin: 55px 15px 15px;
+  padding: 15px var(--gutter) 32px;
+  background: var(--pink-100);
+  border-radius: var(--radius-24);
+  box-shadow: var(--shadow-container);
 }
 
 .case-menu-overlay__top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px var(--gutter);
 }
 
 .case-menu-overlay__brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 15px;
+}
+
+/* Body 2 Desktop — базовые 14px, а не глобальные мобильные 12px у .t-body-2
+   (styles.css), которые иначе тут перебивали бы дефолт. */
+.case-menu-overlay__brand .t-body-2 {
+  font-size: 14px;
 }
 
 .case-menu-overlay__logo {
   width: 32px;
   height: 32px;
-  border-radius: var(--radius-absolute);
-  object-fit: cover;
+  /* Сама картинка restore.png — уже скруглённый квадрат ("re:"), круглый
+     border-radius тут лишний и обрезал её в кружок. */
+  object-fit: contain;
 }
 
-.case-menu-close {
+.case-menu-overlay__actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* Как в Figma: широкая плашка в цвет меню (var(--pink-100), тот же приём,
+   что и у .lang рядом), а не узкий белый кружок. */
+.case-menu-overlay__home {
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 46px;
   height: 30px;
-  border: none;
-  background: none;
-  padding: 0;
-  cursor: pointer;
+  padding: 0 15px;
+  border-radius: var(--radius-absolute);
+  background: var(--pink-100);
+  transition: background 0.2s ease;
 }
 
-.case-menu-overlay.is-open .case-menu-close {
-  display: flex;
+.case-menu-overlay__home:hover {
+  background: var(--white);
+}
+
+.case-menu-overlay__actions .lang {
+  position: static;
+  height: 30px;
+  /* 14px везде в меню — а не глобальные мобильные 12px у .t-body-2. */
+  font-size: 14px;
 }
 
 .case-menu-overlay__toc {
   display: flex;
   flex-direction: column;
-  padding: 16px var(--gutter) 0;
+  gap: 7px;
+  margin-top: 16px;
 }
 
 .case-menu-overlay__toc a {
+  font-size: 14px;
   padding: 12px;
-  border-radius: var(--radius-20);
+  border-radius: var(--radius-absolute);
+  background: #ffc2e8;
   transition: background 0.2s ease;
 }
 
@@ -1052,17 +1409,27 @@
 
 .case-menu-overlay__profile {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 24px var(--gutter);
+  /* По нижнему краю — колонка био+кнопки в Figma заканчивается вровень
+     с низом имени, а не вровень с верхом фото. */
+  align-items: flex-end;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+/* Тот же приём, что у .sidebar__avatar/.sidebar__name на главной (круглое
+   фото, а под ним имя своим белым контуром наезжает на низ фото), просто
+   в уменьшенном под меню масштабе — тем же соотношением, что у мобильной
+   версии сайдбара (128px фото → -26px нахлёст, т.е. ≈20% высоты фото). */
+.case-menu-overlay__person {
+  flex-shrink: 0;
 }
 
 .case-menu-overlay__avatar {
-  width: 64px;
-  height: 64px;
+  position: relative;
+  width: 111px;
+  height: 111px;
   border-radius: var(--radius-absolute);
   overflow: hidden;
-  flex-shrink: 0;
 }
 
 .case-menu-overlay__avatar img {
@@ -1072,24 +1439,51 @@
   object-fit: cover;
 }
 
-.case-menu-overlay__bio {
+/* .t-stroke (см. styles.css) уже даёт position: relative и isolation:
+   isolate под белую обводку — тут только шрифт, ширина и нахлёст на фото. */
+.case-menu-overlay__name {
+  font: 800 21px/0.95 var(--font-display);
+  letter-spacing: -0.04em;
+  width: 111px;
+  margin: -22px 0 0;
+  text-align: left;
+}
+
+.case-menu-overlay__about {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
+  flex: 1;
+  min-width: 0;
 }
 
-.case-menu-overlay__bottom {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 var(--gutter) 32px;
+/* Ширина под ровно 3 строки текста био на 12px — подобрано вживую под
+   сам текст, а не круглое число. */
+.case-menu-overlay__about .t-body-1 {
+  max-width: 195px;
 }
 
-/* .lang (см. styles.css) на главной — position: absolute, стоит одна в углу
-   топбара. Здесь она встроена в обычный ряд кнопок внутри мобильного меню,
-   поэтому нужно вернуть её в поток. */
-.case-menu-overlay__bottom .lang {
-  position: static;
+.case-menu-overlay__about .pill-row {
+  height: 56px;
+}
+
+.case-menu-overlay__about .pill {
+  /* При 14px тексте деление поровну (базовое flex: 1 0 0) обрезает длинные
+     слова вроде «LinkedIn» — здесь ширина по содержимому, короткая «CV»
+     не отъедает место у соседей. Тонкая рамка вместо десктопных 5px —
+     тоже ради места в узкой колонке меню. */
+  flex: 0 0 auto;
+  font-size: 14px;
+  padding: 5px 8px;
+  border-width: 2px;
+}
+
+.case-menu-overlay__about .pill + .pill {
+  margin-left: -8px;
+}
+
+.case-menu-overlay__bio {
+  font-size: 14px;
 }
 
 @media (prefers-reduced-motion: no-preference) {

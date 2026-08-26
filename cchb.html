@@ -15,62 +15,71 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260820">
-  <link rel="stylesheet" href="cchb.css?v=20260821d">
+  <link rel="stylesheet" href="styles.css?v=20260826l">
+  <link rel="stylesheet" href="cchb.css?v=20260826l">
 </head>
 <body class="case-page-body">
 
   <!-- ---------- Мобильный топ-бар: лого + бургер ---------- -->
+  <!-- .case-burger вынесена из .case-topbar-mobile отдельным элементом
+       (не вложена внутрь): у шапки свой z-index (создаёт контекст
+       наложения), и z-index кнопки внутри неё сравнивался бы только с
+       соседями по шапке, а не с открытым .case-menu-overlay напрямую —
+       кнопка визуально пропадала бы под ним и переставала ловить клики. -->
   <div class="case-topbar-mobile">
     <a class="case-topbar-mobile__brand" href="index.html">
       <img class="case-topbar-mobile__logo" src="assets/logos/restore.png" alt="" width="32" height="32">
       <span class="t-body-2">Цветное vs. Чёрно-белое</span>
     </a>
-    <button class="case-burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="case-menu">
-      <img src="assets/icons/burger.svg" alt="" width="18" height="13">
-    </button>
+  </div>
+  <button class="case-burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="case-menu">
+    <img class="case-burger__icon-open" src="assets/icons/burger.svg" alt="" width="18" height="13">
+    <img class="case-burger__icon-close" src="assets/icons/cross.svg" alt="" width="16" height="16">
+  </button>
   </div>
 
   <!-- ---------- Мобильное меню (оверлей) ---------- -->
   <div class="case-menu-overlay" id="case-menu">
-    <div class="case-menu-overlay__top">
-      <a class="case-menu-overlay__brand" href="index.html">
-        <img class="case-menu-overlay__logo" src="assets/logos/restore.png" alt="" width="32" height="32">
-        <span class="t-body-2">Цветное vs. Чёрно-белое</span>
-      </a>
-      <button class="case-menu-close" type="button" aria-label="Закрыть меню">
-        <img src="assets/icons/cross.svg" alt="" width="16" height="16">
-      </button>
-    </div>
-    <nav class="case-menu-overlay__toc" aria-label="Оглавление кейса">
-      <a class="t-body-2" href="#context">Контекст и задача</a>
-      <a class="t-body-2" href="#research">Исследование</a>
-      <a class="t-body-2" href="#concept">Концепция</a>
-      <a class="t-body-2" href="#logo">Лого и графические элементы</a>
-      <a class="t-body-2" href="#site">Сайт</a>
-      <a class="t-body-2" href="#exhibition">Выставка</a>
-      <a class="t-body-2" href="#mapping">3D-маппинг</a>
-      <a class="t-body-2" href="#yandex">Яндекс дача</a>
-      <a class="t-body-2" href="#results">Результаты</a>
-    </nav>
-    <div class="case-menu-overlay__profile">
-      <div class="case-menu-overlay__avatar">
-        <img src="assets/avatar.webp" alt="Арина Серова" width="64" height="64">
+    <div class="case-menu-overlay__panel">
+      <div class="case-menu-overlay__top">
+        <a class="case-menu-overlay__brand" href="index.html">
+          <img class="case-menu-overlay__logo" src="assets/logos/restore.png" alt="" width="32" height="32">
+          <span class="t-body-2">Цветное vs. Чёрно-белое</span>
+        </a>
+        <div class="case-menu-overlay__actions">
+          <a class="case-menu-overlay__home" href="index.html" aria-label="На главную">
+            <img src="assets/icons/home.svg" alt="" width="20" height="20">
+          </a>
+          <button class="lang t-body-2" type="button" aria-label="Сменить язык">RU&nbsp;🇷🇺</button>
+        </div>
       </div>
-      <div class="case-menu-overlay__bio">
-        <p class="t-body-1">Графический дизайнер 5+ лет в брендинге и креативных коммуникациях</p>
+      <nav class="case-menu-overlay__toc" aria-label="Оглавление кейса">
+        <a class="t-body-2" href="#context">Контекст и задача</a>
+        <a class="t-body-2" href="#research">Исследование</a>
+        <a class="t-body-2" href="#concept">Концепция</a>
+        <a class="t-body-2" href="#logo">Лого и графические элементы</a>
+        <a class="t-body-2" href="#site">Сайт</a>
+        <a class="t-body-2" href="#exhibition">Выставка</a>
+        <a class="t-body-2" href="#mapping">3D-маппинг</a>
+        <a class="t-body-2" href="#yandex">Яндекс дача</a>
+        <a class="t-body-2" href="#results">Результаты</a>
+      </nav>
+      <div class="case-menu-overlay__profile">
+        <div class="case-menu-overlay__person">
+          <div class="case-menu-overlay__avatar">
+            <img src="assets/avatar.webp" alt="" width="94" height="94">
+          </div>
+          <p class="t-stroke case-menu-overlay__name" data-text="Арина Серова">Арина Серова</p>
+        </div>
+        <div class="case-menu-overlay__about">
+          <p class="t-body-1 case-menu-overlay__bio">Графический дизайнер 5+ лет в брендинге и креативных коммуникациях</p>
+          <div class="pill-row">
+            <a class="pill t-body-2" href="https://hirehi.ru/resume/XbLth3skez" target="_blank" rel="noopener">CV</a>
+            <a class="pill t-body-2" href="https://www.linkedin.com/in/arina-serova-61530b253/" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="pill t-body-2" href="https://www.behance.net/greisolar" target="_blank" rel="noopener">Behance</a>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="pill-row" style="padding: 0 18px 24px;">
-      <a class="pill t-body-2" href="https://hirehi.ru/resume/XbLth3skez" target="_blank" rel="noopener">CV</a>
-      <a class="pill t-body-2" href="https://www.linkedin.com/in/arina-serova-61530b253/" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="pill t-body-2" href="https://www.behance.net/greisolar" target="_blank" rel="noopener">Behance</a>
-    </div>
-    <div class="case-menu-overlay__bottom">
-      <a class="case-home" href="index.html" aria-label="На главную">
-        <img src="assets/icons/home.svg" alt="" width="20" height="20">
-      </a>
-      <button class="lang t-body-2" type="button" aria-label="Сменить язык">RU&nbsp;🇷🇺</button>
     </div>
   </div>
 
@@ -102,13 +111,17 @@
         </a>
         <a class="case-next" href="index.html#case-neurocamp">
           <div class="case-next__top">
-            <img class="case-next__logo" src="assets/logos/restore.png" alt="restore:" width="32" height="32">
+            <div class="case-next__logos">
+              <img class="case-next__logo" src="assets/logos/restore-black.png" alt="restore:" width="32" height="32">
+              <span class="t-body-1">х</span>
+              <img class="case-next__logo" src="assets/logos/scholotch.png" alt="scholotch" width="32" height="32">
+            </div>
             <span class="case-next__arrow" aria-hidden="true">
               <img class="case-next__arrow-default" src="assets/icons/case-arrow-white.svg" alt="" width="10" height="10">
               <img class="case-next__arrow-hover" src="assets/icons/case-arrow-hover.svg" alt="" width="32" height="32">
             </span>
           </div>
-          <div>
+          <div class="case-next__bottom">
             <p class="t-body-1 case-next__label">Следующий кейс</p>
             <p class="t-body-2">NEURO CAMP</p>
           </div>
@@ -128,7 +141,7 @@
         <div class="case-hero__text">
           <p class="t-body-1 case-hero__label">Описание</p>
           <div class="case-hero__row">
-            <h1 class="t-h2 t-stroke case-hero__title" data-text="Айдентика для restore:digital art — ежегодного конкурса цифрового искусства">Айдентика для restore:digital art — ежегодного конкурса цифрового искусства</h1>
+            <h1 class="t-h2 case-hero__title">Айдентика для restore:digital art — <br>ежегодного конкурса цифрового искусства</h1>
             <div class="case-hero__chips chips">
               <span class="chip t-body-2">Брендинг</span>
               <span class="chip t-body-2">Веб-сайт</span>
@@ -141,7 +154,19 @@
       <!-- Контекст и задача -->
       <section class="case-section" id="context">
         <div class="case-section__head">
-          <h2 class="t-h2 case-section__title"><span class="t-stroke" data-text="Контекст">Контекст</span><br><span class="t-stroke" data-text="и задача">и задача</span></h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg t-outline__svg--2 case-context-title-desktop" aria-hidden="true" focusable="false">
+              <text class="t-outline__stroke" x="0" y="26">Контекст</text>
+              <text class="t-outline__fill" x="0" y="26">Контекст</text>
+              <text class="t-outline__stroke" x="0" y="51.2">и задача</text>
+              <text class="t-outline__fill" x="0" y="51.2">и задача</text>
+            </svg>
+            <svg class="t-outline__svg case-context-title-mobile" aria-hidden="true" focusable="false">
+              <text class="t-outline__stroke" x="0" y="26">Контекст и задача</text>
+              <text class="t-outline__fill" x="0" y="26">Контекст и задача</text>
+            </svg>
+            <span class="t-outline__fallback" data-text="Контекст и задача">Контекст и задача</span>
+          </h2>
           <p class="t-body-1 case-section__text">Задача проекта — разработать визуальный стиль конкурса современного цифрового искусства restore:digital art для широкой аудитории, вовлечённой в актуальный художественный и интеллектуальный контекст<br><br>Важно было создать узнаваемую айдентику, работающую в медиа и PR, и одновременно усиливающую присутствие бренда restore: — крупнейшей сети премиум техники в России<br><br>Проект нацелен на укрепление позиционирования бренда через выразительное раскрытие темы конкурса этого года «Цветное vs чёрно-белое»: столкновение контрастов</p>
         </div>
         <div class="case-media" style="aspect-ratio: 2144 / 1270;">
@@ -152,19 +177,27 @@
       <!-- Исследование -->
       <section class="case-section" id="research">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Исследование">Исследование</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text class="t-outline__stroke" x="0" y="26">Исследование</text><text class="t-outline__fill" x="0" y="26">Исследование</text></svg>
+            <span class="t-outline__fallback" data-text="Исследование">Исследование</span>
+          </h2>
           <p class="t-body-1 case-section__text">Конкурс обращается к широкой аудитории, интересующихся современным искусством и стремящихся осмыслить текущую реальность через визуальный язык<br><br>Анализ конкурентов (open call-проектов с выставками и образовательными программами) выявил перенасыщенность визуальной среды и потребность в чётком, концептуально выстроенном высказывании<br><br>Дизайн-решение опирается на запрос аудитории на рефлексию, формируя бренд как проводника в актуальный художественный контекст и платформу для новых авторов</p>
         </div>
-        <div class="case-row">
-          <div class="case-media" style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-2.webp" alt="" loading="lazy" decoding="async"></div>
-          <div class="case-media" style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-3.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-carousel-wrap">
+          <div class="case-row case-carousel">
+            <div class="case-media" style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-2.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-3.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
         </div>
       </section>
 
       <!-- Концепция -->
       <section class="case-section" id="concept">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Концепция">Концепция</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text class="t-outline__stroke" x="0" y="26">Концепция</text><text class="t-outline__fill" x="0" y="26">Концепция</text></svg>
+            <span class="t-outline__fallback" data-text="Концепция">Концепция</span>
+          </h2>
           <p class="t-body-1 case-section__text">Концепция строится на восприятии реальности в нескольких слоях одновременно. Мы показываем пересечение живого опыта и технологической среды, создавая визуальный диалог и подчёркивая тему конкурса как метафору разных способов видеть мир</p>
         </div>
         <!-- В Figma подпись лежит внутри коллажа, в 20px под видео «глаз» —
@@ -173,7 +206,9 @@
              (мобильный макет — другая, компактная раскладка коллажа, а не
              масштабированная десктопная), там подпись остаётся обычным
              блоком после коллажа, как раньше. -->
-        <div class="case-concept-collage-wrap">
+        <!-- margin-top: 15px — добавка поверх базовых 45px .case-section
+             (в Figma от головы секции до коллажа 60px, не 45) -->
+        <div class="case-concept-collage-wrap case-only-desktop" style="margin-top: 15px;">
           <div class="case-collage" style="aspect-ratio: 1072 / 906;">
             <div style="left:0.00%;top:0.01%;width:35.82%;height:60.04%;"><img src="assets/cchb/cchb-4.webp" alt="" loading="lazy" decoding="async"></div>
             <div style="left:36.75%;top:22.20%;width:22.68%;height:37.97%;"><img src="assets/cchb/cchb-7.webp" alt="" loading="lazy" decoding="async"></div>
@@ -193,12 +228,39 @@
           </div>
           <p class="t-body-1 case-collage__eye-caption" style="max-width: 486px;">Важно было создать динамичную, флюидную стилистику с возможностью интеграции видео и анимации, чтобы графика ощущалась живой, изменчивой и постоянно находящейся в движении</p>
         </div>
+        <!-- Мобильная раскладка коллажа — отдельная, не масштабированная
+             десктопная (в Figma «ЦЧБ - Mobile» это другая, более компактная
+             компоновка тех же 9 картинок/видео, координаты переведены в %
+             от 372.03×758.67 — см. узел Group 2131332562). -->
+        <div class="case-only-mobile" style="margin-top: 15px;">
+          <div class="case-collage" style="aspect-ratio: 372.03 / 758.67;">
+            <div style="left:0.00%;top:0.00%;width:49.69%;height:34.54%;"><img src="assets/cchb/cchb-4.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:51.01%;top:0.00%;width:49.01%;height:12.01%;"><img src="assets/cchb/cchb-5.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:51.01%;top:12.76%;width:31.47%;height:21.83%;"><img src="assets/cchb/cchb-7.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:83.96%;top:12.70%;width:16.01%;height:21.90%;"><img src="assets/cchb/cchb-8.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:0.00%;top:35.51%;width:49.69%;height:12.19%;"><img src="assets/cchb/cchb-9.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:51.01%;top:35.51%;width:48.98%;height:32.72%;"><img src="assets/cchb/cchb-6.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="left:0.00%;top:48.60%;width:49.69%;height:19.62%;">
+              <video src="assets/cchb/video/cchb-flower.mp4" poster="assets/posters/cchb-flower.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Видео «цветок»"></video>
+              <div class="video-shield" aria-hidden="true"></div>
+            </div>
+            <div style="left:51.61%;top:69.26%;width:48.38%;height:13.31%; background:#171717;">
+              <video src="assets/cchb/video/cchb-eye.mp4" poster="assets/posters/cchb-eye.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Видео «глаз»"></video>
+              <div class="video-shield" aria-hidden="true"></div>
+            </div>
+            <div style="left:0.00%;top:70.08%;width:49.69%;height:29.92%;"><img src="assets/cchb/cchb-10.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
+          <p class="t-body-1" style="margin-top: 24px;">Важно было создать динамичную, флюидную стилистику с возможностью интеграции видео и анимации, чтобы графика ощущалась живой, изменчивой и постоянно находящейся в движении</p>
+        </div>
       </section>
 
       <!-- Лого и графические элементы -->
       <section class="case-section" id="logo">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Лого и графические элементы">Лого и графические элементы</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text class="t-outline__stroke" x="0" y="26">Лого и графические элементы</text><text class="t-outline__fill" x="0" y="26">Лого и графические элементы</text></svg>
+            <span class="t-outline__fallback" data-text="Лого и графические элементы">Лого и графические элементы</span>
+          </h2>
         </div>
         <!-- Единая чёрная панель без скруглений — в Figma цчб-11, обе подписи,
              цчб-13 и цчб-12 лежат на одном общем чёрном холсте, а не в
@@ -227,7 +289,9 @@
           <span></span>
           <p class="t-body-1 case-section__text">Композиция макетов строится как наложение трёх слоёв реальности: размытый фон, отсылающий к неопределённости прошлого и будущего; чёткий слой настоящего, находящийся в фокусе, и поверх — флюидная цифровая среда. Верхний слой символизирует постоянное присутствие технологий, влияющих на восприятие и искажающих реальность</p>
         </div>
-        <div class="case-media" style="aspect-ratio: 2144 / 1270;"><img src="assets/cchb/cchb-14.webp" alt="" loading="lazy" decoding="async"></div>
+        <!-- margin-top: 36px — добавка поверх базовых 24px .case-section--tight
+             (в Figma от текста до цчб-14 60px, не 24) -->
+        <div class="case-media case-media--comp" style="aspect-ratio: 2144 / 1270; margin-top: 36px;"><img src="assets/cchb/cchb-14.webp" alt="" loading="lazy" decoding="async"></div>
       </section>
 
       <!-- Анимация логотипа -->
@@ -236,7 +300,9 @@
           <span></span>
           <p class="t-body-1 case-section__text">В анимации логотип становится частью цифровой среды с пиксельной графикой: он постепенно проявляется из набора пикселей, усиливая ощущение цифровой среды. restore:digital art раскрывается через фирменный переход restore:, подчёркивая принадлежность конкурса к бренду и его визуальной системе</p>
         </div>
-        <div class="case-media" style="aspect-ratio: 2144 / 1206;">
+        <!-- margin-top: -9px — вычет из базовых 24px .case-section--tight
+             (в Figma от текста до видео всего 15px, не 24) -->
+        <div class="case-media" style="aspect-ratio: 2144 / 1206; margin-top: -9px;">
           <video src="assets/cchb/video/cchb-logo-animation.mp4" poster="assets/posters/cchb-logo-animation.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Анимация логотипа"></video>
           <div class="video-shield" aria-hidden="true"></div>
         </div>
@@ -248,23 +314,51 @@
           <span></span>
           <p class="t-body-1 case-section__text">В фотостиле используются размытые, нечеткие изображения, символизирующие воспоминания прошлого и неопределённость будущего. Такой подход гармонирует с фирменной айдентикой restore:, создавая узнаваемость бренда в стилистике конкурса</p>
         </div>
-        <div class="case-row">
-          <div class="case-media" style="aspect-ratio: 1293 / 939;"><img src="assets/cchb/cchb-15.webp" alt="" loading="lazy" decoding="async"></div>
-          <div class="case-media" style="aspect-ratio: 809 / 939;"><img src="assets/cchb/cchb-16.webp" alt="" loading="lazy" decoding="async"></div>
-          <div class="case-media" style="aspect-ratio: 2140 / 1427;"><img src="assets/cchb/cchb-17.webp" alt="" loading="lazy" decoding="async"></div>
+        <!-- цчб-15 и цчб-16 в Figma — не равная 3-колоночная сетка, а
+             пара одной высоты (939), где каждая картинка занимает ширину
+             по своим собственным пропорциям (1293:939 и 809:939 ≈
+             61.44%/38.56%); цчб-17 — отдельный полноширинный блок ПОД этой
+             парой (Frame 2087329759 высотой 469.341, «Image» с цчб-17 ниже
+             начинается на y=488.795 — разница ≈19-20px, тот же зазор, что
+             и внутри самой пары, то есть те же 20px, что и .case-row
+             { gap: 20px } между цчб-15 и цчб-16), а не третья колонка в
+             том же ряду. margin-top: 36px — добавка поверх базовых 24px
+             .case-section--tight (в Figma от текста до цчб-15/16 60px, не
+             24) -->
+        <div class="case-only-desktop" style="margin-top: 36px;">
+          <div class="case-row">
+            <div class="case-media" style="aspect-ratio: 1293 / 939; flex: 0 0 61.44%;"><img src="assets/cchb/cchb-15.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 809 / 939; flex: 0 0 38.56%;"><img src="assets/cchb/cchb-16.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
+          <div class="case-media" style="aspect-ratio: 2140 / 1427; margin-top: 20px;">
+            <img src="assets/cchb/cchb-17.webp" alt="" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <!-- Мобильная раскладка — не 2-колоночная пара + отдельная плашка,
+             как на десктопе, а единая лента-карусель из всех трёх картинок
+             в их собственных пропорциях при общей высоте (Figma: Frame
+             2131333162, 254.918px высотой). -->
+        <div class="case-only-mobile case-carousel-wrap" style="margin-top: 36px;">
+          <div class="case-carousel case-carousel--film" style="aspect-ratio: 372 / 254.918;">
+            <div class="case-media" style="aspect-ratio: 1293 / 939;"><img src="assets/cchb/cchb-15.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 809 / 939;"><img src="assets/cchb/cchb-16.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 2140 / 1427;"><img src="assets/cchb/cchb-17.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
         </div>
         <!-- 120px до этого блока — как между обычными секциями (Figma: цчб-17
              заканчивается на y=1202.13, следующая группа начинается на
              y=1322.13, разница ровно 120px), а не стандартные 45px
              .case-section--tight — «Сеть магазинов» и мастер-классы ниже
-             визуально отдельная группа от ряда с цчб-15/16/17 */
+             визуально отдельная группа от ряда с цчб-15/16/17 -->
         <div class="case-media" style="max-width: 340px; aspect-ratio: 680 / 152; margin-top: 120px;">
           <img src="assets/cchb/cchb-stores.webp" alt="" loading="lazy" decoding="async">
         </div>
-        <div class="case-masterclass">
-          <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-1.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-2.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-3.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-carousel-wrap">
+          <div class="case-masterclass">
+            <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-1.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-2.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="aspect-ratio: 690 / 388;"><img src="assets/cchb/cchb-masterclass-3.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
         </div>
       </section>
 
@@ -274,45 +368,78 @@
            case-section--tight с ручным margin-top -->
       <section class="case-section case-section--tight">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Мерч">Мерч</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text class="t-outline__stroke" x="0" y="26">Мерч</text><text class="t-outline__fill" x="0" y="26">Мерч</text></svg>
+            <span class="t-outline__fallback" data-text="Мерч">Мерч</span>
+          </h2>
           <p class="t-body-1 case-section__text">Стилистика конкурса проявляется и в материальных объектах через контраст цифровой графики с натуральными материалами: полупрозрачный пластик соседствуют с бумагой, картоном и тканями, создавая ощущение наложения слоёв и продолжая визуальную концепцию конкурса</p>
         </div>
-        <div class="case-merch">
-          <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-19.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-20.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-21.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-22.webp" alt="" loading="lazy" decoding="async"></div>
+        <!-- margin-top: 36px — добавка поверх базовых 24px .case-section--tight
+             (в Figma от головы секции до сетки Мерч 60px, а не стандартные
+             для этой секции 24px) -->
+        <div class="case-carousel-wrap" style="margin-top: 36px;">
+          <div class="case-merch">
+            <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-19.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-20.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-21.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="aspect-ratio: 1053 / 1197;"><img src="assets/cchb/cchb-22.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
         </div>
       </section>
 
       <!-- Сайт -->
       <section class="case-section" id="site">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Сайт">Сайт</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text class="t-outline__stroke" x="0" y="26">Сайт</text><text class="t-outline__fill" x="0" y="26">Сайт</text></svg>
+            <span class="t-outline__fallback" data-text="Сайт">Сайт</span>
+          </h2>
           <p class="t-body-1 case-section__text">Для проекта был разработан многостраничный сайт с продуманной структурой: разделы о проекте, жюри, галерея работ и программа мероприятий. Облегчили восприятие сайта благодаря строгой стилистике и акценте на работах участников</p>
         </div>
-        <div class="case-media" style="aspect-ratio: 2112 / 1188;">
+        <div class="case-media case-media--fill" style="aspect-ratio: 2112 / 1188;">
           <video src="assets/cchb/video/cchb-site-scroll.mp4" poster="assets/posters/cchb-site-scroll.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="Скроллинг сайта конкурса"></video>
           <div class="video-shield" aria-hidden="true"></div>
         </div>
       </section>
 
-      <!-- Галерея работ -->
+      <!-- Галерея работ: в Figma это не «текст сверху над рядом из двух
+           картинок», а два столбца одинаковой ширины (~49% каждый) — слева
+           просто цчб-24 от самого верха, справа текст, а под ним, с
+           отступом, цчб-25 — оба фото при этом одной высоты, и правая
+           картинка из-за текста над ней сдвинута вниз относительно левой
+           (Group 66: Frame 3/цчб-24 y=0..675.517; Text y=0..84; Frame
+           4/цчб-25 y=109.078..784.595 — отступ текст→картинка справа
+           109.078-84≈25px). -->
       <section class="case-section case-section--tight">
-        <div class="case-section__head">
-          <span></span>
-          <p class="t-body-1 case-section__text">Галерея работ на сайте включает разные форматы: статичные изображения, видео и аудио материалы. Работы структурированы по категориям, что позволяет быстро находить интересующие проекты и оценивать их в контексте конкурса</p>
-        </div>
-        <div class="case-row">
+        <div class="case-only-desktop case-row" style="align-items: flex-start;">
           <div class="case-media" style="aspect-ratio: 1051 / 1359;"><img src="assets/cchb/cchb-24.webp" alt="" loading="lazy" decoding="async"></div>
-          <div class="case-media" style="aspect-ratio: 1051 / 1352;"><img src="assets/cchb/cchb-25.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 25px; border-radius: 0; overflow: visible;">
+            <p class="t-body-1">Галерея работ на сайте включает разные форматы: статичные изображения, видео и аудио материалы. Работы структурированы по категориям, что позволяет быстро находить интересующие проекты и оценивать их в контексте конкурса</p>
+            <div class="case-media" style="aspect-ratio: 1051 / 1352;"><img src="assets/cchb/cchb-25.webp" alt="" loading="lazy" decoding="async"></div>
+          </div>
+        </div>
+        <!-- Мобилка: текст сверху на всю ширину (не во второй колонке, как
+             на десктопе), под ним — цчб-24/25 в свайп-ленте (в Figma-мобилке
+             этот ряд, как и у Исследования, шире экрана: 711.75px против
+             372px контейнера). -->
+        <div class="case-only-mobile">
+          <p class="t-body-1">Галерея работ на сайте включает разные форматы: статичные изображения, видео и аудио материалы. Работы структурированы по категориям, что позволяет быстро находить интересующие проекты и оценивать их в контексте конкурса</p>
+          <div class="case-carousel-wrap" style="margin-top: 25px;">
+            <div class="case-row case-carousel">
+              <div class="case-media" style="aspect-ratio: 1051 / 1359;"><img src="assets/cchb/cchb-24.webp" alt="" loading="lazy" decoding="async"></div>
+              <div class="case-media" style="aspect-ratio: 1051 / 1352;"><img src="assets/cchb/cchb-25.webp" alt="" loading="lazy" decoding="async"></div>
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- Выставка -->
       <section class="case-section" id="exhibition">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Выставка">Выставка</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text class="t-outline__stroke" x="0" y="26">Выставка</text><text class="t-outline__fill" x="0" y="26">Выставка</text></svg>
+            <span class="t-outline__fallback" data-text="Выставка">Выставка</span>
+          </h2>
           <p class="t-body-1 case-section__text">Итогом конкурса стала выставка лучших работ участников в галерее RuArts в Москве. Экспозиция перенесла визуальный язык конкурса в пространство галереи: неоновые цвета, градиенты и пиксельная графика создавали эффект цифрового слоя поверх реальности. Такой приём позволял зрителю ощутить переплетение работ участников с окружающим пространством, продолжая концепцию айдентики и подчеркивая взаимодействие искусства и технологий</p>
         </div>
         <!-- overflow-x: hidden раньше стоял тут на случай, если какая-то из
@@ -328,39 +455,49 @@
              margin-top: 15px — расстояние до этого блока от заголовка с
              текстом было 45px (общий .case-section { gap: 45px }), в Figma
              же 60px (head-фрейм высотой 147, цчб-26 начинается на y=207) —
-             15px добавкой поверх базовых 45px закрывают разницу. -->
-        <div class="case-collage" style="aspect-ratio: 1072 / 3218; margin-top: 15px;">
-          <div style="left:0.000%;top:6.432%;width:100.000%;height:20.510%;"><img src="assets/cchb/cchb-26.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:0.000%;top:28.807%;width:80.093%;height:17.778%;"><img src="assets/cchb/cchb-27.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:48.358%;top:45.163%;width:51.642%;height:10.752%;"><img src="assets/cchb/cchb-28.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:22.295%;top:54.796%;width:39.767%;height:7.398%;"><img src="assets/cchb/cchb-29.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:16.161%;top:66.925%;width:83.464%;height:18.180%;"><img src="assets/cchb/cchb-30.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:0.000%;top:83.026%;width:50.588%;height:10.532%;"><img src="assets/cchb/cchb-31.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:0.000%;top:92.727%;width:4.944%;height:3.310%;"><img src="assets/cchb/cchb-pixels-3.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:31.271%;top:92.076%;width:36.713%;height:7.92%;"><img src="assets/cchb/cchb-32.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:80.094%;top:26.652%;width:15.438%;height:11.046%;"><img src="assets/cchb/cchb-pixels-1.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:8.049%;top:52.280%;width:16.231%;height:14.884%;"><img src="assets/cchb/cchb-pixels-2.webp" alt="" loading="lazy" decoding="async"></div>
+             15px добавкой поверх базовых 45px закрывают разницу.
+
+             Координаты детей коллажа пересчитаны от y=207 (верх цчб-26), а
+             не от y=0 всего фрейма «Выставка» в Figma — раньше высота
+             коллажа (3218) и проценты включали в себя ещё и зону заголовка
+             (207px), из-за чего перед первой картинкой внутри коллажа
+             оставался лишний пустой отступ поверх margin-top: 15px, и
+             видимый зазор до текста был не 60px, а 60+207≈267px. -->
+        <div class="case-collage case-exhibition-collage" style="aspect-ratio: 1072 / 3011;">
+          <div style="left:0.000%;top:0.000%;width:100.000%;height:21.924%;"><img src="assets/cchb/cchb-26.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:0.000%;top:23.912%;width:80.093%;height:19.000%;"><img src="assets/cchb/cchb-27.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:48.358%;top:41.391%;width:51.642%;height:11.491%;"><img src="assets/cchb/cchb-28.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:22.295%;top:51.687%;width:39.767%;height:7.909%;"><img src="assets/cchb/cchb-29.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:16.161%;top:64.649%;width:83.464%;height:19.425%;"><img src="assets/cchb/cchb-30.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:0.000%;top:81.860%;width:50.588%;height:11.256%;"><img src="assets/cchb/cchb-31.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__pixel" style="left:0.000%;top:92.229%;width:4.944%;height:3.537%;"><img src="assets/cchb/cchb-pixels-3.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:31.271%;top:91.532%;width:36.713%;height:8.466%;"><img src="assets/cchb/cchb-32.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__pixel" style="left:80.094%;top:21.611%;width:15.438%;height:11.807%;"><img src="assets/cchb/cchb-pixels-1.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__pixel" style="left:8.049%;top:49.000%;width:16.231%;height:15.909%;"><img src="assets/cchb/cchb-pixels-2.webp" alt="" loading="lazy" decoding="async"></div>
         </div>
       </section>
 
       <!-- 3D-маппинг -->
       <section class="case-section" id="mapping">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="3D-маппинг">3D-маппинг</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text class="t-outline__stroke" x="0" y="26">3D-маппинг</text><text class="t-outline__fill" x="0" y="26">3D-маппинг</text></svg>
+            <span class="t-outline__fallback" data-text="3D-маппинг">3D-маппинг</span>
+          </h2>
           <p class="t-body-1 case-section__text">Для фотозоны выставки была разработана площадка с 3D-маппингом — технологией проекции видео на объёмные объекты, создающей иллюзию изменения формы, текстуры и «оживления» поверхности</p>
         </div>
-        <div class="case-media" style="aspect-ratio: 2144 / 1206;">
+        <div class="case-media case-media--fill case-mapping-video-1" style="aspect-ratio: 1072 / 672;">
           <video src="assets/cchb/video/cchb-3d-mapping-1.mp4" poster="assets/posters/cchb-3d-mapping-1.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-label="3D-маппинг, видео 1"></video>
           <div class="video-shield" aria-hidden="true"></div>
         </div>
       </section>
 
-      <!-- Референсы -->
-      <section class="case-section case-section--tight">
-        <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Референсы">Референсы</h2>
-          <p class="t-body-1 case-section__text">В данный проект хотелось интегрировать пиксельную графику конкурса, фирменные графические формы бренда restore;, а также мерцающие силуэты фигур</p>
-        </div>
+      <!-- Референсы: в Figma заголовок и текст — не отдельная "голова" секции
+           сверху, а собственный элемент ВНУТРИ коллажа (Frame 2087329742,
+           x=0.4, y=511.32 из 632 общей высоты — то есть в нижней трети,
+           слева), и без обводки — это просто белый текст, как обычный текст
+           страницы, а не .t-stroke заголовок. -->
+      <section class="case-section case-section--tight case-only-desktop">
         <div class="case-collage" style="aspect-ratio: 1072 / 632;">
           <div style="left:5.114%;top:3.103%;width:18.850%;height:39.456%;"><img src="assets/cchb/cchb-33.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:0.000%;top:44.693%;width:23.964%;height:32.199%;"><img src="assets/cchb/cchb-34.webp" alt="" loading="lazy" decoding="async"></div>
@@ -369,19 +506,58 @@
           <div style="left:55.245%;top:54.918%;width:23.255%;height:38.682%;"><img src="assets/cchb/cchb-37.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:79.719%;top:5.429%;width:18.130%;height:39.084%;"><img src="assets/cchb/cchb-38.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:79.717%;top:46.492%;width:20.283%;height:36.968%;"><img src="assets/cchb/cchb-39.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__text" style="left:0.038%;top:80.911%;width:40.338%;">
+            <h2 class="t-h2" style="margin-bottom:12px;">Референсы</h2>
+            <p class="t-body-1">В данный проект хотелось интегрировать пиксельную графику конкурса, фирменные графические формы бренда restore;, а также мерцающие силуэты фигур</p>
+          </div>
         </div>
       </section>
 
-      <!-- Эскизы -->
-      <section class="case-section case-section--tight">
-        <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Эскизы">Эскизы</h2>
-          <p class="t-body-1 case-section__text">Для этого были проведены измерения помещения, в котором будут располагаться формы для 3D-маппинга, и по предварительным эскизам сделали визуализацию 3D-пространства со световой схемой</p>
+      <!-- Мобилка: в Figma-мобилке это не текст ВНУТРИ коллажа (как на
+           десктопе), а обычный текстовый блок сверху, и коллаж — своя,
+           другая раскладка тех же 7 картинок (Group 2131332565), не
+           десктопные проценты. -->
+      <section class="case-section case-section--tight case-only-mobile">
+        <h2 class="t-h2 case-section__title">Референсы</h2>
+        <p class="t-body-1" style="margin-top: 15px;">В данный проект хотелось интегрировать пиксельную графику конкурса, фирменные графические формы бренда restore;, а также мерцающие силуэты фигур</p>
+        <div class="case-collage" style="aspect-ratio: 372.488 / 336.472; margin-top: 25px;">
+          <div style="left:6.514%;top:2.436%;width:24.012%;height:32.805%;"><img src="assets/cchb/cchb-33.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:0.000%;top:37.011%;width:30.526%;height:26.769%;"><img src="assets/cchb/cchb-34.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:32.079%;top:5.058%;width:36.786%;height:58.727%;"><img src="assets/cchb/cchb-35.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:70.376%;top:0.000%;width:29.624%;height:43.752%;"><img src="assets/cchb/cchb-36.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:70.376%;top:45.510%;width:29.624%;height:32.156%;"><img src="assets/cchb/cchb-37.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:15.297%;top:65.554%;width:24.478%;height:34.437%;"><img src="assets/cchb/cchb-38.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:41.475%;top:65.554%;width:27.386%;height:32.579%;"><img src="assets/cchb/cchb-39.webp" alt="" loading="lazy" decoding="async"></div>
         </div>
+      </section>
+
+      <!-- Эскизы: тот же случай — заголовок и текст лежат ВНУТРИ коллажа,
+           справа от первой картинки (Frame 2087329742, x=800.28, y=0 из
+           1072 общей ширины), без обводки. -->
+      <section class="case-section case-section--tight case-only-desktop">
         <div class="case-collage" style="aspect-ratio: 1072 / 1108;">
           <div style="left:0.000%;top:0.000%;width:64.858%;height:58.702%;"><img src="assets/cchb/cchb-40.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:0.000%;top:56.904%;width:100.000%;height:44.720%;"><img src="assets/cchb/cchb-41.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="left:69.312%;top:29.351%;width:19.916%;height:31.814%;"><img src="assets/cchb/cchb-pixels-4.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__pixel" style="left:69.312%;top:29.351%;width:19.916%;height:31.814%;"><img src="assets/cchb/cchb-pixels-4.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__text" style="left:74.654%;top:0.000%;width:25.280%;">
+            <h2 class="t-h2" style="margin-bottom:12px;">Эскизы</h2>
+            <p class="t-body-1">Для этого были проведены измерения помещения, в котором будут располагаться формы для 3D-маппинга, и по предварительным эскизам сделали визуализацию 3D-пространства со световой схемой</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Мобилка: тот же приём — текст сверху обычным блоком, коллаж под
+           ним. Проценты картинок внутри коллажа тут совпадают с десктопными
+           (композиция цчб-40/41/пиксели-4 почти не отличается между
+           брейкпоинтами), меняется только сам факт, что текст больше не
+           лежит внутри коллажа абсолютным блоком в углу. -->
+      <section class="case-section case-section--tight case-only-mobile">
+        <h2 class="t-h2 case-section__title">Эскизы</h2>
+        <p class="t-body-1" style="margin-top: 15px;">Для этого были проведены измерения помещения, в котором будут располагаться формы для 3D-маппинга, и по предварительным эскизам сделали визуализацию 3D-пространства со световой схемой</p>
+        <div class="case-collage" style="aspect-ratio: 372.488 / 384.493; margin-top: 25px;">
+          <div style="left:0.000%;top:0.000%;width:64.858%;height:58.702%;"><img src="assets/cchb/cchb-40.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:0.000%;top:56.904%;width:100.000%;height:44.720%;"><img src="assets/cchb/cchb-41.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-collage__pixel" style="left:69.312%;top:29.351%;width:19.916%;height:31.814%;"><img src="assets/cchb/cchb-pixels-4.webp" alt="" loading="lazy" decoding="async"></div>
         </div>
       </section>
 
@@ -393,7 +569,10 @@
       <!-- Яндекс дача -->
       <section class="case-section" id="yandex">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Яндекс Дача">Яндекс Дача</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text class="t-outline__stroke" x="0" y="26">Яндекс Дача</text><text class="t-outline__fill" x="0" y="26">Яндекс Дача</text></svg>
+            <span class="t-outline__fallback" data-text="Яндекс Дача">Яндекс Дача</span>
+          </h2>
           <p class="t-body-1 case-section__text">Событие в поддержку конкурсно-выставочного проекта restore:digital art, главными партнёрами которого выступали «Яндекс Плюс» и «Яндекс Пэй». Мероприятие призвано продемонстрировать, как современные технологии стирают границы между различными видами медиа</p>
         </div>
         <!-- Отступы здесь — 13px везде (картинка-картинка), а не стандартные
@@ -407,32 +586,69 @@
              казался неестественно вытянутым; теперь ширины колонок берут её
              собственное соотношение сторон, а пара справа подстраивается
              под получившуюся высоту. -->
-        <div class="case-media" style="aspect-ratio: 2141 / 1432;"><img src="assets/cchb/cchb-42.webp" alt="" loading="lazy" decoding="async"></div>
-        <div class="case-row" style="gap: 13px; margin-top: -32px;">
-          <div class="case-media" style="aspect-ratio: 702.765 / 617.343; flex: 0 0 65.66%;"><img src="assets/cchb/cchb-43.webp" alt="" loading="lazy" decoding="async"></div>
-          <div style="flex: 0 0 33.07%; display:flex; flex-direction:column; gap:13px;">
-            <div class="case-media" style="aspect-ratio: 708 / 604;"><img src="assets/cchb/cchb-44.webp" alt="" loading="lazy" decoding="async"></div>
-            <div class="case-media" style="aspect-ratio: 708 / 604;"><img src="assets/cchb/cchb-45.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-only-desktop">
+          <div class="case-media" style="aspect-ratio: 2141 / 1432;"><img src="assets/cchb/cchb-42.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="case-row" style="gap: 13px; margin-top: -32px;">
+            <div class="case-media" style="aspect-ratio: 702.765 / 617.343; flex: 0 0 65.66%;"><img src="assets/cchb/cchb-43.webp" alt="" loading="lazy" decoding="async"></div>
+            <div style="flex: 0 0 33.07%; display:flex; flex-direction:column; gap:13px;">
+              <div class="case-media" style="aspect-ratio: 708 / 604;"><img src="assets/cchb/cchb-44.webp" alt="" loading="lazy" decoding="async"></div>
+              <div class="case-media" style="aspect-ratio: 708 / 604;"><img src="assets/cchb/cchb-45.webp" alt="" loading="lazy" decoding="async"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Мобилка: та же свайп-лента, что у остальных широких рядов
+             (Исследование и т. п.) — в мобильном фрейме Figma этот ряд из
+             4 картинок тоже шире контейнера (1357.69px против 372px). -->
+        <div class="case-only-mobile case-carousel-wrap">
+          <div class="case-row case-carousel">
+            <div class="case-media" style="aspect-ratio: 342.8 / 229.226;"><img src="assets/cchb/cchb-42.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 326.545 / 286.853;"><img src="assets/cchb/cchb-43.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 326.545 / 278.578;"><img src="assets/cchb/cchb-44.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="case-media" style="aspect-ratio: 326.545 / 277.969;"><img src="assets/cchb/cchb-45.webp" alt="" loading="lazy" decoding="async"></div>
           </div>
         </div>
       </section>
 
-      <!-- Программа -->
+      <!-- Программа: в Figma это не строка «текст + два кадра в ряд», а
+           свободная раскладка — текст узкой колонкой слева, цчб-46 крупным
+           кадром справа на той же высоте, а цчб-47 отдельно ниже и левее,
+           частично заходя под нижний край цчб-46 (не вторая колонка в
+           общем ряду с ним). Координаты — из Figma (цчб-46: x=319.734,
+           y=0, 752.266×486.903; цчб-47: x=53.4375, y=375.016,
+           454.443×301.88; общая высота блока — по нижнему краю цчб-47,
+           676.896), переведены в % от ширины/высоты контейнера. -->
       <section class="case-section case-section--tight">
-        <p class="t-body-1 case-section__text" style="max-width: 269px;">Программа включала публичные обсуждения, показ фильма, а также мультимедийное и саунд-арт выступление, погружающее гостей в цифровое искусство</p>
-        <div class="case-row">
-          <div class="case-media" style="aspect-ratio: 1505 / 974;"><img src="assets/cchb/cchb-46.webp" alt="" loading="lazy" decoding="async"></div>
-          <div class="case-media" style="aspect-ratio: 909 / 604; max-width: 34%;"><img src="assets/cchb/cchb-47.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-only-desktop case-collage" style="aspect-ratio: 1072 / 676.896;">
+          <div class="case-collage__text" style="left:0%;top:0%;width:25.09%;">
+            <p class="t-body-1">Программа включала публичные обсуждения, показ фильма, а также мультимедийное и саунд-арт выступление, погружающее гостей в цифровое искусство</p>
+          </div>
+          <div style="left:29.83%;top:0%;width:70.17%;height:71.94%;"><img src="assets/cchb/cchb-46.webp" alt="" loading="lazy" decoding="async"></div>
+          <div style="left:4.99%;top:55.41%;width:42.39%;height:44.60%;"><img src="assets/cchb/cchb-47.webp" alt="" loading="lazy" decoding="async"></div>
+        </div>
+        <!-- Мобилка: текст обычным блоком сверху, картинки — свайп-лента
+             (в Figma-мобилке ряд из цчб-46/47 тоже шире контейнера). -->
+        <div class="case-only-mobile">
+          <p class="t-body-1">Программа включала публичные обсуждения, показ фильма, а также мультимедийное и саунд-арт выступление, погружающее гостей в цифровое искусство</p>
+          <div class="case-carousel-wrap" style="margin-top: 25px;">
+            <div class="case-row case-carousel">
+              <div class="case-media" style="aspect-ratio: 350.439 / 226.821;"><img src="assets/cchb/cchb-46.webp" alt="" loading="lazy" decoding="async"></div>
+              <div class="case-media" style="aspect-ratio: 341.454 / 226.821;"><img src="assets/cchb/cchb-47.webp" alt="" loading="lazy" decoding="async"></div>
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- Результаты -->
       <section class="case-section" id="results">
         <div class="case-section__head">
-          <h2 class="t-h2 t-stroke case-section__title" data-text="Результаты">Результаты</h2>
+          <h2 class="t-h2 t-outline case-section__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text class="t-outline__stroke" x="0" y="26">Результаты</text><text class="t-outline__fill" x="0" y="26">Результаты</text></svg>
+            <span class="t-outline__fallback" data-text="Результаты">Результаты</span>
+          </h2>
           <p class="t-body-1 case-section__text">Для бренда restore: проект прошел на совершенно новом уровне — так как удалось не только усовершенствовать проект, расширить его (параллельная программа, еще больше номинаций), но и привлечь партнеров. Открытие выставки посетило 800 гостей, что было рекордным для проекта</p>
         </div>
-        <div class="case-media" style="aspect-ratio: 2144 / 266;"><img src="assets/cchb/cchb-numbers-1-desktop.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-media case-only-desktop" style="aspect-ratio: 2144 / 266;"><img src="assets/cchb/cchb-numbers-1-desktop.webp" alt="" loading="lazy" decoding="async"></div>
+        <div class="case-media case-only-mobile" style="aspect-ratio: 1072 / 422;"><img src="assets/cchb/cchb-numbers-1-mobile.webp" alt="" loading="lazy" decoding="async"></div>
         <div class="case-collage" style="aspect-ratio: 1072 / 731.72;">
           <div style="left:0.000%;top:13.505%;width:22.937%;height:67.347%;"><img src="assets/cchb/cchb-48.webp" alt="" loading="lazy" decoding="async"></div>
           <div style="left:24.099%;top:6.416%;width:24.763%;height:48.389%;"><img src="assets/cchb/cchb-49.webp" alt="" loading="lazy" decoding="async"></div>
@@ -454,14 +670,16 @@
       <section class="case-section case-section--tight">
         <div class="case-yandex-results-row">
           <div class="case-section__text case-yandex-results-row__text">
-            <h2 class="t-h2 t-stroke" data-text="Результаты ивента Яндекс Дача" style="margin-bottom:12px;">Результаты ивента Яндекс Дача</h2>
+            <h2 class="t-h2 case-yandex-results-title">Результаты ивента Яндекс Дача</h2>
             <p class="t-body-1">Программа вызвала широкий интерес в медиа, обеспечив большие охваты, а насыщенная цифровая атмосфера и активное участие посетителей сделали событие ярким и запоминающимся</p>
           </div>
           <div class="case-media case-yandex-results-row__media" style="aspect-ratio: 983 / 224; max-width: 491px;">
             <img src="assets/cchb/cchb-numbers-2.webp" alt="" loading="lazy" decoding="async">
           </div>
         </div>
-        <div class="case-media" style="aspect-ratio: 2140 / 1322;"><img src="assets/cchb/cchb-54.webp" alt="" loading="lazy" decoding="async"></div>
+        <!-- margin-top: 36px — добавка поверх базовых 24px .case-section--tight
+             (в Figma от этого ряда до цчб-54 60px, не 24) -->
+        <div class="case-media" style="aspect-ratio: 2140 / 1322; margin-top: 36px;"><img src="assets/cchb/cchb-54.webp" alt="" loading="lazy" decoding="async"></div>
       </section>
 
       <!-- Финал: кадр видео в Figma (1072×713.33) заметно ниже, чем даёт
@@ -479,19 +697,22 @@
           <div class="video-shield" aria-hidden="true"></div>
         </div>
         <div class="case-team">
-          <h2 class="t-h2 t-stroke case-team__title" data-text="Дизайн команда">Дизайн команда</h2>
+          <h2 class="t-h2 t-outline case-team__title">
+            <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text class="t-outline__stroke" x="0" y="26">Дизайн команда</text><text class="t-outline__fill" x="0" y="26">Дизайн команда</text></svg>
+            <span class="t-outline__fallback" data-text="Дизайн команда">Дизайн команда</span>
+          </h2>
           <div class="case-team__row">
             <div>
               <p class="t-body-1 case-team__role">Арт-директор</p>
-              <div class="case-team__names"><p class="t-body-2">Егор Гализдра</p></div>
+              <div class="case-team__names"><p class="t-body-1">Егор Гализдра</p></div>
             </div>
             <div>
               <p class="t-body-1 case-team__role">Ведущие дизайнеры</p>
-              <div class="case-team__names"><p class="t-body-2">Николай Маковский</p><p class="t-body-2">Светлана Питимирова</p></div>
+              <div class="case-team__names"><p class="t-body-1">Николай Маковский</p><p class="t-body-1">Светлана Питимирова</p></div>
             </div>
             <div>
               <p class="t-body-1 case-team__role">Дизайнеры</p>
-              <div class="case-team__names"><p class="t-body-2">Анна Белихова</p><p class="t-body-2">Софья Загуменкова</p><p class="t-body-2">Арина Серова</p></div>
+              <div class="case-team__names"><p class="t-body-1">Анна Белихова</p><p class="t-body-1">Софья Загуменкова</p><p class="t-body-1">Арина Серова</p></div>
             </div>
           </div>
         </div>
@@ -508,7 +729,10 @@
       <div class="footer__circle">
         <img src="assets/about/medor-footer.webp" alt="Французский бульдог Медор" width="640" height="640" loading="lazy" decoding="async">
       </div>
-      <p class="t-promo-1 t-stroke footer__title" data-text="Let&rsquo;s go!">Let&rsquo;s go!</p>
+      <p class="t-promo-1 t-outline footer__title">
+        <svg class="t-outline__svg" aria-hidden="true" focusable="false"><text class="t-outline__stroke" x="0" y="52">Let&#8217;s go!</text><text class="t-outline__fill" x="0" y="52">Let&#8217;s go!</text></svg>
+        <span class="t-outline__fallback" data-text="Let&rsquo;s go!">Let&rsquo;s go!</span>
+      </p>
     </div>
     <div class="footer__pills">
       <a class="pill t-body-2" href="https://hirehi.ru/resume/XbLth3skez" target="_blank" rel="noopener">CV</a>
@@ -520,7 +744,7 @@
 
   <div class="lang-transition" aria-hidden="true"></div>
 
-  <script src="script.js?v=20260820"></script>
-  <script src="cchb.js?v=20260821"></script>
+  <script src="script.js?v=20260825k"></script>
+  <script src="cchb.js?v=20260825o"></script>
 </body>
 </html>

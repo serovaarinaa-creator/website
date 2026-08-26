@@ -195,7 +195,13 @@ a {
    2) Chrome рисует строку за строкой, поэтому обводка следующей строки
       ложилась поверх букв предыдущей (при line-height 0.9 строки заходят
       друг на друга). Обводку рисуем отдельным слоем в ::before под текстом:
-      сначала целиком белая подложка, поверх — все глифы. */
+      сначала целиком белая подложка, поверх — все глифы.
+
+   Используется для текста, который переносится свободно (word-wrap) и
+   заранее неизвестной длины/числа строк — абзацы в блоке «Обо мне» и т. п.
+   Для коротких заголовков фиксированной раскладки (1-2 строки, десктоп)
+   есть более качественная версия — векторная обводка через SVG-текст,
+   см. .t-outline ниже. */
 .t-stroke {
   position: relative;
   /* свой контекст наложения: иначе ::before с z-index -1 уходит за фон блока */
@@ -212,41 +218,344 @@ a {
   pointer-events: none;
   text-shadow:
     10px 0px 0 var(--white),
-    9.85px 1.74px 0 var(--white),
+    9.98px 0.7px 0 var(--white),
+    9.9px 1.39px 0 var(--white),
+    9.78px 2.08px 0 var(--white),
+    9.61px 2.76px 0 var(--white),
     9.4px 3.42px 0 var(--white),
-    8.66px 5px 0 var(--white),
+    9.14px 4.07px 0 var(--white),
+    8.83px 4.69px 0 var(--white),
+    8.48px 5.3px 0 var(--white),
+    8.09px 5.88px 0 var(--white),
     7.66px 6.43px 0 var(--white),
-    6.43px 7.66px 0 var(--white),
+    7.19px 6.95px 0 var(--white),
+    6.69px 7.43px 0 var(--white),
+    6.16px 7.88px 0 var(--white),
+    5.59px 8.29px 0 var(--white),
     5px 8.66px 0 var(--white),
-    3.42px 9.4px 0 var(--white),
+    4.38px 8.99px 0 var(--white),
+    3.75px 9.27px 0 var(--white),
+    3.09px 9.51px 0 var(--white),
+    2.42px 9.7px 0 var(--white),
     1.74px 9.85px 0 var(--white),
-    0px 10px 0 var(--white),
+    1.05px 9.95px 0 var(--white),
+    0.35px 9.99px 0 var(--white),
+    -0.35px 9.99px 0 var(--white),
+    -1.05px 9.95px 0 var(--white),
     -1.74px 9.85px 0 var(--white),
-    -3.42px 9.4px 0 var(--white),
+    -2.42px 9.7px 0 var(--white),
+    -3.09px 9.51px 0 var(--white),
+    -3.75px 9.27px 0 var(--white),
+    -4.38px 8.99px 0 var(--white),
     -5px 8.66px 0 var(--white),
-    -6.43px 7.66px 0 var(--white),
+    -5.59px 8.29px 0 var(--white),
+    -6.16px 7.88px 0 var(--white),
+    -6.69px 7.43px 0 var(--white),
+    -7.19px 6.95px 0 var(--white),
     -7.66px 6.43px 0 var(--white),
-    -8.66px 5px 0 var(--white),
+    -8.09px 5.88px 0 var(--white),
+    -8.48px 5.3px 0 var(--white),
+    -8.83px 4.69px 0 var(--white),
+    -9.14px 4.07px 0 var(--white),
     -9.4px 3.42px 0 var(--white),
-    -9.85px 1.74px 0 var(--white),
+    -9.61px 2.76px 0 var(--white),
+    -9.78px 2.08px 0 var(--white),
+    -9.9px 1.39px 0 var(--white),
+    -9.98px 0.7px 0 var(--white),
     -10px 0px 0 var(--white),
-    -9.85px -1.74px 0 var(--white),
+    -9.98px -0.7px 0 var(--white),
+    -9.9px -1.39px 0 var(--white),
+    -9.78px -2.08px 0 var(--white),
+    -9.61px -2.76px 0 var(--white),
     -9.4px -3.42px 0 var(--white),
-    -8.66px -5px 0 var(--white),
+    -9.14px -4.07px 0 var(--white),
+    -8.83px -4.69px 0 var(--white),
+    -8.48px -5.3px 0 var(--white),
+    -8.09px -5.88px 0 var(--white),
     -7.66px -6.43px 0 var(--white),
-    -6.43px -7.66px 0 var(--white),
+    -7.19px -6.95px 0 var(--white),
+    -6.69px -7.43px 0 var(--white),
+    -6.16px -7.88px 0 var(--white),
+    -5.59px -8.29px 0 var(--white),
     -5px -8.66px 0 var(--white),
-    -3.42px -9.4px 0 var(--white),
+    -4.38px -8.99px 0 var(--white),
+    -3.75px -9.27px 0 var(--white),
+    -3.09px -9.51px 0 var(--white),
+    -2.42px -9.7px 0 var(--white),
     -1.74px -9.85px 0 var(--white),
-    -0px -10px 0 var(--white),
+    -1.05px -9.95px 0 var(--white),
+    -0.35px -9.99px 0 var(--white),
+    0.35px -9.99px 0 var(--white),
+    1.05px -9.95px 0 var(--white),
     1.74px -9.85px 0 var(--white),
-    3.42px -9.4px 0 var(--white),
+    2.42px -9.7px 0 var(--white),
+    3.09px -9.51px 0 var(--white),
+    3.75px -9.27px 0 var(--white),
+    4.38px -8.99px 0 var(--white),
     5px -8.66px 0 var(--white),
-    6.43px -7.66px 0 var(--white),
+    5.59px -8.29px 0 var(--white),
+    6.16px -7.88px 0 var(--white),
+    6.69px -7.43px 0 var(--white),
+    7.19px -6.95px 0 var(--white),
     7.66px -6.43px 0 var(--white),
-    8.66px -5px 0 var(--white),
+    8.09px -5.88px 0 var(--white),
+    8.48px -5.3px 0 var(--white),
+    8.83px -4.69px 0 var(--white),
+    9.14px -4.07px 0 var(--white),
     9.4px -3.42px 0 var(--white),
-    9.85px -1.74px 0 var(--white);
+    9.61px -2.76px 0 var(--white),
+    9.78px -2.08px 0 var(--white),
+    9.9px -1.39px 0 var(--white),
+    9.98px -0.7px 0 var(--white);
+}
+
+/* Векторная обводка для коротких заголовков с известной, фиксированной
+   раскладкой (1-2 строки, десктоп): настоящий SVG-контур вокруг текста
+   (stroke-linejoin: round, снаружи через paint-order) — тот же приём,
+   которым рисует обводку сама Figma, поэтому форма один в один повторяет
+   буквы со скруглёнными углами. В отличие от .t-stroke выше (кольцо из
+   text-shadow копий) тут нет ни малейшей ступенчатости на изгибах, и в
+   отличие от растровых SVG-фильтров (blur+порог, feMorphology) — нет ни
+   раздувания контура там, где штрихи буквы близко, ни острых углов.
+
+   На узких экранах длинные заголовки переносятся обычным word-wrap
+   (.case-section__title { white-space: normal }, см. cchb.css) — для
+   статичного SVG-текста (без JS-переноса по словам) невозможно заранее
+   знать, где встанет перенос на любой ширине экрана, поэтому там
+   показывается запасной вариант — обычный текст с тем же кольцом из
+   text-shadow копий, что и у .t-stroke (см. .t-outline__fallback). */
+.t-outline {
+  position: relative;
+}
+
+.t-outline__svg {
+  display: none;
+}
+
+.t-outline__fallback {
+  /* Блочный, а не строчный элемент — со строчным (span по умолчанию)
+     абсолютно позиционированный ::before с inset: 0 считал высоту
+     содержащего блока не по line-height заголовка (0.9), а по каким-то
+     другим метрикам шрифта (получалось на ~8px больше), из-за чего
+     подложка обводки съезжала вниз и наезжала на следующий блок. */
+  display: block;
+  position: relative;
+  isolation: isolate;
+  color: var(--black);
+}
+
+.t-outline__fallback::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  color: transparent;
+  pointer-events: none;
+  text-shadow:
+    10px 0px 0 var(--white),
+    9.98px 0.7px 0 var(--white),
+    9.9px 1.39px 0 var(--white),
+    9.78px 2.08px 0 var(--white),
+    9.61px 2.76px 0 var(--white),
+    9.4px 3.42px 0 var(--white),
+    9.14px 4.07px 0 var(--white),
+    8.83px 4.69px 0 var(--white),
+    8.48px 5.3px 0 var(--white),
+    8.09px 5.88px 0 var(--white),
+    7.66px 6.43px 0 var(--white),
+    7.19px 6.95px 0 var(--white),
+    6.69px 7.43px 0 var(--white),
+    6.16px 7.88px 0 var(--white),
+    5.59px 8.29px 0 var(--white),
+    5px 8.66px 0 var(--white),
+    4.38px 8.99px 0 var(--white),
+    3.75px 9.27px 0 var(--white),
+    3.09px 9.51px 0 var(--white),
+    2.42px 9.7px 0 var(--white),
+    1.74px 9.85px 0 var(--white),
+    1.05px 9.95px 0 var(--white),
+    0.35px 9.99px 0 var(--white),
+    -0.35px 9.99px 0 var(--white),
+    -1.05px 9.95px 0 var(--white),
+    -1.74px 9.85px 0 var(--white),
+    -2.42px 9.7px 0 var(--white),
+    -3.09px 9.51px 0 var(--white),
+    -3.75px 9.27px 0 var(--white),
+    -4.38px 8.99px 0 var(--white),
+    -5px 8.66px 0 var(--white),
+    -5.59px 8.29px 0 var(--white),
+    -6.16px 7.88px 0 var(--white),
+    -6.69px 7.43px 0 var(--white),
+    -7.19px 6.95px 0 var(--white),
+    -7.66px 6.43px 0 var(--white),
+    -8.09px 5.88px 0 var(--white),
+    -8.48px 5.3px 0 var(--white),
+    -8.83px 4.69px 0 var(--white),
+    -9.14px 4.07px 0 var(--white),
+    -9.4px 3.42px 0 var(--white),
+    -9.61px 2.76px 0 var(--white),
+    -9.78px 2.08px 0 var(--white),
+    -9.9px 1.39px 0 var(--white),
+    -9.98px 0.7px 0 var(--white),
+    -10px 0px 0 var(--white),
+    -9.98px -0.7px 0 var(--white),
+    -9.9px -1.39px 0 var(--white),
+    -9.78px -2.08px 0 var(--white),
+    -9.61px -2.76px 0 var(--white),
+    -9.4px -3.42px 0 var(--white),
+    -9.14px -4.07px 0 var(--white),
+    -8.83px -4.69px 0 var(--white),
+    -8.48px -5.3px 0 var(--white),
+    -8.09px -5.88px 0 var(--white),
+    -7.66px -6.43px 0 var(--white),
+    -7.19px -6.95px 0 var(--white),
+    -6.69px -7.43px 0 var(--white),
+    -6.16px -7.88px 0 var(--white),
+    -5.59px -8.29px 0 var(--white),
+    -5px -8.66px 0 var(--white),
+    -4.38px -8.99px 0 var(--white),
+    -3.75px -9.27px 0 var(--white),
+    -3.09px -9.51px 0 var(--white),
+    -2.42px -9.7px 0 var(--white),
+    -1.74px -9.85px 0 var(--white),
+    -1.05px -9.95px 0 var(--white),
+    -0.35px -9.99px 0 var(--white),
+    0.35px -9.99px 0 var(--white),
+    1.05px -9.95px 0 var(--white),
+    1.74px -9.85px 0 var(--white),
+    2.42px -9.7px 0 var(--white),
+    3.09px -9.51px 0 var(--white),
+    3.75px -9.27px 0 var(--white),
+    4.38px -8.99px 0 var(--white),
+    5px -8.66px 0 var(--white),
+    5.59px -8.29px 0 var(--white),
+    6.16px -7.88px 0 var(--white),
+    6.69px -7.43px 0 var(--white),
+    7.19px -6.95px 0 var(--white),
+    7.66px -6.43px 0 var(--white),
+    8.09px -5.88px 0 var(--white),
+    8.48px -5.3px 0 var(--white),
+    8.83px -4.69px 0 var(--white),
+    9.14px -4.07px 0 var(--white),
+    9.4px -3.42px 0 var(--white),
+    9.61px -2.76px 0 var(--white),
+    9.78px -2.08px 0 var(--white),
+    9.9px -1.39px 0 var(--white),
+    9.98px -0.7px 0 var(--white);
+}
+
+@media (min-width: 1081px) {
+  .t-outline__svg {
+    display: block;
+    width: 100%;
+    height: 0.9em;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  /* line-height у .t-h2/.t-promo-1 — 0.9, тот же множитель здесь для
+     заголовков на 2 строки («Контекст и задача», «Арина Серова») */
+  .t-outline__svg--2 {
+    height: 1.8em;
+  }
+
+  .t-outline__svg text {
+    font: inherit;
+    /* letter-spacing: inherit ломается в Safari на SVG <text> — буквы
+       наезжают друг на друга (собственный баг WebKit с наследованием
+       letter-spacing внутри SVG). У .t-h2 и .t-promo-1 (все заголовки,
+       использующие .t-outline) одно и то же значение -0.04em, поэтому
+       прописываем его явным литералом вместо inherit. */
+    letter-spacing: -0.04em;
+    /* dominant-baseline: text-before-edge не везде поддерживается
+       одинаково (Safari отрисовывает его иначе/не всегда) — вместо
+       CSS-свойства для позиционирования верхнего края буквы
+       координаты y у каждого <text> заданы числом-константой
+       (алфавитная базовая линия — единственный режим, который
+       одинаково работает во всех браузерах без исключений). */
+  }
+
+  /* Раньше обводка и заливка были на одном <text> через paint-order:
+     stroke fill — в Safari это давало «рваные» чёрные буквы (похоже,
+     paint-order для SVG-текста там поддерживается не полностью).
+     Вместо CSS-свойства порядок теперь задаётся напрямую через DOM:
+     два отдельных <text> в одном месте — сперва обводка, потом заливка
+     поверх неё — это уже просто порядок отрисовки слоёв, а не
+     специальное свойство, так что зависеть там не от чего. */
+  .t-outline__stroke {
+    fill: none;
+    stroke: var(--white);
+    stroke-width: 20px;
+    stroke-linejoin: round;
+  }
+
+  .t-outline__fill {
+    fill: var(--black);
+    stroke: none;
+  }
+
+  .t-outline__fallback {
+    display: none;
+  }
+
+  /* «Контекст и задача» на десктопе в 2 строки (Figma), на мобилке
+     помещается в одну — см. .case-context-title-mobile ниже. */
+  .case-context-title-mobile {
+    display: none;
+  }
+}
+
+/* Тот же векторный SVG-контур, что и на десктопе выше (см. комментарий
+   там), теперь и на мобилке. В Figma у обводки стоит 8px, но там она
+   выровнена наружу (Outside) — весь стежок целиком снаружи буквы. У SVG
+   stroke-width всегда центрированный (половина уходит под заливку буквы,
+   не видна), поэтому чтобы СНАРУЖИ было видно те же 8px, как в Figma,
+   stroke-width должен быть вдвое больше — 16px. Единственное исключение —
+   «Лого и графические элементы» (самый длинный заголовок страницы): на
+   узких экранах он переносится словами непредсказуемо по ширине
+   конкретного телефона, а статичный SVG-текст перенос не умеет — для
+   него по-прежнему остаётся запасной вариант на text-shadow
+   (переопределяется точечно в cchb.css). */
+@media (max-width: 1080px) {
+  .t-outline__svg {
+    display: block;
+    width: 100%;
+    height: 0.9em;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .t-outline__svg--2 {
+    height: 1.8em;
+  }
+
+  .t-outline__svg text {
+    font: inherit;
+    letter-spacing: -0.04em;
+  }
+
+  .t-outline__stroke {
+    fill: none;
+    stroke: var(--white);
+    stroke-width: 16px;
+    stroke-linejoin: round;
+  }
+
+  .t-outline__fill {
+    fill: var(--black);
+    stroke: none;
+  }
+
+  .t-outline__fallback {
+    display: none;
+  }
+
+  /* На мобилке «Контекст и задача» помещается в одну строку — прячем
+     десктопный 2-строчный вариант и показываем свой одностроч (см.
+     .case-context-title-mobile выше, где вместо этого прячется он). */
+  .case-context-title-desktop {
+    display: none;
+  }
 }
 
 /* ---------- Каркас страницы ---------- */

@@ -2,22 +2,30 @@ document.addEventListener("DOMContentLoaded", () => {
   /* --- Мобильное меню: бургер открывает оверлей с оглавлением --- */
   const overlay = document.querySelector(".case-menu-overlay");
   const burger = document.querySelector(".case-burger");
-  const closeBtn = document.querySelector(".case-menu-close");
 
   if (overlay && burger) {
+    // Отдельной кнопки закрытия в макете нет — сам бургер переключается
+    // в крестик (см. .case-burger__icon-open/__icon-close в cchb.css) и
+    // повторный клик закрывает меню.
     const open = () => {
       overlay.classList.add("is-open");
+      burger.classList.add("is-open");
       burger.setAttribute("aria-expanded", "true");
+      burger.setAttribute("aria-label", "Закрыть меню");
       document.body.style.overflow = "hidden";
     };
     const close = () => {
       overlay.classList.remove("is-open");
+      burger.classList.remove("is-open");
       burger.setAttribute("aria-expanded", "false");
+      burger.setAttribute("aria-label", "Открыть меню");
       document.body.style.overflow = "";
     };
 
-    burger.addEventListener("click", open);
-    if (closeBtn) closeBtn.addEventListener("click", close);
+    burger.addEventListener("click", () => {
+      if (overlay.classList.contains("is-open")) close();
+      else open();
+    });
     // клик по пункту оглавления в меню — закрываем оверлей, скролл уже
     // отработает общий обработчик a[href^="#"] из script.js
     overlay.querySelectorAll(".case-menu-overlay__toc a").forEach((link) => {
