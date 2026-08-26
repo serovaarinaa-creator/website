@@ -33,10 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* --- «Следующий кейс» без своей страницы — та же заглушка, что и на
-     главной, вместо перехода на index.html#case-neurocamp. Существует
-     только на десктопе (.case-next лежит в .case-sidebar, скрытом на
-     мобилке), поэтому без медиа-запросов в JS. */
+  /* --- «Следующий кейс» — если у него уже есть страница (data-href, тот же
+     приём, что и у карточек на главной), просто переходим по ссылке;
+     иначе — та же заглушка «в процессе разработки», что и на главной.
+     Существует только на десктопе (.case-next лежит в .case-sidebar,
+     скрытом на мобилке), поэтому без медиа-запросов в JS. */
   const caseModal = document.querySelector("#case-modal");
   if (caseModal) {
     const openModal = () => {
@@ -55,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     document.querySelectorAll(".case-next").forEach((link) => {
       link.addEventListener("click", (e) => {
+        if (link.dataset.href) return;
         e.preventDefault();
         openModal();
       });
