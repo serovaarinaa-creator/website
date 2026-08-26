@@ -432,17 +432,23 @@
    в Figma), показываем нужный через медиа-запрос вместо <picture>: тут это
    ровно один такой случай на всю страницу, не стоит городить отдельный
    механизм переключения. */
+/* !important — эти два класса переключают видимость по брейкпоинту и
+   обязаны побеждать любой другой display на том же элементе. Без него
+   .case-only-desktop.case-row (см. "Галерея работ") на мобилке проигрывал
+   базовому ".case-row { display: flex }" (line 576) — та же специфичность
+   (один класс), но .case-row объявлен позже в файле, и по каскаду его
+   display: flex побеждал .case-only-desktop { display: none }. */
 .case-only-mobile {
-  display: none;
+  display: none !important;
 }
 
 @media (max-width: 1080px) {
   .case-only-desktop {
-    display: none;
+    display: none !important;
   }
 
   .case-only-mobile {
-    display: block;
+    display: block !important;
   }
 }
 
@@ -630,6 +636,19 @@
 .case-collage {
   position: relative;
   width: 100%;
+}
+
+/* Коллаж секции «Выставка»: на десктопе те же 60px до текста (45px базовый
+   .case-section gap + 15px добавкой, см. комментарий у разметки в
+   cchb.html), на мобилке — отдельные 35px по просьбе. */
+.case-exhibition-collage {
+  margin-top: 15px;
+}
+
+@media (max-width: 1080px) {
+  .case-exhibition-collage {
+    margin-top: -10px;
+  }
 }
 
 .case-collage > * {
@@ -1213,10 +1232,16 @@
     aspect-ratio: 372 / 234 !important;
   }
 
-  .case-team__row {
-    flex-direction: column;
-    gap: 24px;
+  /* Видео «3D-маппинг» 1 (ЦЧБ-3d mapping 1): в отличие от «Сайта», рамка
+     тут в Figma почти той же пропорции, что и десктопная (372.5×233.2 ≈
+     1.598 против 1072×672 = 1.595) — дело не в рамке, а в самом ролике:
+     часть цикла — общий план фотозоны с рамкой-подложкой в кадре, и на
+     object-fit: cover содержимое читается мелким. Увеличиваем сам
+     видеоэлемент — кроп по краям, а не рамку. */
+  .case-mapping-video-1 video {
+    transform: scale(1.35);
   }
+
 }
 
 /* ---------- Оверлей мобильного меню ----------
