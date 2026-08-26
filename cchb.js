@@ -33,6 +33,38 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* --- «Следующий кейс» без своей страницы — та же заглушка, что и на
+     главной, вместо перехода на index.html#case-neurocamp. Существует
+     только на десктопе (.case-next лежит в .case-sidebar, скрытом на
+     мобилке), поэтому без медиа-запросов в JS. */
+  const caseModal = document.querySelector("#case-modal");
+  if (caseModal) {
+    const openModal = () => {
+      caseModal.hidden = false;
+      document.body.style.overflow = "hidden";
+      // читаем layout, чтобы браузер зафиксировал стартовое состояние
+      // до включения перехода — иначе первое открытие проскакивает без анимации
+      void caseModal.offsetWidth;
+      caseModal.classList.add("is-open");
+    };
+    const closeModal = () => {
+      if (caseModal.hidden) return;
+      caseModal.classList.remove("is-open");
+      document.body.style.overflow = "";
+      caseModal.addEventListener("transitionend", () => { caseModal.hidden = true; }, { once: true });
+    };
+    document.querySelectorAll(".case-next").forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    });
+    caseModal.addEventListener("click", closeModal);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+  }
+
   /* --- Подсветка текущего раздела в оглавлении (сайдбар + мобильное меню) ---
      IntersectionObserver вместо scroll-обработчика — тот же приём, что уже
      используется для дизайн-ленты и лайтбокса в script.js: дешевле для
