@@ -74,8 +74,14 @@
   color: var(--white);
 }
 
+/* 212px, а не 81px, как в cchb.css — там же нижний край карточки
+   «Следующий кейс» подгонялся под нижний край заглавного видео при
+   9-пунктовом оглавлении; у Neuro Camp оно короче (5 пунктов), поэтому
+   тот же фиксированный отступ оставлял карточку заметно выше видео —
+   добавка пересчитана под фактическую высоту здешнего .case-toc
+   (проверено через getBoundingClientRect на живой странице). */
 .case-sidebar__bottom {
-  margin-top: 81px;
+  margin-top: 212px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -336,6 +342,17 @@
    под мобилку, cover уже даёт .case-media img выше через общий мобильный
    height:100% (см. ниже). */
 
+/* «Монохромное решение...» — в Figma этот абзац лежит не в стандартной
+   правой колонке .case-section__text (флаг 547px + текст справа), а
+   слева, от края, шириной ~524px, сразу под картинкой neurocamp-3.
+   gap:24px уже даёт .case-section--tight между соседними flex-детьми
+   секции — margin-top тут добавка ПОВЕРХ него (в Figma 48px между
+   картинкой и текстом на десктопе, 35px на мобилке). */
+.case-neurocamp-mono-text {
+  max-width: 524px;
+  margin-top: 24px;
+}
+
 /* Графические элементы (neurocamp-3): та же история — мобильный кроп в
    Figma заметно уже десктопного (372.64×184 ≈ 2.026, а не десктопные
    1067.19×376.12 ≈ 2.837). */
@@ -566,6 +583,11 @@
   .case-neurocamp-graphics-3 img {
     height: 100%;
     object-fit: cover;
+  }
+
+  .case-neurocamp-mono-text {
+    max-width: none;
+    margin-top: 11px;
   }
 
   .case-team__row {
