@@ -927,9 +927,15 @@
   }
 
   /* Headline 2 Mobile из Ui-kit re: — 21px вместо десктопных 28px
-     (letter-spacing в em, поэтому масштабируется сам, менять не нужно). */
+     (letter-spacing в em, поэтому масштабируется сам, менять не нужно).
+     .case-hero__title (заголовок в самом верху кейса) и заголовок в
+     .case-yandex-results-row__text («Результаты ивента Яндекс Дача») не
+     несут класс .case-section__title (у них другая, не двухколоночная
+     вёрстка), поэтому перечислены отдельно. */
   .case-section__title,
-  .case-team__title {
+  .case-team__title,
+  .case-hero__title,
+  .case-yandex-results-row__text h2 {
     font-size: 21px;
   }
 
