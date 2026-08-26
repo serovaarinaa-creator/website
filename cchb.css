@@ -610,6 +610,10 @@
   gap: 24px;
 }
 
+.case-yandex-results-title {
+  margin-bottom: 12px;
+}
+
 @media (min-width: 1081px) {
   .case-yandex-results-row {
     flex-direction: row;
@@ -934,7 +938,7 @@
 
   .case-section__head {
     flex-direction: column;
-    gap: 15px;
+    gap: 28px;
     padding: 0;
   }
 
@@ -956,6 +960,10 @@
   .case-hero__title,
   .case-yandex-results-row__text h2 {
     font-size: 21px;
+  }
+
+  .case-yandex-results-title {
+    margin-bottom: 28px;
   }
 
   .case-team__title {
