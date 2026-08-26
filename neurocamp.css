@@ -13,25 +13,30 @@
   color: var(--white);
 }
 
+/* padding-top: 42px, а не var(--topbar-h) (66px) — как и на главной, где
+   .layout { padding: 54px ... } не завязан на --topbar-h (переменная тут
+   не про реальный отступ шапки, а высота другого элемента, см. styles.css).
+   42px + 12px .case-content padding-top ниже = 54px до первого кадра,
+   ровно как на главной от вкладок браузера до первой карточки кейса. */
 .case-page {
   display: grid;
   grid-template-columns: var(--sidebar-w) minmax(0, var(--content-w));
   gap: var(--gutter);
   max-width: calc(var(--sidebar-w) + var(--content-w) + var(--gutter) * 2);
   margin: 0 auto;
-  padding-top: var(--topbar-h);
+  padding-top: 42px;
 }
 
 /* ---------- Сайдбар: назад, оглавление, домой, следующий кейс ---------- */
 
 .case-sidebar {
   position: sticky;
-  top: var(--topbar-h);
+  top: 42px;
   align-self: start;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  height: calc(100vh - var(--topbar-h) - 24px);
+  height: calc(100vh - 42px - 24px);
   padding: 12px 0 24px;
 }
 
