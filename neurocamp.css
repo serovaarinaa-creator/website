@@ -240,12 +240,17 @@
   background: #d9d9d9;
 }
 
+/* inset: -1px + чуть больше 100% — защита от подпиксельного зазора у
+   скруглённого края (на некоторых мобильных браузерах точное inset:0
+   изредка оставляет тонкую щель по краю, сквозь которую проглядывает
+   фон .case-hero__media). Родительский overflow: hidden всё равно
+   обрезает это бионство точно по скруглению. */
 .case-hero__media video,
 .case-hero__media img {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  inset: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
   object-fit: cover;
 }
 
