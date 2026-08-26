@@ -499,6 +499,49 @@ a {
   }
 }
 
+/* Тот же векторный SVG-контур, что и на десктопе выше (см. комментарий
+   там), теперь и на мобилке — с более тонкой обводкой (8px вместо
+   десктопных 20px), она отдельно и явно запрошена. Единственное
+   исключение — «Лого и графические элементы» (самый длинный заголовок
+   страницы): на узких экранах он переносится словами непредсказуемо
+   по ширине конкретного телефона, а статичный SVG-текст перенос не
+   умеет — для него по-прежнему остаётся запасной вариант на
+   text-shadow (переопределяется точечно в cchb.css). */
+@media (max-width: 1080px) {
+  .t-outline__svg {
+    display: block;
+    width: 100%;
+    height: 0.9em;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .t-outline__svg--2 {
+    height: 1.8em;
+  }
+
+  .t-outline__svg text {
+    font: inherit;
+    letter-spacing: -0.04em;
+  }
+
+  .t-outline__stroke {
+    fill: none;
+    stroke: var(--white);
+    stroke-width: 8px;
+    stroke-linejoin: round;
+  }
+
+  .t-outline__fill {
+    fill: var(--black);
+    stroke: none;
+  }
+
+  .t-outline__fallback {
+    display: none;
+  }
+}
+
 /* ---------- Каркас страницы ---------- */
 
 .layout {
