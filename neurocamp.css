@@ -784,17 +784,23 @@
   height: 56px;
 }
 
+/* 78×50, а не буквально 85×50 — при 85px «Behance» с нахлёстом либо
+   вылезает за край панели, либо нахлёст залезает поверх текста
+   соседней кнопки. 78px — минимум, при котором втроём (с нахлёстом)
+   умещаются в колонку, не обрезая текст и не вылезая за панель. */
 .case-menu-overlay__about .pill {
-  flex: 0 0 auto;
+  flex: 0 0 78px;
+  width: 78px;
+  height: 50px;
   font-size: 14px;
-  padding: 5px 7px;
+  padding: 0 3px;
   /* 5px — как у обычных пилюль на десктопе (см. .pill в styles.css),
      не уменьшенная мобильная обводка. */
   border-width: 5px;
 }
 
 .case-menu-overlay__about .pill + .pill {
-  margin-left: -8px;
+  margin-left: -9px;
 }
 
 .case-menu-overlay__bio {
