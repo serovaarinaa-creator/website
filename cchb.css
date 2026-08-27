@@ -1421,9 +1421,14 @@
 
 .case-menu-overlay__profile {
   display: flex;
-  /* По нижнему краю — колонка био+кнопки в Figma заканчивается вровень
-     с низом имени, а не вровень с верхом фото. */
-  align-items: flex-end;
+  /* stretch (а не только flex-end на самом .profile) — колонки вместе
+     растягиваются до высоты более высокой из них, а justify-content:
+     flex-end на .case-menu-overlay__about ниже прижимает био+кнопки к
+     низу этой общей высоты. Раньше только align-items: flex-end на
+     родителе не всегда давало видимое совпадение низа — если имя
+     переносится в 2 строки, low-край текст-колонки не дотягивался до
+     низа имени вплотную. */
+  align-items: stretch;
   gap: 14px;
   margin-top: 18px;
 }
@@ -1464,6 +1469,8 @@
 .case-menu-overlay__about {
   display: flex;
   flex-direction: column;
+  /* прижимает био+кнопки к низу — см. .case-menu-overlay__profile выше */
+  justify-content: flex-end;
   gap: 15px;
   flex: 1;
   min-width: 0;
@@ -1486,7 +1493,7 @@
      тоже ради места в узкой колонке меню. */
   flex: 0 0 auto;
   font-size: 14px;
-  padding: 5px 8px;
+  padding: 5px 14px;
   border-width: 2px;
 }
 
