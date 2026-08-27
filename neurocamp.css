@@ -704,11 +704,15 @@
   font-size: 14px;
 }
 
+/* margin-top увеличен против cchb.css (16px) — у Neuro Camp оглавление
+   короче (5 пунктов вместо 9 у ЦЧБ), и с базовым отступом меню выглядело
+   заметно короче/сжатее. Растягиваем свободным местом сверху и снизу
+   списка, а не трогая сам список. */
 .case-menu-overlay__toc {
   display: flex;
   flex-direction: column;
   gap: 7px;
-  margin-top: 16px;
+  margin-top: 40px;
 }
 
 .case-menu-overlay__toc a {
@@ -732,7 +736,8 @@
      общей высоты (см. подробный комментарий в cchb.css). */
   align-items: stretch;
   gap: 14px;
-  margin-top: 18px;
+  /* см. комментарий у .case-menu-overlay__toc выше — тот же приём */
+  margin-top: 60px;
 }
 
 .case-menu-overlay__person {
@@ -775,19 +780,24 @@
   max-width: 195px;
 }
 
+/* justify-content: space-between — как в Figma, кнопки растянуты на всю
+   ширину колонки (обрыв справа заканчивается вровень с пилюлями
+   оглавления сверху), а не сгрудены слева с пустым местом справа. */
 .case-menu-overlay__about .pill-row {
   height: 56px;
+  justify-content: space-between;
 }
 
 .case-menu-overlay__about .pill {
   flex: 0 0 auto;
   font-size: 14px;
-  padding: 5px 14px;
-  border-width: 2px;
-}
-
-.case-menu-overlay__about .pill + .pill {
-  margin-left: -8px;
+  /* горизонтальный паддинг совсем небольшой — при border-width: 5px
+     (см. ниже) на «CV»+«LinkedIn»+«Behance» в узкой колонке меню места
+     впритык; больше 4px здесь уже не помещается без переноса/наезда. */
+  padding: 5px 4px;
+  /* 5px — как у обычных пилюль на десктопе (см. .pill в styles.css),
+     не уменьшенная мобильная обводка. */
+  border-width: 5px;
 }
 
 .case-menu-overlay__bio {
