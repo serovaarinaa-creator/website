@@ -725,7 +725,11 @@
 
 .case-menu-overlay__profile {
   display: flex;
-  align-items: flex-end;
+  /* stretch (а не только flex-end) — колонки растягиваются до высоты
+     более высокой из них, а justify-content: flex-end на
+     .case-menu-overlay__about ниже прижимает био+кнопки к низу этой
+     общей высоты (см. подробный комментарий в cchb.css). */
+  align-items: stretch;
   gap: 14px;
   margin-top: 18px;
 }
@@ -760,6 +764,7 @@
 .case-menu-overlay__about {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   gap: 15px;
   flex: 1;
   min-width: 0;
@@ -776,7 +781,7 @@
 .case-menu-overlay__about .pill {
   flex: 0 0 auto;
   font-size: 14px;
-  padding: 5px 8px;
+  padding: 5px 14px;
   border-width: 2px;
 }
 
