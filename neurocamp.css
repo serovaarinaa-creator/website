@@ -782,31 +782,14 @@
   max-width: 195px;
 }
 
-.case-menu-overlay__about .pill-row {
-  height: 56px;
-}
-
-/* 85×50, паддинг 5px 15px, обводка 5px — точно по Figma (node
-   500:16577, кнопки CV/LinkedIn/Behance). Шрифт (12px Nunito
-   ExtraBold) не переопределяю — верно наследуется от мобильного
-   .t-body-2 в styles.css. Паддинг и обводку приходится задавать явно,
-   несмотря на то что у базового .pill они те же значения: на этой
-   ширине их перебивает другое правило .pill из мобильного блока
-   главной страницы (styles.css, .sidebar__about), которое не должно
-   было доставать досюда, но по селектору общее для всех .pill. */
-.case-menu-overlay__about .pill {
-  flex: 0 0 85px;
-  width: 85px;
-  height: 50px;
-  padding: 5px 15px;
-  border-width: 5px;
-}
-
-/* -16px — точно по Figma: соседние кнопки стоят с шагом 69px при
-   ширине 85px (69, 138 — x LinkedIn и Behance), 85−69=16. */
-.case-menu-overlay__about .pill + .pill {
-  margin-left: -16px;
-}
+/* Кнопки CV/LinkedIn/Behance тут больше не переопределяю вообще —
+   пусть работает тот же .pill/.pill-row/.pill+.pill, что и в шапке
+   главной страницы на мобилке (styles.css, @media max-width: 720px:
+   padding 5px 8px, border-width 4px, margin-left -12px, height 60px,
+   flex: 1 0 0 — те же кнопки, что на главной, просто в чуть более
+   узкой колонке меню). Раньше здесь стояли свои фиксированные 85×50
+   под другую Figma-компоновку — визуально не совпадало с тем, что
+   везде на сайте. */
 
 .case-menu-overlay__bio {
   font-size: 14px;
