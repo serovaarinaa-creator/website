@@ -1,0 +1,808 @@
+/* ============================================================
+   Страница кейса «Neuro Camp»
+   Токены и общие компоненты — из styles.css (топбар, чипы, футер,
+   шрифты). Здесь — тот же каркас страницы кейса, что и в cchb.css
+   (сайдбар-оглавление, паттерн секции, мобильное меню-бургер), плюс
+   несколько точечных подгонов конкретно под контент этого кейса.
+   ============================================================ */
+
+/* ---------- Каркас страницы кейса ---------- */
+
+.case-page-body {
+  background: #000;
+  color: var(--white);
+}
+
+/* padding-top: 42px, а не var(--topbar-h) (66px) — как и на главной, где
+   .layout { padding: 54px ... } не завязан на --topbar-h (переменная тут
+   не про реальный отступ шапки, а высота другого элемента, см. styles.css).
+   42px + 12px .case-content padding-top ниже = 54px до первого кадра,
+   ровно как на главной от вкладок браузера до первой карточки кейса. */
+.case-page {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, var(--content-w));
+  gap: var(--gutter);
+  max-width: calc(var(--sidebar-w) + var(--content-w) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding-top: 42px;
+}
+
+/* ---------- Сайдбар: назад, оглавление, домой, следующий кейс ---------- */
+
+.case-sidebar {
+  position: sticky;
+  top: 42px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: calc(100vh - 42px - 24px);
+  padding: 12px 0 24px;
+}
+
+.case-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  border-radius: var(--radius-absolute);
+  background: var(--white);
+  color: var(--black);
+  width: fit-content;
+  transition: background 0.2s ease;
+}
+
+.case-back:hover {
+  background: var(--pink-200);
+}
+
+.case-toc {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 16px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.case-toc::-webkit-scrollbar {
+  display: none;
+}
+
+.case-toc a {
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s ease;
+}
+
+.case-toc a.is-active,
+.case-toc a:hover {
+  color: var(--white);
+}
+
+/* 212px, а не 81px, как в cchb.css — там же нижний край карточки
+   «Следующий кейс» подгонялся под нижний край заглавного видео при
+   9-пунктовом оглавлении; у Neuro Camp оно короче (5 пунктов), поэтому
+   тот же фиксированный отступ оставлял карточку заметно выше видео —
+   добавка пересчитана под фактическую высоту здешнего .case-toc
+   (проверено через getBoundingClientRect на живой странице). */
+.case-sidebar__bottom {
+  margin-top: 212px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.case-home {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 30px;
+  border-radius: var(--radius-absolute);
+  background: var(--white);
+  transition: background 0.2s ease;
+}
+
+.case-home:hover {
+  background: var(--pink-200);
+}
+
+.case-next {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 12px 12px 21px;
+  border-radius: var(--radius-20);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: var(--shadow-container);
+  transition: background 0.2s ease;
+}
+
+.case-next:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.case-next__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.case-next__logos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.case-next__logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.case-next__arrow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.case-next__arrow-default,
+.case-next__arrow-hover {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  transition: opacity 0.3s ease;
+}
+
+.case-next__arrow-default {
+  width: 10px;
+  height: 10px;
+  opacity: 1;
+}
+
+.case-next__arrow-hover {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .case-next:hover .case-next__arrow-default {
+    opacity: 0;
+  }
+
+  .case-next:hover .case-next__arrow-hover {
+    opacity: 1;
+  }
+}
+
+.case-next__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.case-next__label {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ---------- Топ-бар кейса: RU справа, как на главной ---------- */
+
+.case-lang {
+  position: fixed;
+  top: 12px;
+  right: var(--gutter);
+  z-index: 20;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 13px;
+  background: #000;
+  border: none;
+  border-radius: var(--radius-absolute);
+  appearance: none;
+  -webkit-appearance: none;
+  color: var(--white);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.case-lang:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+/* ---------- Контент кейса ---------- */
+
+.case-content {
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+  padding-top: 12px;
+  padding-bottom: 96px;
+}
+
+.case-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.case-hero__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1072 / 602.4;
+  border-radius: var(--radius-24);
+  overflow: hidden;
+  background: #d9d9d9;
+}
+
+/* scale(1.03) поверх object-fit: cover — защита от зазора у скруглённого
+   края (на реальном iPhone справа была видна светлая полоса фона
+   .case-hero__media; 1px через inset/calc не хватило, video, судя по
+   всему, там всё же не дотягивает до края на пару пикселей больше).
+   Родительский overflow: hidden обрезает лишнее по скруглению. */
+.case-hero__media video,
+.case-hero__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.03);
+}
+
+.case-hero__text {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.case-hero__label {
+  opacity: 0.5;
+}
+
+.case-hero__row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.case-hero__title {
+  max-width: 601px;
+  color: #ededf4;
+}
+
+.case-hero__chips {
+  display: flex;
+  align-items: center;
+}
+
+.case-hero__chips .chip {
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(100px);
+  background: rgba(255, 221, 242, 0.01);
+  color: var(--white);
+  box-shadow: 0 0 0 4px var(--white);
+}
+
+/* ---------- Паттерн секции: заголовок слева + текст справа, медиа снизу --- */
+
+.case-section {
+  display: flex;
+  flex-direction: column;
+  gap: 45px;
+}
+
+.case-section__head {
+  display: flex;
+  align-items: flex-start;
+  padding: 0 8px;
+  flex-wrap: wrap;
+}
+
+.case-section__title,
+.case-section__head > span {
+  flex: 0 0 547px;
+  white-space: nowrap;
+}
+
+.case-section__text {
+  max-width: 503px;
+  flex: 1;
+  min-width: 260px;
+}
+
+.case-section--tight {
+  gap: 24px;
+}
+
+.case-media {
+  border-radius: var(--radius-24);
+  overflow: hidden;
+  background: #171717;
+}
+
+.case-media img,
+.case-media video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.case-media--fill {
+  position: relative;
+}
+
+.case-media--fill video,
+.case-media--fill img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Концепция (neurocamp-1): мобильный кроп в Figma заметно уже десктопного
+   (372.64×282 ≈ 1.322, а не десктопные 1068×632.63 ≈ 1.688) — своя рамка
+   под мобилку, cover уже даёт .case-media img выше через общий мобильный
+   height:100% (см. ниже). */
+
+/* «Монохромное решение...» — в Figma этот абзац лежит не в стандартной
+   правой колонке .case-section__text (флаг 547px + текст справа), а
+   слева, от края, шириной ~524px, сразу под картинкой neurocamp-3.
+   gap:24px уже даёт .case-section--tight между соседними flex-детьми
+   секции — margin-top тут добавка ПОВЕРХ него (в Figma 48px между
+   картинкой и текстом на десктопе, 35px на мобилке). */
+.case-neurocamp-mono-text {
+  max-width: 524px;
+  margin-top: 24px;
+}
+
+/* Видео «фотошоп»: в исходнике это запись экрана целиком (окно Photoshop
+   занимает ~71% кадра, вокруг — чёрные поля рабочего стола) — увеличиваем
+   само видео поверх object-fit: cover, чтобы поля обрезались overflow:
+   hidden родителя и в рамке было видно в основном содержимое окна. */
+.case-neurocamp-photoshop-video {
+  transform: scale(1.4);
+}
+
+/* Графические элементы (neurocamp-3): та же история — мобильный кроп в
+   Figma заметно уже десктопного (372.64×184 ≈ 2.026, а не десктопные
+   1067.19×376.12 ≈ 2.837). */
+
+/* !important — переключают видимость по брейкпоинту и обязаны побеждать
+   любой другой display на том же элементе (см. .case-media img/video
+   выше — оба десктоп/мобильный варианты banner-картинки 4 сидят в одном
+   .case-media, друг под другом в DOM). */
+.case-only-mobile {
+  display: none !important;
+}
+
+@media (max-width: 1080px) {
+  .case-only-desktop {
+    display: none !important;
+  }
+
+  .case-only-mobile {
+    display: block !important;
+  }
+}
+
+/* ---------- Финал: команда ---------- */
+
+.case-team {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.case-team__row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 1081px) {
+  .case-team {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .case-team__title {
+    flex: 0 0 639px;
+  }
+
+  .case-team__row {
+    flex: 1;
+  }
+}
+
+.case-team__role {
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 8px;
+}
+
+.case-team__names p {
+  margin: 0;
+}
+
+/* ---------- Мобильное меню-бургер ---------- */
+
+.case-burger {
+  display: none;
+}
+
+.case-topbar-mobile {
+  display: none;
+}
+
+/* Пара логотипов restore: x Щёлочь — Neuro Camp совместный кейс, поэтому,
+   в отличие от cchb (один логотип restore:), в шапке и в меню-оверлее два
+   лого через «х», как в карточке этого кейса на главной (.case__logos). */
+.case-topbar-mobile__logos {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.case-menu-overlay {
+  color: var(--black);
+}
+
+#case-modal {
+  color: var(--black);
+}
+
+.pill {
+  color: var(--black);
+}
+
+@media (max-width: 1080px) {
+  .case-page {
+    display: block;
+    max-width: 100%;
+    padding: 0 var(--gutter);
+  }
+
+  .case-sidebar,
+  .case-lang {
+    display: none;
+  }
+
+  .case-topbar-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: #000;
+    padding: 15px var(--gutter);
+  }
+
+  .case-topbar-mobile__brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+  }
+
+  .case-topbar-mobile__brand .t-body-2 {
+    font-size: 14px;
+  }
+
+  .case-topbar-mobile__logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  .case-burger {
+    position: fixed;
+    top: 15px;
+    right: var(--gutter);
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 30px;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .case-burger.is-open {
+    background: var(--pink-100);
+    border-radius: var(--radius-absolute);
+  }
+
+  .case-burger__icon-close {
+    display: none;
+  }
+
+  .case-burger.is-open .case-burger__icon-open {
+    display: none;
+  }
+
+  .case-burger.is-open .case-burger__icon-close {
+    display: block;
+  }
+
+  .case-content {
+    padding-top: 24px;
+    gap: 80px;
+  }
+
+  .case-hero__row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .case-hero__chips {
+    flex-wrap: wrap;
+  }
+
+  .case-section__head {
+    flex-direction: column;
+    gap: 28px;
+    padding: 0;
+  }
+
+  .case-section__title,
+  .case-section__head > span {
+    flex: 0 0 auto;
+  }
+
+  .case-section__title,
+  .case-team__title {
+    font-size: 21px;
+  }
+
+  .case-team__title {
+    margin-left: 15px;
+  }
+
+  .case-section__title {
+    white-space: normal;
+  }
+
+  .case-section__head > span {
+    display: none;
+  }
+
+  .case-section__text {
+    max-width: none;
+  }
+
+  .case-media,
+  .case-hero__media {
+    border-radius: 14px;
+  }
+
+  .case-neurocamp-concept-media {
+    aspect-ratio: 372.64 / 282 !important;
+  }
+
+  .case-neurocamp-graphics-3 {
+    aspect-ratio: 372.64 / 184 !important;
+  }
+
+  .case-neurocamp-concept-media img,
+  .case-neurocamp-graphics-3 img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .case-neurocamp-mono-text {
+    max-width: none;
+    margin-top: 11px;
+  }
+
+  .case-team__row {
+    gap: 15px;
+  }
+
+  .case-team__role,
+  .case-team__names p {
+    font-size: 12px;
+  }
+}
+
+/* ---------- Оверлей мобильного меню ---------- */
+
+.case-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.45);
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+}
+
+.case-menu-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease, visibility 0s linear 0s;
+}
+
+.case-menu-overlay__panel {
+  transform: translateY(10px);
+  transition: transform 0.25s ease;
+}
+
+.case-menu-overlay.is-open .case-menu-overlay__panel {
+  transform: translateY(0);
+}
+
+.case-menu-overlay__panel {
+  margin: 55px 15px 15px;
+  padding: 15px var(--gutter) 32px;
+  background: var(--pink-100);
+  border-radius: var(--radius-24);
+  box-shadow: var(--shadow-container);
+}
+
+.case-menu-overlay__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.case-menu-overlay__brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.case-menu-overlay__brand .t-body-2 {
+  font-size: 14px;
+}
+
+.case-menu-overlay__logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.case-menu-overlay__actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.case-menu-overlay__home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding: 0 15px;
+  border-radius: var(--radius-absolute);
+  background: var(--pink-100);
+  transition: background 0.2s ease;
+}
+
+.case-menu-overlay__home:hover {
+  background: var(--white);
+}
+
+.case-menu-overlay__actions .lang {
+  position: static;
+  height: 30px;
+  font-size: 14px;
+}
+
+/* margin-top увеличен против cchb.css (16px) — у Neuro Camp оглавление
+   короче (5 пунктов вместо 9 у ЦЧБ), и с базовым отступом меню выглядело
+   заметно короче/сжатее. Растягиваем свободным местом сверху и снизу
+   списка, а не трогая сам список. */
+.case-menu-overlay__toc {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 40px;
+}
+
+.case-menu-overlay__toc a {
+  font-size: 14px;
+  padding: 12px;
+  border-radius: var(--radius-absolute);
+  background: #ffc2e8;
+  transition: background 0.2s ease;
+}
+
+.case-menu-overlay__toc a.is-active,
+.case-menu-overlay__toc a:hover {
+  background: var(--white);
+}
+
+.case-menu-overlay__profile {
+  display: flex;
+  /* stretch (а не только flex-end) — колонки растягиваются до высоты
+     более высокой из них, а justify-content: flex-end на
+     .case-menu-overlay__about ниже прижимает био+кнопки к низу этой
+     общей высоты (см. подробный комментарий в cchb.css). */
+  align-items: stretch;
+  /* 9px — точно по Figma (node 500:16577: колонка фото кончается на
+     x=130.4, колонка био+кнопок начинается на x=139). */
+  gap: 9px;
+  /* см. комментарий у .case-menu-overlay__toc выше — тот же приём */
+  margin-top: 60px;
+}
+
+.case-menu-overlay__person {
+  flex-shrink: 0;
+}
+
+.case-menu-overlay__avatar {
+  position: relative;
+  width: 111px;
+  height: 111px;
+  border-radius: var(--radius-absolute);
+  overflow: hidden;
+}
+
+.case-menu-overlay__avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.case-menu-overlay__name {
+  font: 800 21px/0.95 var(--font-display);
+  letter-spacing: -0.04em;
+  width: 111px;
+  margin: -22px 0 0;
+  text-align: left;
+}
+
+.case-menu-overlay__about {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 15px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Текстовый блок и кнопки формально начинаются с одного и того же
+   левого края колонки, но у кнопок он скруглённый (radius: absolute) —
+   визуально их край отступает вправо от прямого левого края текста,
+   и текст выглядит съехавшим левее кнопок. Сдвигаем именно текст на
+   небольшой отступ, не трогая сами кнопки. */
+.case-menu-overlay__about .t-body-1 {
+  max-width: 195px;
+  margin-left: 12px;
+}
+
+/* Кнопки CV/LinkedIn/Behance тут больше не переопределяю вообще —
+   пусть работает тот же .pill/.pill-row/.pill+.pill, что и в шапке
+   главной страницы на мобилке (styles.css, @media max-width: 720px:
+   padding 5px 8px, border-width 4px, margin-left -12px, height 60px,
+   flex: 1 0 0 — те же кнопки, что на главной, просто в чуть более
+   узкой колонке меню). Раньше здесь стояли свои фиксированные 85×50
+   под другую Figma-компоновку — визуально не совпадало с тем, что
+   везде на сайте. */
+
+.case-menu-overlay__bio {
+  font-size: 14px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .case-menu-overlay {
+    transition: opacity 0.2s ease;
+  }
+}

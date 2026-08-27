@@ -4,9 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const burger = document.querySelector(".case-burger");
 
   if (overlay && burger) {
-    // Отдельной кнопки закрытия в макете нет — сам бургер переключается
-    // в крестик (см. .case-burger__icon-open/__icon-close в cchb.css) и
-    // повторный клик закрывает меню.
     const open = () => {
       overlay.classList.add("is-open");
       burger.classList.add("is-open");
@@ -26,16 +23,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (overlay.classList.contains("is-open")) close();
       else open();
     });
-    // клик по пункту оглавления в меню — закрываем оверлей, скролл уже
-    // отработает общий обработчик a[href^="#"] из script.js
     overlay.querySelectorAll(".case-menu-overlay__toc a").forEach((link) => {
       link.addEventListener("click", close);
     });
   }
 
-  /* --- «Следующий кейс» — если у него уже есть страница (data-href, тот же
-     приём, что и у карточек на главной), просто переходим по ссылке;
-     иначе — та же заглушка «в процессе разработки», что и на главной.
+  /* --- «Следующий кейс» без своей страницы (Digital art) — та же заглушка,
+     что и на главной, вместо перехода на index.html#case-digitalart.
      Существует только на десктопе (.case-next лежит в .case-sidebar,
      скрытом на мобилке), поэтому без медиа-запросов в JS. */
   const caseModal = document.querySelector("#case-modal");
@@ -43,8 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const openModal = () => {
       caseModal.hidden = false;
       document.body.style.overflow = "hidden";
-      // читаем layout, чтобы браузер зафиксировал стартовое состояние
-      // до включения перехода — иначе первое открытие проскакивает без анимации
       void caseModal.offsetWidth;
       caseModal.classList.add("is-open");
     };
@@ -56,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     document.querySelectorAll(".case-next").forEach((link) => {
       link.addEventListener("click", (e) => {
-        if (link.dataset.href) return;
         e.preventDefault();
         openModal();
       });
@@ -67,10 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* --- Подсветка текущего раздела в оглавлении (сайдбар + мобильное меню) ---
-     IntersectionObserver вместо scroll-обработчика — тот же приём, что уже
-     используется для дизайн-ленты и лайтбокса в script.js: дешевле для
-     Safari на макбуке, не считает позиции на каждом кадре прокрутки. */
+  /* --- Подсветка текущего раздела в оглавлении (сайдбар + мобильное меню) --- */
   const sections = Array.from(document.querySelectorAll(".case-content [id]"));
   const tocLinks = Array.from(document.querySelectorAll(".case-toc a, .case-menu-overlay__toc a"));
   if (sections.length && tocLinks.length) {
@@ -87,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
           if (entry.isIntersecting) visible.add(entry.target.id);
           else visible.delete(entry.target.id);
         });
-        // берём самый верхний из ещё видимых разделов
         const top = sections.find((s) => visible.has(s.id));
         if (top) setActive(top.id);
       },
