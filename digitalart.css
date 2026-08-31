@@ -1519,7 +1519,199 @@
    кейс» кончалась заметно выше нижнего края заглавного видео (проверено
    через getBoundingClientRect на живой странице). */
 .case-sidebar__bottom {
-  margin-top: 134px;
+  margin-top: 124px;
+}
+
+/* ---------- Тема кейса: светло-серый фон, чёрная типографика ----------
+   В отличие от ЦЧБ/Neuro Camp (тёмная страница, белый текст, белая
+   обводка вокруг чёрных букв в заголовках) у Digital art в Figma светлый
+   серый фон (#CCCBD4) и вся типографика чёрная, а обводка у заголовков —
+   зеркальная: чёрный контур вокруг БЕЛЫХ букв (см. .t-outline ниже). */
+.case-page-body {
+  background: #cccbd4;
+  color: #111013;
+}
+
+.case-hero__label {
+  opacity: 0.75;
+}
+
+.case-hero__title {
+  color: #111013;
+}
+
+.case-hero__chips .chip {
+  color: var(--black);
+  box-shadow: 0 0 0 4px var(--black);
+}
+
+/* Оглавление: неактивные пункты — тёмно-серый (не белый 50%, как на
+   тёмных кейсах), активный/hover — чистый белый, он же читается ярче
+   серого фона страницы (Figma: узел 562:3904). */
+.case-toc a {
+  color: #5b5b5b;
+}
+
+.case-toc a.is-active,
+.case-toc a:hover {
+  color: var(--white);
+}
+
+.case-back {
+  border: 5px solid #d1d2d9;
+}
+
+/* Кнопка языка тут без чёрной плашки — просто чёрный текст на фоне
+   страницы (Figma: узел 562:3902, без заливки). */
+.case-lang {
+  background: transparent;
+  color: var(--black);
+}
+
+.case-lang:hover {
+  background: var(--white);
+}
+
+/* Следующий кейс: карточка остаётся тем же полупрозрачным белым стеклом,
+   но текст и стрелка — чёрные (не белые/розовые, как на тёмных кейсах;
+   Figma: узел 562:3916). Стрелку меняем на чёрный вариант ассета
+   (case-arrow-black.svg вместо case-arrow-white.svg) прямо в разметке. */
+.case-next {
+  color: var(--black);
+}
+
+.case-next__label {
+  color: var(--black);
+  opacity: 0.4;
+}
+
+.case-team__role {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* Обводка заголовков — зеркальная: чёрный контур снаружи, белая заливка
+   букв внутри (везде на тёмных кейсах наоборот — см. styles.css).
+   Scoped к .case-content — «Let's go!» в футере остаётся как на всех
+   остальных страницах (общий тёмный футер, не часть серой темы кейса). */
+.case-content .t-outline__stroke {
+  stroke: var(--black);
+}
+
+.case-content .t-outline__fill {
+  fill: var(--white);
+}
+
+.case-content .t-outline__fallback {
+  color: var(--white);
+}
+
+/* Тот же приём и то же кольцо копий, что и в styles.css у
+   .t-outline__fallback::before, просто цвет кольца — чёрный, а не белый
+   (запасной вариант обводки для мобилки/переносимых заголовков). */
+.case-content .t-outline__fallback::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  color: transparent;
+  pointer-events: none;
+  text-shadow:
+    10px 0px 0 var(--black),
+    9.98px 0.7px 0 var(--black),
+    9.9px 1.39px 0 var(--black),
+    9.78px 2.08px 0 var(--black),
+    9.61px 2.76px 0 var(--black),
+    9.4px 3.42px 0 var(--black),
+    9.14px 4.07px 0 var(--black),
+    8.83px 4.69px 0 var(--black),
+    8.48px 5.3px 0 var(--black),
+    8.09px 5.88px 0 var(--black),
+    7.66px 6.43px 0 var(--black),
+    7.19px 6.95px 0 var(--black),
+    6.69px 7.43px 0 var(--black),
+    6.16px 7.88px 0 var(--black),
+    5.59px 8.29px 0 var(--black),
+    5px 8.66px 0 var(--black),
+    4.38px 8.99px 0 var(--black),
+    3.75px 9.27px 0 var(--black),
+    3.09px 9.51px 0 var(--black),
+    2.42px 9.7px 0 var(--black),
+    1.74px 9.85px 0 var(--black),
+    1.05px 9.95px 0 var(--black),
+    0.35px 9.99px 0 var(--black),
+    -0.35px 9.99px 0 var(--black),
+    -1.05px 9.95px 0 var(--black),
+    -1.74px 9.85px 0 var(--black),
+    -2.42px 9.7px 0 var(--black),
+    -3.09px 9.51px 0 var(--black),
+    -3.75px 9.27px 0 var(--black),
+    -4.38px 8.99px 0 var(--black),
+    -5px 8.66px 0 var(--black),
+    -5.59px 8.29px 0 var(--black),
+    -6.16px 7.88px 0 var(--black),
+    -6.69px 7.43px 0 var(--black),
+    -7.19px 6.95px 0 var(--black),
+    -7.66px 6.43px 0 var(--black),
+    -8.09px 5.88px 0 var(--black),
+    -8.48px 5.3px 0 var(--black),
+    -8.83px 4.69px 0 var(--black),
+    -9.14px 4.07px 0 var(--black),
+    -9.4px 3.42px 0 var(--black),
+    -9.61px 2.76px 0 var(--black),
+    -9.78px 2.08px 0 var(--black),
+    -9.9px 1.39px 0 var(--black),
+    -9.98px 0.7px 0 var(--black),
+    -10px 0px 0 var(--black),
+    -9.98px -0.7px 0 var(--black),
+    -9.9px -1.39px 0 var(--black),
+    -9.78px -2.08px 0 var(--black),
+    -9.61px -2.76px 0 var(--black),
+    -9.4px -3.42px 0 var(--black),
+    -9.14px -4.07px 0 var(--black),
+    -8.83px -4.69px 0 var(--black),
+    -8.48px -5.3px 0 var(--black),
+    -8.09px -5.88px 0 var(--black),
+    -7.66px -6.43px 0 var(--black),
+    -7.19px -6.95px 0 var(--black),
+    -6.69px -7.43px 0 var(--black),
+    -6.16px -7.88px 0 var(--black),
+    -5.59px -8.29px 0 var(--black),
+    -5px -8.66px 0 var(--black),
+    -4.38px -8.99px 0 var(--black),
+    -3.75px -9.27px 0 var(--black),
+    -3.09px -9.51px 0 var(--black),
+    -2.42px -9.7px 0 var(--black),
+    -1.74px -9.85px 0 var(--black),
+    -1.05px -9.95px 0 var(--black),
+    -0.35px -9.99px 0 var(--black),
+    0.35px -9.99px 0 var(--black),
+    1.05px -9.95px 0 var(--black),
+    1.74px -9.85px 0 var(--black),
+    2.42px -9.7px 0 var(--black),
+    3.09px -9.51px 0 var(--black),
+    3.75px -9.27px 0 var(--black),
+    4.38px -8.99px 0 var(--black),
+    5px -8.66px 0 var(--black),
+    5.59px -8.29px 0 var(--black),
+    6.16px -7.88px 0 var(--black),
+    6.69px -7.43px 0 var(--black),
+    7.19px -6.95px 0 var(--black),
+    7.66px -6.43px 0 var(--black),
+    8.09px -5.88px 0 var(--black),
+    8.48px -5.3px 0 var(--black),
+    8.83px -4.69px 0 var(--black),
+    9.14px -4.07px 0 var(--black),
+    9.4px -3.42px 0 var(--black),
+    9.61px -2.76px 0 var(--black),
+    9.78px -2.08px 0 var(--black),
+    9.9px -1.39px 0 var(--black),
+    9.98px -0.7px 0 var(--black);
+}
+
+@media (max-width: 1080px) {
+  .case-topbar-mobile {
+    background: transparent;
+  }
 }
 
 /* Исследование: пара digitalart-4/5 в Figma НЕ поровну (501.6×653.75 и
