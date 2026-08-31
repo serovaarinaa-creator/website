@@ -36,6 +36,11 @@ assets/
     video/                cchb-cover.mp4, cchb-eye.mp4, cchb-flower.mp4,
                           cchb-logo-animation.mp4, cchb-site-scroll.mp4,
                           cchb-3d-mapping-1…2.mp4, cchb-final.mp4
+  digitalart/             картинки страницы кейса Digital art
+                          (digitalart.html) — digitalart-1…19.webp
+    video/                digitalart-cover.mp4, digitalart-graphics.mp4,
+                          digitalart-energy.mp4, digitalart-posts-animation.mp4,
+                          digitalart-site-scroll.mp4, digitalart-final.mp4
 ```
 
 ## Вес
