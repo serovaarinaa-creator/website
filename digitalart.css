@@ -734,17 +734,74 @@
   }
 }
 
-/* ---------- Мастер-классы: 3 в ряд ---------- */
+/* ---------- Мастер-классы: чёрная карточка YouTube-канала с 3 превью в ряд
+   (Figma: узел 562:4165 — карточка 344px высотой, шапка канала 24.42/32.66,
+   ряд превью с отступом 21.7px и зазором 18.991px, скругление 19.925≈20 у
+   карточки и 12 у самих превью). Шапку канала (аватар+название+статистика)
+   верстаем живым HTML — в Figma это готовый флэттенный скриншот без текстовых
+   слоёв, а получить сам растровый ассет не вышло (see PR/commit). ---------- */
+
+.case-masterclass-card {
+  background: #000;
+  border-radius: var(--radius-20);
+  padding: 33px 22px 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.case-masterclass-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.case-masterclass-avatar {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #ff2f78;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.case-masterclass-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--white);
+}
+
+.case-masterclass-info__title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.case-masterclass-info__handle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.case-masterclass-info__stats {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
 
 .case-masterclass {
   display: flex;
-  gap: 20px;
+  gap: 19px;
 }
 
 .case-masterclass > * {
   flex: 1;
   min-width: 0;
-  border-radius: var(--radius-24);
+  border-radius: 12px;
   overflow: hidden;
 }
 
@@ -1140,15 +1197,41 @@
   }
 
   /* Скругления везде на мобилке — 14px (в Figma «ЦЧБ - Mobile»), а не
-     десктопные 24px. */
+     десктопные 24px. У превью мастер-классов свой фиксированный радиус
+     12px (см. .case-masterclass > * выше) — он не участвует в этой
+     замене. */
   .case-media,
   .case-hero__media,
   .case-row > *,
   .case-collage > *,
-  .case-masterclass > *,
   .case-merch > *,
   .case-carousel > * {
     border-radius: 14px;
+  }
+
+  /* Чёрная карточка мастер-классов теснее на мобилке — меньше паддинги,
+     компактнее шапка канала. */
+  .case-masterclass-card {
+    padding: 20px 16px 24px;
+    gap: 16px;
+  }
+
+  .case-masterclass-avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 16px;
+  }
+
+  .case-masterclass-info__title {
+    font-size: 16px;
+  }
+
+  .case-masterclass-info__handle {
+    font-size: 12px;
+  }
+
+  .case-masterclass-info__stats {
+    font-size: 11px;
   }
 
   /* ---------- Ленты-карусели со свайпом (Figma: ряды картинок шире
