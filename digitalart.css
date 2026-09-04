@@ -401,7 +401,11 @@
 .case-media {
   border-radius: var(--radius-24);
   overflow: hidden;
-  background: #171717;
+  /* #171717 (тёмная заглушка с ЦЧБ/Neuro Camp) на светлой теме Digital art
+     просвечивала чёрным по краям/углам, если картинка или видео не
+     покрывают рамку на доли пикселя — берём светлый фон страницы, чтобы
+     такой зазор был незаметен. */
+  background: #cdcbd5;
   -webkit-clip-path: inset(0 round var(--radius-24));
   clip-path: inset(0 round var(--radius-24));
 }
