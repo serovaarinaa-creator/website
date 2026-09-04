@@ -282,7 +282,7 @@
   aspect-ratio: 1072 / 602.4;
   border-radius: var(--radius-24);
   overflow: hidden;
-  background: #d9d9d9;
+  background: #cdcbd5;
 }
 
 /* object-fit: contain, а не cover — исходное видео (2200px высотой)
@@ -1540,10 +1540,12 @@
 /* ---------- Тема кейса: светло-серый фон, чёрная типографика ----------
    В отличие от ЦЧБ/Neuro Camp (тёмная страница, белый текст, белая
    обводка вокруг чёрных букв в заголовках) у Digital art в Figma светлый
-   серый фон (#D1D2DA) и вся типографика чёрная, а обводка у заголовков —
-   зеркальная: чёрный контур вокруг БЕЛЫХ букв (см. .t-outline ниже). */
+   серый фон и вся типографика чёрная, а обводка у заголовков —
+   зеркальная: чёрный контур вокруг БЕЛЫХ букв (см. .t-outline ниже).
+   Цвет #CDCBD5 подобран пипеткой по факту, чтобы совпадать с серым
+   фоном, часто встречающимся внутри самих картинок/видео кейса. */
 .case-page-body {
-  background: #d1d2da;
+  background: #cdcbd5;
   color: #111013;
 }
 
@@ -1573,7 +1575,7 @@
 }
 
 .case-back {
-  border: 5px solid #d1d2d9;
+  border: 5px solid #cdcbd5;
 }
 
 /* Кнопка языка тут без чёрной плашки — просто чёрный текст на фоне
@@ -1768,7 +1770,7 @@
   max-width: 100%;
   padding: 27px 26px;
   border-radius: var(--radius-20);
-  background: #d2d1d9;
+  background: #cdcbd5;
   box-shadow: var(--shadow-container);
   display: flex;
   flex-direction: column;
