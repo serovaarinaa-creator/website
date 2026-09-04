@@ -1763,9 +1763,14 @@
     9.98px -0.7px 0 var(--black);
 }
 
+/* Раньше здесь стоял transparent — на скролле контент кейса (лица, видео)
+   просвечивал прямо сквозь sticky-шапку вместо подложки. Берём тот же
+   светло-серый фон, что и у всей страницы, — как на ЦЧБ/Neuro Camp шапка
+   в цвет их тёмной темы (см. .case-topbar-mobile{background:#000} в
+   базовых стилях выше), а не полностью прозрачная. */
 @media (max-width: 1080px) {
   .case-topbar-mobile {
-    background: transparent;
+    background: #cdcbd5;
   }
 }
 
