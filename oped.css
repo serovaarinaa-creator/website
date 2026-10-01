@@ -1844,6 +1844,58 @@
   margin-top: 157px;
 }
 
+/* Десктоп: Body 1 в макете OP:ED — 18px (Manrope SemiBold 18 / 1.5 /
+   −2%), а не базовые 14px из styles.css. Касается всего основного текста
+   страницы: подпись «Описание», тексты секций, подводящие тексты, текст
+   на панели «Лого», подпись мерча, кредиты и «Следующий кейс» в сайдбаре.
+   Мобильная версия остаётся на 12px (см. @media ниже). */
+@media (min-width: 1081px) {
+  .case-content .t-body-1,
+  .case-sidebar .t-body-1 {
+    font-size: 18px;
+  }
+
+  /* «Следующий кейс» в Figma (617:6735): отступы 12px и зазор 4px между
+     подписью и названием */
+  .case-next {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .case-next__bottom {
+    gap: 4px;
+  }
+
+  /* Кредиты: колонки с ролями начинаются на x≈477 от левого края, ширина
+     581, колонка «Фото» — 411 (Figma: 617:8003) */
+  .case-team {
+    padding: 0 10px;
+  }
+
+  .case-team__title {
+    flex: 0 0 467px;
+  }
+
+  .case-team__row {
+    flex: 0 0 581px;
+    flex-wrap: nowrap;
+  }
+
+  .case-team__row .case-team__names--photo {
+    max-width: 411px;
+  }
+
+  /* Мерч: высокая картинка 523×713 (Figma: 650:538) */
+  .case-oped-merch__b {
+    aspect-ratio: 523 / 713 !important;
+  }
+
+  .case-oped-merch__b img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
 /* Подводящий текст между блоками галереи: 18px (Figma: Manrope SemiBold
    18 / 1.5 / −2%), а не обычные 14px, как в шапках секций. */
 .case-lead {
@@ -2003,7 +2055,7 @@
 
 /* «Кредитсы»: имена в одну колонку с ограниченной шириной под фото */
 .case-team__names--photo {
-  max-width: 276px;
+  max-width: 242px;
 }
 
 @media (max-width: 1080px) {
