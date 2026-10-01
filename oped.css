@@ -2179,3 +2179,132 @@
     grid-row: 2;
   }
 }
+
+/* Две картинки подряд внутри галереи: 120px на десктопе, 40px на мобилке */
+.case-oped-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+}
+
+/* ============================================================
+   Мобильная версия по макету «OPED - Mobile» (Figma 650:541)
+   ============================================================ */
+@media (max-width: 1080px) {
+  /* Body 1 Mobile — 14px (Manrope SemiBold 14 / 1.5 / −2%) везде:
+     подпись «Описание», тексты секций, подводящие тексты, панель «Лого»,
+     подпись мерча, кредиты. Заголовки секций остаются 21px, чипы — 12px. */
+  .case-content .t-body-1,
+  .case-lead,
+  .case-team__role,
+  .case-team__names p {
+    font-size: 14px;
+  }
+
+  /* Шапка: между верхним краем плашки с лого и первым кадром 15px
+     (плашка 15–67, обложка с 82) — без добавочных 24px сверху */
+  .case-content {
+    padding-top: 0;
+  }
+
+  /* Плашка с лого и названием — с тенью Shadow - Container, как в Figma
+     (650:542): 0 12px 16px rgba(0,0,0,0.08) */
+  .case-topbar-mobile__brand {
+    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Бургер — белая пилюля 46×30 (Figma: 650:546) */
+  .case-burger:not(.is-open) {
+    background: #fff;
+    border-radius: var(--radius-absolute);
+  }
+
+  /* Обложка: 13px от картинки до текста, 10px подпись → заголовок,
+     20px заголовок → чипы (Figma: 650:551) */
+  .case-hero {
+    gap: 13px;
+  }
+
+  .case-hero__text {
+    gap: 10px;
+  }
+
+  .case-hero__row {
+    gap: 20px;
+  }
+
+  /* Панель «Лого»: подложка белая, а не тёмная — у oped-6-mobile
+     прозрачный низ, и через него просвечивал чёрный фон */
+  .case-oped-logo {
+    background: #fff;
+  }
+
+  /* Заголовок на панели: контейнер 39px (текст 19 + паддинг 10 вокруг),
+     16px до текста (Figma: 654:851) — верх букв заголовка на 30px от
+     верха панели, текст на 45px ниже */
+  .case-oped-logo__head {
+    gap: 16px;
+  }
+
+  .case-oped-logo__title {
+    padding: 10px;
+  }
+
+  /* Заголовки секций: от верха букв до первой строки текста 44px
+     (Figma: 650:585 — контейнер 39px + 15px) */
+  .case-section__head {
+    gap: 25px;
+  }
+
+  /* Пары картинок подряд внутри галереи — 40px, а не 80 */
+  .case-oped-stack {
+    gap: 40px;
+  }
+
+  /* Блок «Меню»: 8.5px от текста до видео (Figma: 654:865) */
+  .case-oped-item--menu {
+    gap: 8.5px;
+  }
+
+  /* Стаканчики и мерч: 9.5px между картинками (Figma: 654:860, 654:876) */
+  .case-oped-duo {
+    gap: 9.5px;
+  }
+
+  .case-oped-merch {
+    column-gap: 9.5px;
+  }
+
+  /* Кредиты: заголовок с отступом 8px, колонки в одну строку 17px друг от
+     друга, колонка «Фото» 225px (Figma: 650:682) */
+  .case-team {
+    gap: 25px;
+  }
+
+  .case-team__title {
+    margin-left: 8px;
+  }
+
+  .case-team__row {
+    gap: 17px;
+    flex-wrap: nowrap;
+    padding: 0 8px;
+  }
+
+  .case-team__row .case-team__names--photo {
+    max-width: 225px;
+  }
+
+  /* Био в оверлее меню: три строки по макету (Figma: 500:15499, ширина
+     207px, 14px) — без ограничения по ширине под 12px */
+  .case-menu-overlay__about .t-body-1 {
+    max-width: none;
+  }
+}
+
+@media (max-width: 1080px) {
+  /* Финал: 25px между обложкой и кредитами (Figma: 650:680) */
+  .case-section--tight {
+    gap: 25px;
+  }
+}
