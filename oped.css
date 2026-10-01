@@ -2075,23 +2075,47 @@
   /* Панель на всю ширину экрана, без скруглений (Figma: 653:782, 402×458),
      заголовок и текст друг под другом */
   .case-oped-logo {
-    aspect-ratio: 402 / 458;
+    aspect-ratio: auto;
+    min-height: calc(100vw * 458 / 402);
     margin-left: calc(-1 * var(--gutter));
     margin-right: calc(-1 * var(--gutter));
     border-radius: 0;
   }
 
-  .case-oped-logo__head {
-    top: 20px;
-    flex-direction: column;
-    gap: 16px;
-    padding: 0 var(--gutter);
+  /* Картинка прижата к низу и держит свои пропорции 402×458; если на узком
+     экране текст выше, чем в макете, панель растёт вверх, а добавка сверху
+     закрашена в цвет фона картинки (#f1f1ec) — текст не налезает на
+     образцы шрифта */
+  .case-oped-logo::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: calc(100vw * 458 / 402);
+    background: #f1f1ec;
   }
 
-  .case-oped-logo__title {
-    font-size: 21px;
-    white-space: normal;
+  .case-oped-logo picture {
+    inset: auto 0 0 0;
+    height: auto;
+    aspect-ratio: 402 / 458;
   }
+
+  .case-oped-logo picture img {
+    position: static;
+  }
+
+  /* 20px от верха панели; снизу — запас 80px + высота нижней части
+     картинки (128/402 ширины), чтобы текст не доходил до «CoFo Sans» */
+  .case-oped-logo__head {
+    position: relative;
+    top: auto;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px var(--gutter) calc(80px + 100vw * 128 / 402);
+  }
+
 
   .case-oped-logo__text {
     flex: none;
@@ -2248,6 +2272,22 @@
 
   .case-oped-logo__title {
     padding: 10px;
+    /* Не переносим и подгоняем кегль под ширину экрана (21px на 360px и
+       шире, на узких — пропорционально), чтобы заголовок всегда стоял в
+       одну строку и рисовался той же векторной обводкой, что и остальные
+       заголовки. Запасной вариант на text-shadow (кольцо из 100 копий)
+       на 21px «съедал» узкую букву «и» — её белая заливка тонула в чёрном
+       кольце. */
+    white-space: nowrap;
+    font-size: min(21px, 5.8vw);
+  }
+
+  #logo .t-outline__svg {
+    display: block;
+  }
+
+  #logo .t-outline__fallback {
+    display: none;
   }
 
   /* Заголовки секций: от верха букв до первой строки текста 44px
