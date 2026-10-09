@@ -1,5 +1,5 @@
 /* ============================================================
-   Страница кейса «OP:ED»
+   Страница кейса «Doggy Moggy»
    Токены и общие компоненты — из styles.css (топбар, чипы, футер,
    шрифты). Здесь тот же каркас страницы кейса, что и в cchb.css/
    neurocamp.css (сайдбар-оглавление, паттерн секции, мобильное
@@ -282,7 +282,7 @@
   aspect-ratio: 1072 / 602.4;
   border-radius: var(--radius-24);
   overflow: hidden;
-  background: #fff;
+  background: #ffddf2;
 }
 
 /* Новое видео-обложка (загружено 2026-09-04) уже само по себе почти в
@@ -440,7 +440,7 @@
      просвечивала чёрным по краям/углам, если картинка или видео не
      покрывают рамку на доли пикселя — берём светлый фон страницы, чтобы
      такой зазор был незаметен. */
-  background: #fff;
+  background: #ffddf2;
   -webkit-clip-path: inset(0 round var(--radius-24));
   clip-path: inset(0 round var(--radius-24));
 }
@@ -1254,9 +1254,9 @@
     /* Раньше доходил до сплошного #000 (унаследовано от тёмных
        ЦЧБ/Neuro Camp) — на светлой теме Digital art это была чёрная
        полоса поверх серого фона. Кончаем на полупрозрачном варианте
-       цвета страницы (белый), чтобы силуэт следующей картинки
+       цвета страницы (#ffddf2), чтобы силуэт следующей картинки
        угадывался, но сам намёк сливался с фоном, а не чернел. */
-    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.9));
+    background: linear-gradient(to right, rgba(255, 221, 242, 0), rgba(255, 221, 242, 0.9));
     pointer-events: none;
   }
 
@@ -1602,25 +1602,18 @@
   }
 }
 
+
 /* ============================================================
-   Специфика страницы «OP:ED»
+   Специфика страницы «Doggy Moggy»
    ============================================================ */
 
-/* 134px, а не 81px, как в базовом cchb.css (9-пунктовое оглавление) — тут
-   7 пунктов, оглавление короче, и с базовым отступом карточка «Следующий
-   кейс» кончалась заметно выше нижнего края заглавного видео (проверено
-   через getBoundingClientRect на живой странице). */
-.case-sidebar__bottom {
-  margin-top: 124px;
-}
-
-/* ---------- Тема кейса: светлый фон, чёрная типографика ----------
+/* ---------- Тема кейса: розовый фон #ffddf2, чёрная типографика ----------
    Та же светлая схема, что и у Digital art: фон страницы светлый, вся
    типографика чёрная, а обводка у заголовков — зеркальная (чёрный контур
    вокруг БЕЛЫХ букв, см. .t-outline ниже). Отличие — сам фон: в Figma
-   (OPED - Desktop/Mobile) это чистый белый, а не серый #cdcbd5. */
+   (Doggymoggy - Desktop/Mobile) это розовый #ffddf2. */
 .case-page-body {
-  background: #fff;
+  background: #ffddf2;
   color: #111013;
 }
 
@@ -1637,10 +1630,10 @@
   box-shadow: 0 0 0 4px var(--black);
 }
 
-/* Оглавление: неактивные пункты — светло-серые #c1c1c1, активный/hover —
-   чёрный (Figma: узел 617:6722). */
+/* Оглавление: неактивные пункты — белые, активный/hover — чёрный
+   (Figma: узел 716:12006). */
 .case-toc a {
-  color: #c1c1c1;
+  color: var(--white);
 }
 
 .case-toc a.is-active,
@@ -1654,7 +1647,7 @@
 .case-back {
   background: var(--black);
   color: var(--white);
-  border: 5px solid #fff;
+  border: 5px solid #ffddf2;
 }
 
 .case-back:hover {
@@ -1685,7 +1678,7 @@
 }
 
 .case-lang:hover {
-  background: #f0f0f0;
+  background: var(--white);
 }
 
 /* Следующий кейс: стеклянная плашка rgba(255,255,255,0.12) + Shadow -
@@ -1829,395 +1822,117 @@
    базовых стилях выше), а не полностью прозрачная. */
 @media (max-width: 1080px) {
   .case-topbar-mobile {
-    background: #fff;
+    background: #ffddf2;
   }
 }
 
+
 /* ============================================================
-   Компоненты контента OP:ED
+   Компоненты контента Doggy Moggy
    ============================================================ */
 
-/* 157px, а не 124px, как у Digital art: тут в оглавлении шесть пунктов
-   вместо семи (на 33px короче), чтобы блок «Домой + следующий кейс» остался
-   на том же месте, что и в Figma (узлы 617:6731 и 617:6735). */
+/* Как у OP:ED: в оглавлении шесть пунктов (последний «Лого и графические
+   элементы» в две строки), блок «Домой» — на тех же 157px от оглавления
+   (Figma: узел 716:12012). Карточки «Следующий кейс» у этого кейса нет —
+   он последний. */
 .case-sidebar__bottom {
   margin-top: 157px;
 }
 
-/* Десктоп: Body 1 в макете OP:ED — 18px (Manrope SemiBold 18 / 1.5 /
-   −2%), а не базовые 14px из styles.css. Касается всего основного текста
-   страницы: подпись «Описание», тексты секций, подводящие тексты, текст
-   на панели «Лого», подпись мерча, кредиты и «Следующий кейс» в сайдбаре.
-   Мобильная версия остаётся на 12px (см. @media ниже). */
+/* Десктоп: Body 1 — 18px (Manrope SemiBold 18 / 1.5 / −2%), как у OP:ED:
+   подпись «Описание», тексты секций, подводящие тексты и кредиты.
+   Мобильная версия — 14px, см. @media ниже. */
 @media (min-width: 1081px) {
   .case-content .t-body-1,
   .case-sidebar .t-body-1 {
     font-size: 18px;
   }
 
-  /* «Следующий кейс» в Figma (617:6735): отступы 12px и зазор 4px между
-     подписью и названием */
-  .case-next {
-    gap: 12px;
-    padding: 12px;
-  }
-
-  .case-next__bottom {
-    gap: 4px;
-  }
-
-  /* Кредиты: колонки с ролями начинаются на x≈477 от левого края, ширина
-     581, колонка «Фото» — 411 (Figma: 617:8003) */
+  /* «Кредитсы» слева, колонка с ролью прижата вправо (Figma: 716:12783) */
   .case-team {
     padding: 0 10px;
+    justify-content: space-between;
   }
 
   .case-team__title {
-    flex: 0 0 467px;
+    flex: none;
   }
 
   .case-team__row {
-    flex: 0 0 581px;
-    flex-wrap: nowrap;
-  }
-
-  .case-team__row .case-team__names--photo {
-    max-width: 411px;
-  }
-
-  /* Мерч: высокая картинка 523×713 (Figma: 650:538) */
-  .case-oped-merch__b {
-    aspect-ratio: 523 / 713 !important;
-  }
-
-  .case-oped-merch__b img {
-    height: 100%;
-    object-fit: cover;
+    flex: none;
   }
 }
 
-/* Подводящий текст между блоками галереи: 18px (Figma: Manrope SemiBold
-   18 / 1.5 / −2%), а не обычные 14px, как в шапках секций. */
 .case-lead {
   font-size: 18px;
   letter-spacing: -0.02em;
 }
 
-/* Панель «Лого и графические элементы»: картинка на всю плашку, заголовок
-   и текст лежат поверх неё (Figma: 650:509). Заголовок — той же
-   зеркальной обводкой, что и остальные (см. .t-outline выше). */
-.case-oped-logo-section {
-  display: flex;
-  flex-direction: column;
-  gap: 120px;
-}
-
-.case-oped-logo {
-  position: relative;
-  aspect-ratio: 1068 / 495;
-  border-radius: var(--radius-20);
-  overflow: hidden;
-  background: #171717;
-}
-
-.case-oped-logo picture,
-.case-oped-logo img {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.case-oped-logo__head {
-  position: absolute;
-  top: 30px;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 0 23px;
-}
-
-.case-oped-logo__title {
-  flex: none;
-  white-space: nowrap;
-}
-
-.case-oped-logo__text {
-  flex: 0 1 501px;
-  color: var(--black);
-}
-
 /* Блок «текст + медиа» внутри галереи: 25px между ними */
-.case-oped-item {
+.case-doggy-item {
   display: flex;
   flex-direction: column;
   gap: 25px;
 }
 
-/* Заголовочные тексты в Figma заданы своей шириной */
-.case-oped-item > .case-lead {
+.case-doggy-item > .case-lead {
   max-width: 636px;
 }
 
-/* Картинка слева, пояснение справа внизу (Figma: 617:6863) */
-.case-oped-item--side {
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.case-oped-item--side > .case-media {
-  flex: 0 0 69.27%;
-}
-
-.case-oped-item--side > .case-lead {
-  flex: 0 1 301px;
-  max-width: 301px;
-}
-
-/* Кафе: текст прижат к правой половине, под ним два стаканчика */
-.case-oped-item--cafe {
-  gap: 45px;
-}
-
-.case-oped-item--cafe > .case-lead {
+/* Текст у́же и прижат вправо (Figma: 716:12254, 716:12616) */
+.case-doggy-item--right > .case-lead {
   align-self: flex-end;
   max-width: 531px;
 }
 
-.case-oped-duo {
+/* Текст у́же, слева (Figma: 716:12524) */
+.case-doggy-item--mid > .case-lead {
+  max-width: 531px;
+}
+
+/* Картинка + пара картинок друг под другом: 20px (Figma: 716:12513) */
+.case-doggy-stack {
   display: flex;
-  gap: 22px;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.case-oped-duo > * {
-  flex: 1;
-  min-width: 0;
+/* Пара картинок: две колонки, зазор 20px (Figma: 716:12256) */
+.case-doggy-pair {
+  gap: 20px;
 }
 
-/* Пара oped-9/oped-10: 388 и 661 по ширине при одной высоте 598 */
-.case-oped-pair {
-  gap: 19px;
-}
-
-.case-oped-pair__a {
-  flex: 388 1 0;
-  aspect-ratio: 388 / 598.4;
-}
-
-.case-oped-pair__b {
-  flex: 661 1 0;
-  aspect-ratio: 661 / 598;
-}
-
-.case-oped-pair > * img {
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Мерч: слева картинка и подпись, справа высокая картинка */
-.case-oped-merch {
+/* Мерч: десктоп — пара 13/14 сверху, 15 на всю ширину ниже. В разметке
+   порядок как на мобилке (15, 13, 14), на десктопе 15 уезжает во вторую
+   строку (Figma: 716:12618) */
+.case-doggy-merch {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 28px;
-  row-gap: 40px;
-  align-items: start;
+  gap: 20px;
 }
 
-.case-oped-merch__a {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.case-oped-merch__text {
-  grid-column: 1;
+.case-doggy-merch__wide {
+  grid-column: 1 / -1;
   grid-row: 2;
-  color: #252525;
 }
 
-.case-oped-merch__b {
-  grid-column: 2;
-  grid-row: 1 / span 2;
-}
-
-/* Overscan-подстраховка для видео (тот же приём, что и у Digital art):
-   на скруглённых углах видео-слой иногда не дотягивает до края на пару
-   пикселей, родительский overflow: hidden обрезает лишнее. */
+/* Overscan-подстраховка для видео (тот же приём, что у Digital art и
+   OP:ED): на скруглённых углах видео-слой иногда не дотягивает до края */
 .case-media--fill video {
   transform: scale(1.03);
 }
 
-/* «Кредитсы»: имена в одну колонку с ограниченной шириной под фото */
-.case-team__names--photo {
-  max-width: 242px;
-}
-
 @media (max-width: 1080px) {
   .case-lead {
-    font-size: 12px;
+    font-size: 14px;
   }
-
-  /* Концепция: мобильный кадр 372×235 (Figma: 650:568), выше десктопного */
-  .case-oped-concept-video {
-    aspect-ratio: 372 / 235 !important;
-  }
-
-  .case-oped-logo-section {
-    gap: 80px;
-  }
-
-  /* Панель на всю ширину экрана, без скруглений (Figma: 653:782, 402×458),
-     заголовок и текст друг под другом */
-  .case-oped-logo {
-    aspect-ratio: auto;
-    min-height: calc(100vw * 458 / 402);
-    margin-left: calc(-1 * var(--gutter));
-    margin-right: calc(-1 * var(--gutter));
-    border-radius: 0;
-  }
-
-  /* Картинка прижата к низу и держит свои пропорции 402×458; если на узком
-     экране текст выше, чем в макете, панель растёт вверх, а добавка сверху
-     закрашена в цвет фона картинки (#f1f1ec) — текст не налезает на
-     образцы шрифта */
-  .case-oped-logo::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: calc(100vw * 458 / 402);
-    background: #f1f1ec;
-  }
-
-  .case-oped-logo picture {
-    inset: auto 0 0 0;
-    height: auto;
-    aspect-ratio: 402 / 458;
-  }
-
-  .case-oped-logo picture img {
-    position: static;
-  }
-
-  /* 20px от верха панели; снизу — запас 80px + высота нижней части
-     картинки (128/402 ширины), чтобы текст не доходил до «CoFo Sans» */
-  .case-oped-logo__head {
-    position: relative;
-    top: auto;
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px var(--gutter) calc(80px + 100vw * 128 / 402);
-  }
-
-
-  .case-oped-logo__text {
-    flex: none;
-    max-width: none;
-  }
-
-  .case-oped-item > .case-lead {
-    max-width: none;
-  }
-
-  .case-oped-item--side {
-    flex-direction: column-reverse;
-    align-items: stretch;
-  }
-
-  .case-oped-item--side > .case-media {
-    flex: none;
-  }
-
-  .case-oped-item--side > .case-lead {
-    flex: none;
-    max-width: none;
-  }
-
-  .case-oped-item--cafe {
-    gap: 25px;
-  }
-
-  .case-oped-item--cafe > .case-lead {
-    align-self: auto;
-    max-width: none;
-  }
-
-  .case-oped-duo {
-    gap: 7px;
-  }
-
-  .case-oped-duo > .case-media,
-  .case-oped-merch .case-media,
-  .case-oped-pair > * {
-    border-radius: 14px;
-  }
-
-  /* Пара 9/10 — свайп-лента: 285 и 377 при высоте 341 (Figma: 651:767);
-     первая карточка на светло-сером, картинка по центру 221 из 285 */
-  .case-oped-pair {
-    gap: 11px;
-  }
-
-  .case-oped-pair__a {
-    flex: 0 0 76.6%;
-    aspect-ratio: 285 / 341;
-    background: #f0f0f0;
-  }
-
-  .case-oped-pair__a img {
-    width: 77.7%;
-    margin: 0 auto;
-  }
-
-  .case-oped-pair__b {
-    flex: 0 0 101.3%;
-    aspect-ratio: 377.13 / 341.19;
-  }
-
-  /* Мерч: две картинки в ряд, подпись под ними (Figma: 654:906) */
-  .case-oped-merch {
-    column-gap: 9px;
-    row-gap: 25px;
-    align-items: center;
-  }
-
-  .case-oped-merch__a {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  .case-oped-merch__b {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  .case-oped-merch__text {
-    grid-column: 1 / span 2;
-    grid-row: 2;
-  }
-}
-
-/* Две картинки подряд внутри галереи: 120px на десктопе, 40px на мобилке */
-.case-oped-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 120px;
 }
 
 /* ============================================================
-   Мобильная версия по макету «OPED - Mobile» (Figma 650:541)
+   Мобильная версия по макету «Doggymoggy - Mobile» (Figma 716:12815)
    ============================================================ */
 @media (max-width: 1080px) {
-  /* Body 1 Mobile — 14px (Manrope SemiBold 14 / 1.5 / −2%) везде:
-     подпись «Описание», тексты секций, подводящие тексты, панель «Лого»,
-     подпись мерча, кредиты. Заголовки секций остаются 21px, чипы — 12px. */
+  /* Body 1 Mobile — 14px везде; заголовки секций 21px, чипы 12px */
   .case-content .t-body-1,
   .case-lead,
   .case-team__role,
@@ -2225,26 +1940,24 @@
     font-size: 14px;
   }
 
-  /* Шапка: между верхним краем плашки с лого и первым кадром 15px
-     (плашка 15–67, обложка с 82) — без добавочных 24px сверху */
+  /* Между плашкой с лого и первым кадром 15px (плашка 15–67, обложка с 82) */
   .case-content {
     padding-top: 0;
   }
 
-  /* Плашка с лого и названием — с тенью Shadow - Container, как в Figma
-     (650:542): 0 12px 16px rgba(0,0,0,0.08) */
+  /* Плашка с лого и названием — с тенью Shadow - Container (716:12816) */
   .case-topbar-mobile__brand {
     box-shadow: 0 12px 16px rgba(0, 0, 0, 0.08);
   }
 
-  /* Бургер — белая пилюля 46×30 (Figma: 650:546) */
+  /* Бургер — белая пилюля 46×30 (716:12820) */
   .case-burger:not(.is-open) {
     background: #fff;
     border-radius: var(--radius-absolute);
   }
 
   /* Обложка: 13px от картинки до текста, 10px подпись → заголовок,
-     20px заголовок → чипы (Figma: 650:551) */
+     20px заголовок → чипы (716:12827) */
   .case-hero {
     gap: 13px;
   }
@@ -2257,31 +1970,17 @@
     gap: 20px;
   }
 
-  /* Панель «Лого»: подложка белая, а не тёмная — у oped-6-mobile
-     прозрачный низ, и через него просвечивал чёрный фон */
-  .case-oped-logo {
-    background: #fff;
+  /* Заголовки секций: от верха букв до первой строки текста 44px */
+  .case-section__head {
+    gap: 25px;
   }
 
-  /* Заголовок на панели: контейнер 39px (текст 19 + паддинг 10 вокруг),
-     16px до текста (Figma: 654:851) — верх букв заголовка на 30px от
-     верха панели, текст на 45px ниже */
-  .case-oped-logo__head {
-    gap: 16px;
-  }
-
-  .case-oped-logo__title {
-    padding: 10px;
-    /* Не переносим и подгоняем кегль под ширину экрана (21px на 360px и
-       шире, на узких — пропорционально), чтобы заголовок всегда стоял в
-       одну строку и рисовался той же векторной обводкой, что и остальные
-       заголовки. Запасной вариант на text-shadow (кольцо из 100 копий)
-       на 21px «съедал» узкую букву «и» — её белая заливка тонула в чёрном
-       кольце. */
-    white-space: nowrap;
-    font-size: min(21px, 5.8vw);
-  }
-
+  /* «Лого и графические элементы» — самый длинный заголовок: в базовых
+     стилях для него на мобилке включён запасной вариант обводки на
+     text-shadow (кольцо из 100 копий), которое на 21px «съедает» узкую
+     букву «и» и даёт грязный контур. Рисуем его той же векторной обводкой,
+     что и остальные заголовки; в одну строку, на узких экранах кегль
+     уменьшается пропорционально (21px на ширине от ~360px). */
   #logo .t-outline__svg {
     display: block;
   }
@@ -2290,68 +1989,120 @@
     display: none;
   }
 
-  /* Заголовки секций: от верха букв до первой строки текста 44px
-     (Figma: 650:585 — контейнер 39px + 15px) */
-  .case-section__head {
-    gap: 25px;
+  #logo .case-section__title {
+    white-space: nowrap;
+    font-size: min(21px, 5.8vw);
   }
 
-  /* Пары картинок подряд внутри галереи — 40px, а не 80 */
-  .case-oped-stack {
-    gap: 40px;
+  /* Видео-концепция и финальное видео: мобильные кадры 372×235 и 372×216
+     (716:12871, 716:12982) */
+  .case-doggy-concept-video {
+    aspect-ratio: 372 / 235 !important;
   }
 
-  /* Блок «Меню»: 8.5px от текста до видео (Figma: 654:865) */
-  .case-oped-item--menu {
-    gap: 8.5px;
+  .case-doggy-final-video {
+    aspect-ratio: 372 / 216 !important;
   }
 
-  /* Стаканчики и мерч: 9.5px между картинками (Figma: 654:860, 654:876) */
-  .case-oped-duo {
-    gap: 9.5px;
+  /* Картинки из 2–3 штук — свайп-лента: карточки 285×341, зазор 11px
+     (716:12883, 716:12962) */
+  .case-doggy-pair {
+    gap: 11px;
   }
 
-  .case-oped-merch {
-    column-gap: 9.5px;
+  .case-doggy-pair > * {
+    flex: 0 0 76.6%;
+    aspect-ratio: 285 / 341 !important;
+    border-radius: 14px;
   }
 
-  /* Кредиты: заголовок с отступом 8px, колонки в одну строку 17px друг от
-     друга, колонка «Фото» 225px (Figma: 650:682) */
+  .case-doggy-pair > * img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Пара «Носители» + 8: между картинкой и лентой обычные 80px, как между
+     всеми блоками, а не 20px, как на десктопе */
+  .case-doggy-stack {
+    gap: 80px;
+  }
+
+  /* Мерч: лента 15 / 13 / 14 — первая карточка шире (332px), остальные 285
+     (716:12976); 15 кадрируется со смещением вправо (left −32% при
+     ширине 154%) */
+  .case-doggy-merch {
+    display: flex;
+    gap: 11px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+
+  .case-doggy-merch::-webkit-scrollbar {
+    display: none;
+  }
+
+  .case-doggy-merch > * {
+    flex: 0 0 76.6%;
+    aspect-ratio: 285 / 341 !important;
+    border-radius: 14px;
+    scroll-snap-align: start;
+  }
+
+  .case-doggy-merch > .case-doggy-merch__wide {
+    flex-basis: 89.2%;
+    aspect-ratio: 332 / 341 !important;
+  }
+
+  .case-doggy-merch > * img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .case-doggy-merch__wide img {
+    object-position: 59.5% 50%;
+  }
+
+  .case-doggy-item > .case-lead,
+  .case-doggy-item--right > .case-lead,
+  .case-doggy-item--mid > .case-lead {
+    max-width: none;
+    align-self: auto;
+  }
+
+  /* Кредиты: «Кредитсы» слева, роль справа, ширина 360px (716:13002) */
   .case-team {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
     gap: 25px;
+    padding: 0 6px;
   }
 
   .case-team__title {
-    margin-left: 8px;
+    margin-left: 0;
   }
 
   .case-team__row {
-    gap: 17px;
     flex-wrap: nowrap;
-    padding: 0 8px;
+    gap: 0;
   }
 
-  .case-team__row .case-team__names--photo {
-    max-width: 225px;
+  /* Финал: 25px между видео и кредитами (716:12981) */
+  .case-section--tight {
+    gap: 25px;
   }
 
-  /* Био в оверлее меню: три строки по макету (Figma: 500:15499, ширина
-     207px, 14px) — без ограничения по ширине под 12px */
+  /* Био в оверлее меню: три строки по макету, без ограничения ширины */
   .case-menu-overlay__about .t-body-1 {
     max-width: none;
   }
 }
 
-@media (max-width: 1080px) {
-  /* Финал: 25px между обложкой и кредитами (Figma: 650:680) */
-  .case-section--tight {
-    gap: 25px;
-  }
-}
-
 /* ============================================================
    Просмотр изображений (лайтбокс) — как у дизайн-ленты на главной
-   (styles.css: .lightbox), только фон — белый, цвет страницы кейса.
+   (styles.css: .lightbox); фон — розовый #ffddf2, цвет страницы кейса.
    Картинка и стрелки берут общие .lightbox__img/.lightbox__arrow.
    ============================================================ */
 .case-lightbox {
@@ -2364,7 +2115,7 @@
   justify-content: center;
   padding: 24px;
   cursor: zoom-out;
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 221, 242, 0.72);
   backdrop-filter: blur(28px) saturate(1.1);
   -webkit-backdrop-filter: blur(28px) saturate(1.1);
   opacity: 0;

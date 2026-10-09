@@ -17,6 +17,7 @@ assets/
   icons/                  home.svg, chevron-right.svg, chevron-left.svg,
                           menu-shape.svg, favicon.png, burger.svg, cross.svg
   oped/                   oped-1…21.webp, oped-6-mobile.webp, video/oped-concept.mp4, oped-menu.mp4
+  doggymoggy/             doggymoggy-1…15.webp, video/doggymoggy-concept.mp4, -graphics.mp4, -final.mp4
   cases/
     cchb-fon.webp  cchb-video.mp4  cchb-1…3.webp          Цветное vs. Чёрно-белое
     neurocamp-bg.webp  neurocamp-video.mp4                NEURO CAMP
