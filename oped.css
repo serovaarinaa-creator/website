@@ -2393,16 +2393,6 @@
   outline-offset: -3px;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .case-media:not(.case-media--fill) img {
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .case-media:not(.case-media--fill) img:hover {
-    transform: scale(1.03);
-  }
-}
-
 @media (max-width: 1080px) {
   /* картинка уже стрелок, чтобы они стояли по бокам, а не поверх неё */
   .case-lightbox {
