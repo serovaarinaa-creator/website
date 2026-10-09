@@ -28,8 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* --- «Следующий кейс» без своей страницы (Digital art) — та же заглушка,
-     что и на главной, вместо перехода на index.html#case-digitalart.
+  /* --- «Следующий кейс»: если у него уже есть страница (data-href) —
+     обычный переход по ссылке (Digital art); иначе — та же заглушка
+     «в процессе разработки», что и на главной.
      Существует только на десктопе (.case-next лежит в .case-sidebar,
      скрытом на мобилке), поэтому без медиа-запросов в JS. */
   const caseModal = document.querySelector("#case-modal");
@@ -48,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     document.querySelectorAll(".case-next").forEach((link) => {
       link.addEventListener("click", (e) => {
+        if (link.dataset.href) return;
         e.preventDefault();
         openModal();
       });
