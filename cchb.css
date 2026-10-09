@@ -1524,3 +1524,14 @@
     font-size: 18px;
   }
 }
+
+/* Мобильная версия: Body 1 Mobile — 14px (Manrope SemiBold 14 / 1.5 / −2%),
+   как в кейсах OP:ED и Doggy Moggy. Заголовки секций остаются 21px,
+   чипы — 12px. */
+@media (max-width: 1080px) {
+  .case-content .t-body-1,
+  .case-team__role,
+  .case-team__names p {
+    font-size: 14px;
+  }
+}
