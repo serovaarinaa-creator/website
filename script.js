@@ -319,6 +319,37 @@ document.addEventListener("DOMContentLoaded", () => {
       return r.bottom > -100 && r.top < window.innerHeight + 100;
     };
 
+    /* Отложенная загрузка роликов: у всех, кроме тех, что видны при открытии
+       страницы, в разметке стоит data-src вместо src. Раньше браузер при
+       открытии страницы сразу начинал тянуть метаданные у каждого из 6–10
+       роликов (в том числе у скрытых дубликатов под мобилку/десктоп,
+       display: none), и они делили канал с обложкой, которую человек видит
+       первой, — в Safari это заметно по задержке старта. Теперь src
+       выставляется, когда ролик подходит к экрану (запас 600px); autoplay,
+       muted и playsinline остаются в разметке, так что запуск — тот же
+       разметочный, браузерный, а не скриптовый play(). У скрытых элементов
+       (нулевой размер) наблюдатель не срабатывает — они не грузятся совсем. */
+    const lazyLoader = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const video = entry.target;
+          lazyLoader.unobserve(video);
+          const src = video.dataset.src;
+          if (!src) return;
+          video.removeAttribute("data-src");
+          /* ролик ещё ни разу не грузился — сбрасывать его load() не нужно,
+             браузер сам заведёт autoplay после установки src */
+          parked.delete(video);
+          video.src = src;
+        });
+      },
+      { rootMargin: "600px" }
+    );
+    videos.forEach((video) => {
+      if (video.dataset.src) lazyLoader.observe(video);
+    });
+
     videos.forEach((video) => {
       warmer.observe(video);
       player.observe(video);
