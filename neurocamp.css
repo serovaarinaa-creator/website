@@ -806,3 +806,14 @@
     transition: opacity 0.2s ease;
   }
 }
+
+/* Десктоп: Body 1 — 18px (Manrope SemiBold 18 / 1.5 / −2%), как в кейсах
+   OP:ED и Doggy Moggy: подпись «Описание», тексты секций, подписи под
+   картинками, кредиты и «Следующий кейс» в сайдбаре. Мобильная версия
+   остаётся на своих размерах. */
+@media (min-width: 1081px) {
+  .case-content .t-body-1,
+  .case-sidebar .t-body-1 {
+    font-size: 18px;
+  }
+}

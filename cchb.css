@@ -497,7 +497,11 @@
 
 @media (min-width: 1081px) {
   .case-logo-panel {
-    aspect-ratio: 1072 / 651;
+    /* 720, а не 651: под 18px (Body 1 Desktop) тексты на панели занимают
+       больше строк — панель стала ниже на 69px (все отступы пересчитаны
+       в проценты новой высоты), чтобы текст не налезал на ленту и не
+       обрезался низом */
+    aspect-ratio: 1072 / 720;
     background: #000;
     overflow: hidden;
   }
@@ -515,35 +519,35 @@
 
   .case-logo-panel__logo {
     left: 0.076%;
-    top: 0.147%;
+    top: 0.133%;
     width: 41.278%;
-    height: 38.402%;
+    height: 34.722%;
   }
 
   .case-logo-panel__text--1 {
     left: 50.864%;
-    top: 22.421%;
+    top: 12%;
     width: 48.341%;
   }
 
   .case-logo-panel__strip {
     left: 0.076%;
-    top: 45.419%;
+    top: 41.065%;
     width: 99.924%;
-    height: 28.734%;
+    height: 25.98%;
   }
 
   .case-logo-panel__text--2 {
     left: 0.076%;
-    top: 83.482%;
-    width: 35.269%;
+    top: 73.2%;
+    width: 38%;
   }
 
   .case-logo-panel__font {
     left: 39.319%;
-    top: 80.184%;
+    top: 72.5%;
     width: 60.681%;
-    height: 19.816%;
+    height: 17.917%;
   }
 }
 
@@ -1506,5 +1510,16 @@
 @media (prefers-reduced-motion: no-preference) {
   .case-menu-overlay {
     transition: opacity 0.2s ease;
+  }
+}
+
+/* Десктоп: Body 1 — 18px (Manrope SemiBold 18 / 1.5 / −2%), как в кейсах
+   OP:ED и Doggy Moggy: подпись «Описание», тексты секций, подписи под
+   картинками, кредиты и «Следующий кейс» в сайдбаре. Мобильная версия
+   остаётся на своих размерах. */
+@media (min-width: 1081px) {
+  .case-content .t-body-1,
+  .case-sidebar .t-body-1 {
+    font-size: 18px;
   }
 }
