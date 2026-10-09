@@ -243,6 +243,16 @@ document.addEventListener("DOMContentLoaded", () => {
        ролик бы не вернуло — нужен именно load(). */
     const retries = new Map();
 
+    /* Кого поставили на паузу мы сами (ушёл с экрана / ещё не долистали) и
+       у кого уже делали повторный load(). Без этого nudge() вызывал load()
+       при каждом заходе в зону видимости, пока ролик ещё стоял «на паузе» из-за
+       нехватки данных, — а load() сбрасывает загрузку и начинает её заново.
+       Наблюдатель срабатывает не раз за открытие страницы (картинки ниже
+       догружаются, страница сдвигается), и ролик, видный сразу, каждый раз
+       откатывался к началу загрузки и стартовал заметно позже. */
+    const parked = new WeakSet();
+    const reloaded = new WeakSet();
+
     const nudge = (video) => {
       if (!video.paused) return;
 
@@ -251,7 +261,20 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      video.load();
+      if (parked.has(video)) {
+        /* Ролик погасили мы — флаг автозапуска снят, вернуть его может
+           только load(). */
+        parked.delete(video);
+        video.load();
+      } else if (video.readyState >= 3 && !reloaded.has(video)) {
+        /* Данные есть, а ролик стоит — браузер так и не попробовал запуститься.
+           Один раз перезапускаем загрузку, дальше не трогаем. */
+        reloaded.add(video);
+        video.load();
+      }
+      /* Иначе ролик ещё грузится по разметочному autoplay и стартует сам, как
+         только наберёт данные: любое вмешательство (load/play) только отодвинуло
+         бы старт. */
 
       /* Если автозапуск запрещён (Safari так делает в энергосбережении и когда
          он выключен в настройках сайта), браузер ролик не заведёт и никак об
@@ -279,6 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
           else {
             clearTimeout(retries.get(video));
             retries.delete(video);
+            parked.add(video);
             video.pause();
           }
         });
@@ -314,7 +338,13 @@ document.addEventListener("DOMContentLoaded", () => {
        мгновенно. Поэтому сразу же, не дожидаясь колбэка, проверяем
        геометрию напрямую и досылаем play() всему, что уже на экране. */
     videos.forEach((video) => {
-      if (onScreen(video)) nudge(video);
+      if (onScreen(video)) {
+        /* Ролик виден сразу — разметочный autoplay уже пошёл, не сбрасываем
+           его, а только поднимаем preload, чтобы данные шли без ограничения
+           «только метаданные». */
+        if (video.preload !== "auto") video.preload = "auto";
+        nudge(video);
+      }
       /* А всё, до чего ещё не долистали, наоборот — гасим сразу, не дожидаясь
          первого колбэка IntersectionObserver. Это и есть ограничитель на
          одновременное декодирование: в разметке у восьми роликов стоит
@@ -332,7 +362,10 @@ document.addEventListener("DOMContentLoaded", () => {
          срабатывала ни разу, и все восемь спокойно заводились секундой позже.
          А pause() у стоящего ролика гасит его флаг автозапуска навсегда,
          что нам и нужно. */
-      else video.pause();
+      else {
+        parked.add(video);
+        video.pause();
+      }
     });
 
     /* Автозапуск браузер может и запретить: Safari так делает в режиме
@@ -362,7 +395,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         videos.forEach((video) => {
-          if (!video.paused) video.pause();
+          if (!video.paused) {
+            parked.add(video);
+            video.pause();
+          }
         });
       } else {
         videos.forEach((video) => {

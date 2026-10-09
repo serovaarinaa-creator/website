@@ -496,14 +496,15 @@
 }
 
 @media (min-width: 1081px) {
+  /* Размеры панели — по актуальному макету ЦЧБ - Desktop (Figma 489:13752):
+     1072×803, элементы в процентах от неё. Панель стала выше (было 651),
+     потому что под 18px (Body 1 Desktop) тексты занимают больше строк. */
   .case-logo-panel {
-    /* 720, а не 651: под 18px (Body 1 Desktop) тексты на панели занимают
-       больше строк — панель стала ниже на 69px (все отступы пересчитаны
-       в проценты новой высоты), чтобы текст не налезал на ленту и не
-       обрезался низом */
-    aspect-ratio: 1072 / 720;
+    aspect-ratio: 1072 / 803;
     background: #000;
     overflow: hidden;
+    /* от заголовка до панели в Figma 48.6px; база секции даёт 45 */
+    margin-top: 4px;
   }
 
   .case-logo-panel__group {
@@ -518,36 +519,36 @@
   }
 
   .case-logo-panel__logo {
-    left: 0.076%;
-    top: 0.133%;
-    width: 41.278%;
-    height: 34.722%;
+    left: 0.093%;
+    top: 0.125%;
+    width: 41.325%;
+    height: 31.133%;
   }
 
   .case-logo-panel__text--1 {
-    left: 50.864%;
-    top: 12%;
-    width: 48.341%;
+    left: 50.84%;
+    top: 11.083%;
+    width: 48.321%;
   }
 
   .case-logo-panel__strip {
-    left: 0.076%;
-    top: 41.065%;
-    width: 99.924%;
-    height: 25.98%;
+    left: 0.093%;
+    top: 36.824%;
+    width: 99.907%;
+    height: 23.3%;
   }
 
   .case-logo-panel__text--2 {
-    left: 0.076%;
-    top: 73.2%;
-    width: 38%;
+    left: 0.093%;
+    top: 65.876%;
+    width: 35.261%;
   }
 
   .case-logo-panel__font {
-    left: 39.319%;
-    top: 72.5%;
-    width: 60.681%;
-    height: 17.917%;
+    left: 39.366%;
+    top: 65.754%;
+    width: 60.728%;
+    height: 16.064%;
   }
 }
 
@@ -712,7 +713,7 @@
   .case-collage__eye-caption {
     position: absolute;
     left: 0%;
-    top: 93.576%;
+    top: 88.7%;
     width: 45.359%;
     margin-top: 0;
   }
