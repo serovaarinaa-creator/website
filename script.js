@@ -208,6 +208,68 @@ document.addEventListener("DOMContentLoaded", () => {
       img.replaceWith(video);
     };
 
+    /* Слой-постер поверх ролика.
+
+       Safari рисует поверх <video> собственную круглую кнопку: «play», пока
+       ролик не стартовал (автозапуск запаздывает, запрещён в режиме
+       энергосбережения), и «пауза» поверх ролика, который запустил скрипт.
+       Ни скрыть её стилями, ни убрать атрибутами нельзя. Зато кнопка — часть
+       самого <video>, и если поверх него лежит обычная картинка, её не видно.
+       Поэтому над каждым роликом, который занимает весь свой родительский блок,
+       лежит картинка-постер (тот же кадр, что и атрибут poster) — она снимается
+       только когда браузер действительно начал воспроизведение (событие
+       playing). Пока ролик грузится, человек видит ровно тот же кадр, а не
+       системную кнопку; если автозапуск запрещён совсем — так и остаётся
+       статичный кадр, как у swap-на-постер ниже, но без подмены элемента. */
+    const layered = new WeakSet();
+
+    const addPosterLayer = (video) => {
+      const poster = video.getAttribute("poster");
+      if (!poster || !video.parentElement || !video.offsetParent) return;
+      if (!video.offsetWidth || !video.offsetHeight) return;
+
+      const cs = getComputedStyle(video);
+      const img = document.createElement("img");
+      img.src = poster;
+      img.alt = "";
+      img.decoding = "async";
+      img.setAttribute("aria-hidden", "true");
+      img.style.cssText =
+        "position:absolute;pointer-events:none;margin:0;max-width:none;max-height:none;" +
+        "object-fit:" + cs.objectFit + ";" +
+        "border-radius:" + cs.borderRadius + ";" +
+        "transform-origin:" + cs.transformOrigin + ";" +
+        (cs.transform !== "none" ? "transform:" + cs.transform + ";" : "") +
+        (cs.scale !== "none" ? "scale:" + cs.scale + ";" : "") +
+        (cs.translate !== "none" ? "translate:" + cs.translate + ";" : "") +
+        (cs.rotate !== "none" ? "rotate:" + cs.rotate + ";" : "");
+
+      /* Слой повторяет положение и размер ролика (offset*, а не inset: 0 —
+         ролик не всегда занимает весь родительский блок) и подстраивается
+         под него при изменении размера. */
+      const sync = () => {
+        img.style.left = video.offsetLeft + "px";
+        img.style.top = video.offsetTop + "px";
+        img.style.width = video.offsetWidth + "px";
+        img.style.height = video.offsetHeight + "px";
+      };
+      sync();
+      video.after(img);
+      layered.add(video);
+
+      const ro = typeof ResizeObserver === "function" ? new ResizeObserver(sync) : null;
+      if (ro) ro.observe(video);
+      window.addEventListener("resize", sync);
+
+      const drop = () => {
+        if (ro) ro.disconnect();
+        window.removeEventListener("resize", sync);
+        img.remove();
+      };
+      if (!video.paused && video.readyState >= 3) drop();
+      else video.addEventListener("playing", drop, { once: true });
+    };
+
     /* Скриптовый запуск — запасной путь, не основной. Отказ виден по промису,
        и только настоящий запрет автозапуска (NotAllowedError) подменяет ролик
        постером — ради этого вся ветка и написана.
@@ -281,6 +343,12 @@ document.addEventListener("DOMContentLoaded", () => {
          этом не сообщит — промиса тут нет. Поэтому один раз проверяем следом
          и уже тогда пробуем скриптом: там отказ виден и ролик уходит в постер.
          Проверка одна и по таймеру, так что зациклиться не на чем. */
+      /* Скриптовый запуск Safari встречает кнопкой «пауза» поверх ролика, а
+         при отказе — подменой на постер. Если над роликом уже лежит
+         слой-постер, показывать нечего скрывать: ждём браузерный autoplay
+         сколько потребуется и скриптом ничего не запускаем. */
+      if (layered.has(video)) return;
+
       clearTimeout(retries.get(video));
       retries.set(
         video,
@@ -349,6 +417,8 @@ document.addEventListener("DOMContentLoaded", () => {
     videos.forEach((video) => {
       if (video.dataset.src) lazyLoader.observe(video);
     });
+
+    videos.forEach(addPosterLayer);
 
     videos.forEach((video) => {
       warmer.observe(video);
