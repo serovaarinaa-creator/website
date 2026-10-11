@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sync();
   });
 
-  /* --- Видео играют только пока видны на экране --- */
+  /* --- Видео: играют только пока видны на экране --- */
   const videos = [...document.querySelectorAll("video")];
 
   /* Диагностический выключатель: ?video=off открывает страницу вообще без
@@ -142,368 +142,132 @@ document.addEventListener("DOMContentLoaded", () => {
       video.load();
     });
   } else if (videos.length) {
-    /* Буферизация заранее. В разметке стоит preload="metadata" — браузер тянет
-       только заголовок файла. Chrome сверх этого набирает ещё и часть картинки,
-       поэтому play() у него стартует сразу; Safari трактует "metadata" буквально
-       и на play() только начинает качать — отсюда пауза в несколько секунд перед
-       первым кадром. Поэтому за 600px до появления блока переводим ролик в
-       preload="auto": к моменту, когда до него дойдёт прокрутка, он уже готов.
+    /* Почему в разметке нет autoplay и запускает ролики только этот скрипт.
 
-       Одновременное декодирование ограничивает не этот запас, а пауза ниже:
-       всё, до чего ещё не долистали, гасится сразу при загрузке страницы,
-       не дожидаясь первого колбэка наблюдателя. Пробовали вместо этого
-       выключить autoplay и поставить preload="none" — по замерам браузер
-       переставал трогать шесть файлов из восьми, но в Safari на макбуке
-       ролики после этого не запускались вообще. Разметку вернули к рабочей,
-       ограничение оставили на паузе. */
-    const warmer = new IntersectionObserver(
+       Кнопку play поверх ролика Safari рисует ровно в одном случае: у <video>
+       есть атрибут autoplay, а автозапуск запрещён энергосбережением (Low
+       Power Mode на iPhone и на макбуке) или перегревом. Так написано в
+       исходниках WebKit — HTMLMediaElement::shouldForceControlsDisplay():
+       «Always create controls for autoplay video that requires user gesture
+       due to being in low power mode». Эти контролы создаются принудительно,
+       мимо атрибута controls и мимо любого CSS. После жеста тот же слой
+       превращается в кнопку «пауза» — отсюда и «пауза» поверх запущенного
+       ролика, которую раньше списывали на скриптовый play(). Мелким роликам
+       WebKit контролы не рисует — поэтому кнопка вылезала только на крупных.
+
+       Без атрибута autoplay принудительных контролов нет вообще. Ролик
+       запускает play(): в обычном режиме Safari разрешает его без жеста
+       (видео muted), в энергосбережении промис отклоняется — и на месте
+       ролика просто остаётся кадр-постер, без всяких кнопок. Первое же
+       нажатие или тап по странице снимает запрет (см. unlock ниже).
+
+       Заодно ушла прежняя возня с флагом автозапуска (pause() его гасит,
+       load() возвращает): load() сбрасывал ролик и заставлял его заново
+       качать данные при каждом возвращении на экран — это и была задержка
+       старта. Теперь play()/pause() — и больше ничего. */
+
+    /* Ролики, до которых ещё не долистали, лежат в разметке с data-src вместо
+       src и не грузятся вовсе. src выставляется за 800px до экрана, вместе с
+       preload="auto" — чтобы к моменту появления ролик уже набрал буфер.
+       Скрытые дубликаты (display: none, отдельные версии под мобилку и
+       десктоп) наблюдатель не видит, и они не грузятся совсем. */
+    const ensureSrc = (video) => {
+      const src = video.dataset.src;
+      if (!src) return;
+      video.removeAttribute("data-src");
+      video.preload = "auto";
+      video.src = src;
+    };
+
+    /* Хотя бы один play() отклонён запретом автозапуска (энергосбережение,
+       перегрев, запрет в настройках сайта). */
+    let blocked = false;
+
+    const play = (video) => {
+      ensureSrc(video);
+      const p = video.play();
+      if (p && p.catch) {
+        p.catch((err) => {
+          if (err && err.name === "NotAllowedError") blocked = true;
+          /* AbortError — нормальный исход: ролик ушёл с экрана и мы сами
+             поставили паузу раньше, чем он успел стартовать. */
+        });
+      }
+    };
+
+    const visible = new Set();
+
+    const loader = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-          const video = entry.target;
-          warmer.unobserve(video);
-          /* Только поднимаем preload. Вызывать тут load() нельзя: он сбрасывает
-             элемент и обрывает уже начатое автовоспроизведение — из-за этого
-             ролик оставался на постере. */
-          if (video.preload !== "auto") video.preload = "auto";
+          loader.unobserve(entry.target);
+          ensureSrc(entry.target);
         });
       },
-      { rootMargin: "600px" }
+      { rootMargin: "800px" }
     );
 
-    /* Играет всё, что видно на экране. Запуск в разметке делает autoplay,
-       скрипт только подстраховывает: если браузер автозапуск отменил
-       (данных ещё нет), пробуем снова, а ушедшее с экрана ставим на паузу.
-       Скриптовый play() Safari отрабатывает заметно хуже разметочного
-       autoplay, поэтому запуск оставлен браузеру. */
-    /* iOS Safari поверх ролика, который не смог запуститься, рисует свою
-       кнопку play — причём даже без атрибута controls и без единого тапа
-       пользователя: сам факт того, что видео стоит на паузе, а не играет,
-       уже включает эту кнопку. Щит выше не помогает, потому что кнопка не
-       реакция на тап — это индикатор состояния. Единственный надёжный способ
-       её убрать — не держать на экране паузнутое видео вообще: при любом
-       отказе play() подменяем ролик его же кадром-постером. У картинки
-       кнопки нет по построению. Подменяем именно по факту отказа promise,
-       а не по таймауту: если дело в медленной сети, промис не отклоняется,
-       а просто ждёт данные, и ролик потом доигрывается сам — эта ветка
-       ничего не подменяет. */
-    const swapped = new Map();
-
-    const toPoster = (video) => {
-      const src = video.getAttribute("poster");
-      if (!src || swapped.has(video) || !video.isConnected) return;
-      const img = document.createElement("img");
-      img.src = src;
-      img.className = video.className;
-      img.alt = "";
-      img.setAttribute("aria-hidden", "true");
-      swapped.set(video, img);
-      video.replaceWith(img);
-    };
-
-    const fromPoster = (video) => {
-      const img = swapped.get(video);
-      if (!img || !img.isConnected) return;
-      swapped.delete(video);
-      img.replaceWith(video);
-    };
-
-    /* Слой-постер поверх ролика.
-
-       Safari рисует поверх <video> собственную круглую кнопку: «play», пока
-       ролик не стартовал (автозапуск запаздывает, запрещён в режиме
-       энергосбережения), и «пауза» поверх ролика, который запустил скрипт.
-       Ни скрыть её стилями, ни убрать атрибутами нельзя. Зато кнопка — часть
-       самого <video>, и если поверх него лежит обычная картинка, её не видно.
-       Поэтому над каждым роликом, который занимает весь свой родительский блок,
-       лежит картинка-постер (тот же кадр, что и атрибут poster) — она снимается
-       только когда браузер действительно начал воспроизведение (событие
-       playing). Пока ролик грузится, человек видит ровно тот же кадр, а не
-       системную кнопку; если автозапуск запрещён совсем — так и остаётся
-       статичный кадр, как у swap-на-постер ниже, но без подмены элемента. */
-    const layered = new WeakSet();
-
-    const addPosterLayer = (video) => {
-      const poster = video.getAttribute("poster");
-      if (!poster || !video.parentElement || !video.offsetParent) return;
-      if (!video.offsetWidth || !video.offsetHeight) return;
-
-      const cs = getComputedStyle(video);
-      const img = document.createElement("img");
-      img.src = poster;
-      img.alt = "";
-      img.decoding = "async";
-      img.setAttribute("aria-hidden", "true");
-      img.style.cssText =
-        "position:absolute;pointer-events:none;margin:0;max-width:none;max-height:none;" +
-        "object-fit:" + cs.objectFit + ";" +
-        "border-radius:" + cs.borderRadius + ";" +
-        "transform-origin:" + cs.transformOrigin + ";" +
-        (cs.transform !== "none" ? "transform:" + cs.transform + ";" : "") +
-        (cs.scale !== "none" ? "scale:" + cs.scale + ";" : "") +
-        (cs.translate !== "none" ? "translate:" + cs.translate + ";" : "") +
-        (cs.rotate !== "none" ? "rotate:" + cs.rotate + ";" : "");
-
-      /* Слой повторяет положение и размер ролика (offset*, а не inset: 0 —
-         ролик не всегда занимает весь родительский блок) и подстраивается
-         под него при изменении размера. */
-      const sync = () => {
-        img.style.left = video.offsetLeft + "px";
-        img.style.top = video.offsetTop + "px";
-        img.style.width = video.offsetWidth + "px";
-        img.style.height = video.offsetHeight + "px";
-      };
-      sync();
-      video.after(img);
-      layered.add(video);
-
-      const ro = typeof ResizeObserver === "function" ? new ResizeObserver(sync) : null;
-      if (ro) ro.observe(video);
-      window.addEventListener("resize", sync);
-
-      const drop = () => {
-        if (ro) ro.disconnect();
-        window.removeEventListener("resize", sync);
-        img.remove();
-      };
-      if (!video.paused && video.readyState >= 3) drop();
-      else video.addEventListener("playing", drop, { once: true });
-    };
-
-    /* Скриптовый запуск — запасной путь, не основной. Отказ виден по промису,
-       и только настоящий запрет автозапуска (NotAllowedError) подменяет ролик
-       постером — ради этого вся ветка и написана.
-
-       Раньше подменялся любой отказ, и это выходило боком: play() ждёт данные,
-       ролик за это время уходит с экрана, наш же pause() рвёт промис с
-       AbortError — и ролик навсегда оставался картинкой, хотя браузер ничего
-       не запрещал. Ошибки загрузки тоже лечит следующий canplay, а не подмена.
-       Пока данных нет, на месте видео и так стоит кадр из атрибута poster. */
-    const scriptedPlay = (video) => {
-      const play = video.play();
-      if (!play) return;
-      play.catch((err) => {
-        if (err && err.name === "NotAllowedError") toPoster(video);
-      });
-    };
-
-    /* Запуск отдаём браузеру, а не play().
-
-       Safari на macOS рисует поверх ролика, запущенного скриптом без участия
-       человека, свою круглую кнопку паузы — чтобы человек мог его остановить.
-       Стилями она не убирается: правило в таблице браузера помечено
-       !important, а такое авторский CSS не перебивает. Над роликом, который
-       завёл разметочный autoplay, кнопки нет — проверено на старой версии
-       сайта, где скрипт в запуск не вмешивался.
-
-       Поэтому вместо play() зовём load(): по стандарту он возвращает элементу
-       флаг автозапуска, и дальше ролик заводит сам браузер — тем же путём, что
-       и при первой загрузке страницы. Ролик начинается с первого кадра, что
-       для коротких петель даже уместнее.
-
-       Про запас: pause() этот флаг гасит, поэтому одно только снятие паузы
-       ролик бы не вернуло — нужен именно load(). */
-    const retries = new Map();
-
-    /* Кого поставили на паузу мы сами (ушёл с экрана / ещё не долистали) и
-       у кого уже делали повторный load(). Без этого nudge() вызывал load()
-       при каждом заходе в зону видимости, пока ролик ещё стоял «на паузе» из-за
-       нехватки данных, — а load() сбрасывает загрузку и начинает её заново.
-       Наблюдатель срабатывает не раз за открытие страницы (картинки ниже
-       догружаются, страница сдвигается), и ролик, видный сразу, каждый раз
-       откатывался к началу загрузки и стартовал заметно позже. */
-    const parked = new WeakSet();
-    const reloaded = new WeakSet();
-
-    const nudge = (video) => {
-      if (!video.paused) return;
-
-      if (!video.hasAttribute("autoplay")) {
-        scriptedPlay(video);
-        return;
-      }
-
-      if (parked.has(video)) {
-        /* Ролик погасили мы — флаг автозапуска снят, вернуть его может
-           только load(). */
-        parked.delete(video);
-        video.load();
-      } else if (video.readyState >= 3 && !reloaded.has(video)) {
-        /* Данные есть, а ролик стоит — браузер так и не попробовал запуститься.
-           Один раз перезапускаем загрузку, дальше не трогаем. */
-        reloaded.add(video);
-        video.load();
-      }
-      /* Иначе ролик ещё грузится по разметочному autoplay и стартует сам, как
-         только наберёт данные: любое вмешательство (load/play) только отодвинуло
-         бы старт. */
-
-      /* Если автозапуск запрещён (Safari так делает в энергосбережении и когда
-         он выключен в настройках сайта), браузер ролик не заведёт и никак об
-         этом не сообщит — промиса тут нет. Поэтому один раз проверяем следом
-         и уже тогда пробуем скриптом: там отказ виден и ролик уходит в постер.
-         Проверка одна и по таймеру, так что зациклиться не на чем. */
-      /* Скриптовый запуск Safari встречает кнопкой «пауза» поверх ролика, а
-         при отказе — подменой на постер. Если над роликом уже лежит
-         слой-постер, показывать нечего скрывать: ждём браузерный autoplay
-         сколько потребуется и скриптом ничего не запускаем. */
-      if (layered.has(video)) return;
-
-      clearTimeout(retries.get(video));
-      retries.set(
-        video,
-        setTimeout(() => {
-          retries.delete(video);
-          if (video.paused && onScreen(video)) scriptedPlay(video);
-        }, 1500)
-      );
-    };
-
+    /* Запускаем чуть заранее, за 200px до края экрана: Safari на iPhone не
+       буферизует ролик до вызова play(), и этот запас покрывает старт —
+       в экран ролик въезжает уже играющим. Ушедшее за экран ставим на паузу,
+       чтобы одновременно декодировалось только видимое. */
     const player = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           const video = entry.target;
-          if (entry.isIntersecting) nudge(video);
-          /* Тоже безусловно: у ролика, который ещё не начал играть, это
-             снимает флаг автозапуска, чтобы он не завёлся сам за экраном.
-             Заодно снимаем отложенную проверку — ролика на экране уже нет. */
-          else {
-            clearTimeout(retries.get(video));
-            retries.delete(video);
-            parked.add(video);
-            video.pause();
+          if (entry.isIntersecting) {
+            visible.add(video);
+            if (video.paused && !document.hidden) play(video);
+          } else {
+            visible.delete(video);
+            if (!video.paused) video.pause();
           }
         });
       },
-      /* Ровно по краю экрана (rootMargin: 0) ставить нельзя: ролик на границе
-         начинает дёргаться play/pause от малейшего движения прокрутки, а
-         каждая пауза обрывает ещё не набравший данные play(). Небольшой
-         запас даёт ролику досчитаться до первого кадра. */
-      { rootMargin: "100px" }
+      { rootMargin: "200px" }
     );
 
-    const onScreen = (video) => {
-      const r = video.getBoundingClientRect();
-      return r.bottom > -100 && r.top < window.innerHeight + 100;
-    };
-
-    /* Отложенная загрузка роликов: у всех, кроме тех, что видны при открытии
-       страницы, в разметке стоит data-src вместо src. Раньше браузер при
-       открытии страницы сразу начинал тянуть метаданные у каждого из 6–10
-       роликов (в том числе у скрытых дубликатов под мобилку/десктоп,
-       display: none), и они делили канал с обложкой, которую человек видит
-       первой, — в Safari это заметно по задержке старта. Теперь src
-       выставляется, когда ролик подходит к экрану (запас 600px); autoplay,
-       muted и playsinline остаются в разметке, так что запуск — тот же
-       разметочный, браузерный, а не скриптовый play(). У скрытых элементов
-       (нулевой размер) наблюдатель не срабатывает — они не грузятся совсем. */
-    const lazyLoader = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const video = entry.target;
-          lazyLoader.unobserve(video);
-          const src = video.dataset.src;
-          if (!src) return;
-          video.removeAttribute("data-src");
-          /* ролик ещё ни разу не грузился — сбрасывать его load() не нужно,
-             браузер сам заведёт autoplay после установки src */
-          parked.delete(video);
-          video.src = src;
-        });
-      },
-      { rootMargin: "600px" }
-    );
     videos.forEach((video) => {
-      if (video.dataset.src) lazyLoader.observe(video);
-    });
-
-    videos.forEach(addPosterLayer);
-
-    videos.forEach((video) => {
-      warmer.observe(video);
+      /* На случай закэшированной старой разметки: autoplay включил бы
+         принудительную кнопку play в энергосбережении (см. выше). */
+      video.autoplay = false;
+      video.removeAttribute("autoplay");
+      video.muted = true;
+      video.playsInline = true;
+      loader.observe(video);
       player.observe(video);
-      /* Раньше тут на loadeddata/canplay досылался повторный запуск: пока
-         данных нет, play() браузер отменяет. Теперь запуск делает load(), а он
-         сам порождает эти же события — получилась бы бесконечная петля
-         load → canplay → load. Да и повторять нечего: ролик с autoplay в
-         разметке браузер заводит сам, как только наберёт данные. На случай,
-         когда автозапуск запрещён, в nudge() есть разовая проверка по таймеру. */
     });
 
-    /* IntersectionObserver сообщает о видимости не мгновенно, а первым
-       колбэком чуть погодя — на практике это иногда означало, что видео,
-       видное сразу при открытии страницы, вообще ни разу не пробовало
-       запуститься: ни разметочный autoplay, ни наш нюдж не срабатывали,
-       хотя ролик был полностью догружен и play() из консоли включал его
-       мгновенно. Поэтому сразу же, не дожидаясь колбэка, проверяем
-       геометрию напрямую и досылаем play() всему, что уже на экране. */
-    videos.forEach((video) => {
-      if (onScreen(video)) {
-        /* Ролик виден сразу — разметочный autoplay уже пошёл, не сбрасываем
-           его, а только поднимаем preload, чтобы данные шли без ограничения
-           «только метаданные». */
-        if (video.preload !== "auto") video.preload = "auto";
-        nudge(video);
-      }
-      /* А всё, до чего ещё не долистали, наоборот — гасим сразу, не дожидаясь
-         первого колбэка IntersectionObserver. Это и есть ограничитель на
-         одновременное декодирование: в разметке у восьми роликов стоит
-         autoplay, и без этой строчки Safari при открытии страницы заводит
-         их все разом. Аппаратных декодеров на процесс конечное число, лишние
-         уходят в программное декодирование — это и есть тормоза, а на машине
-         послабее play() просто отказывает. Скрипт подключён в конце body и
-         успевает отработать до того, как подъедут данные, так что гасить
-         почти нечего: снимается флаг автозапуска, и ролик стартует уже от
-         наблюдателя, когда до него дойдёт прокрутка.
-
-         pause() зовётся безусловно, а не только у уже играющего ролика.
-         Это принципиально: на момент DOMContentLoaded ни один ролик ещё не
-         играет — данные не подъехали, — поэтому проверка «if (!paused)» не
-         срабатывала ни разу, и все восемь спокойно заводились секундой позже.
-         А pause() у стоящего ролика гасит его флаг автозапуска навсегда,
-         что нам и нужно. */
-      else {
-        parked.add(video);
-        video.pause();
-      }
-    });
-
-    /* Автозапуск браузер может и запретить: Safari так делает в режиме
-       энергосбережения и когда в настройках сайта выключено автовоспроизведение.
-       Оба запрета — это выбор пользователя в системных настройках, снять их
-       кодом нельзя; но обычный жест снимает более мягкий вариант запрета
-       («до первого взаимодействия»), поэтому по первому же действию
-       пользователя пробуем вернуть все подменённые ролики и запустить их
-       заново. Если запрет жёсткий, play() откажет опять и toPoster()
-       подменит их обратно — без кнопки, просто статичный кадр. */
-    const gestures = ["pointerdown", "touchstart", "keydown", "wheel"];
-    const kick = () => {
-      gestures.forEach((evt) => window.removeEventListener(evt, kick));
-      [...swapped.keys()].forEach(fromPoster);
+    /* Энергосбережение снимается только жестом: play(), вызванный внутри
+       обработчика нажатия, Safari разрешает и с этого момента снимает запрет
+       для этого ролика насовсем. Поэтому по жесту зовём play() у всех роликов
+       сразу — видимые остаются играть, остальные тут же ставим обратно на
+       паузу (запрет с них уже снят, и когда до них долистают, play()
+       пройдёт). Прокрутка жестом не считается — только тап/клик/клавиша. */
+    const unlock = () => {
+      if (!blocked) return;
+      blocked = false;
       videos.forEach((video) => {
-        if (onScreen(video)) nudge(video);
+        const p = video.play();
+        if (p && p.catch) p.catch(() => {});
+        if (!visible.has(video)) video.pause();
       });
     };
-    gestures.forEach((evt) =>
-      window.addEventListener(evt, kick, { passive: true })
+    ["pointerdown", "pointerup", "touchend", "click", "keydown"].forEach((evt) =>
+      window.addEventListener(evt, unlock, { passive: true, capture: true })
     );
 
-    /* Вкладку увели — декодировать нечего и незачем. Safari сам приглушает
-       фоновые вкладки не всегда (в отдельном окне рядом с активным — нет),
-       а девять ждущих роликов продолжают греть процессор и мешать соседним
-       вкладкам. Возвращаемся — запускаем обратно то, что видно. */
+    /* Вкладку увели — декодировать нечего. Вернулись — запускаем то, что
+       видно. */
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         videos.forEach((video) => {
-          if (!video.paused) {
-            parked.add(video);
-            video.pause();
-          }
+          if (!video.paused) video.pause();
         });
       } else {
-        videos.forEach((video) => {
-          if (onScreen(video)) nudge(video);
+        visible.forEach((video) => {
+          if (video.paused) play(video);
         });
       }
     });
