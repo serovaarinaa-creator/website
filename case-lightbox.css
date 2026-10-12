@@ -1,0 +1,42 @@
+/* Просмотр изображений в мобильной версии кейсов (см. case-lightbox.js).
+   Картинка и стрелки берут общие .lightbox__img / .lightbox__arrow из styles.css,
+   цвет фона слою задаёт скрипт — по фону страницы кейса. */
+.case-lightbox {
+  position: fixed;
+  inset: 0;
+  /* выше мобильного бургера (101), ниже шторки смены языка (200) */
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 64px;
+  cursor: zoom-out;
+  backdrop-filter: blur(28px) saturate(1.1);
+  -webkit-backdrop-filter: blur(28px) saturate(1.1);
+  opacity: 0;
+  transition: opacity 0.32s ease;
+}
+
+.case-lightbox[hidden] {
+  display: none;
+}
+
+.case-lightbox.is-open {
+  opacity: 1;
+}
+
+.case-lightbox .lightbox__img {
+  border-radius: 14px;
+}
+
+@media (max-width: 1080px) {
+  .is-zoomable {
+    cursor: zoom-in;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-lightbox {
+    transition: none;
+  }
+}
