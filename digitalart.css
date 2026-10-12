@@ -1966,3 +1966,11 @@
     font-size: 14px;
   }
 }
+
+/* Био в оверлее меню: три строки по макету (Figma: 500:15499, ширина
+   207px, 14px) — без ограничения по ширине под 12px; как в oped/doggymoggy */
+@media (max-width: 1080px) {
+  .case-menu-overlay__about .t-body-1 {
+    max-width: none;
+  }
+}
